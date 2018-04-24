@@ -8,18 +8,18 @@
   
     <meta name="keywords" content="Keep learning!" />
   
-  <meta name="description" content="Binder理解： Binder是一种Android中跨进程通信(IPC)方式。 Binder是">
+  <meta name="description" content="链接 Binder 从机制、模型的角度 定义：Binder是Android中IPC^1的一种方式。 作用：Android中跨进程通信。   模型的结构、组成 定义：Binder是一种虚拟的物理设备驱动（Binder驱动)。 作用：连接Service进程，Client进程和ServiceManager进程。   Android代码的实现 定义：Binder是一个类，实现IBinder接口。 作用：B">
 <meta name="keywords" content="Android,Binder">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Binder进程通信">
 <meta property="og:url" content="https://batuer.github.io/2018/04/24/Binder进程通信/index.html">
 <meta property="og:site_name" content="YlwBlog">
-<meta property="og:description" content="Binder理解： Binder是一种Android中跨进程通信(IPC)方式。 Binder是">
+<meta property="og:description" content="链接 Binder 从机制、模型的角度 定义：Binder是Android中IPC^1的一种方式。 作用：Android中跨进程通信。   模型的结构、组成 定义：Binder是一种虚拟的物理设备驱动（Binder驱动)。 作用：连接Service进程，Client进程和ServiceManager进程。   Android代码的实现 定义：Binder是一个类，实现IBinder接口。 作用：B">
 <meta property="og:locale" content="CN">
-<meta property="og:updated_time" content="2018-04-24T00:24:40.011Z">
+<meta property="og:updated_time" content="2018-04-24T09:10:19.051Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Binder进程通信">
-<meta name="twitter:description" content="Binder理解： Binder是一种Android中跨进程通信(IPC)方式。 Binder是">
+<meta name="twitter:description" content="链接 Binder 从机制、模型的角度 定义：Binder是Android中IPC^1的一种方式。 作用：Android中跨进程通信。   模型的结构、组成 定义：Binder是一种虚拟的物理设备驱动（Binder驱动)。 作用：连接Service进程，Client进程和ServiceManager进程。   Android代码的实现 定义：Binder是一个类，实现IBinder接口。 作用：B">
   
   
     <link rel="icon" href="/avatar.jpg">
@@ -140,14 +140,69 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h3 id="Binder理解："><a href="#Binder理解：" class="headerlink" title="Binder理解："></a>Binder理解：</h3><ul>
-<li>Binder是一种Android中跨进程通信(IPC)方式。</li>
-<li>Binder是</li>
+            <p><a href="https://www.jianshu.com/p/4ee3fd07da14" target="_blank" rel="noopener">链接</a></p>
+<h4 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h4><ul>
+<li>从机制、模型的角度<ul>
+<li>定义：Binder是Android中IPC<a href="通过文件共享、Socket、Messenger（AIDL一种）、ContentProvider、AIDL。">^1</a>的一种方式。</li>
+<li>作用：Android中跨进程通信。</li>
+</ul>
+</li>
+<li>模型的结构、组成<ul>
+<li>定义：Binder是一种虚拟的物理设备驱动（Binder驱动)。</li>
+<li>作用：连接Service进程，Client进程和ServiceManager进程。</li>
+</ul>
+</li>
+<li>Android代码的实现<ul>
+<li>定义：Binder是一个类，实现IBinder接口。</li>
+<li>作用：Binder机制模型，代码的形式具体实现在Android中。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Binder跨进程通信机制、模型"><a href="#Binder跨进程通信机制、模型" class="headerlink" title="Binder跨进程通信机制、模型"></a>Binder跨进程通信机制、模型</h4><h5 id="模型原理"><a href="#模型原理" class="headerlink" title="模型原理"></a>模型原理</h5><p>Binder跨进程通信机制基于Client -Server 模式</p>
+<h5 id="模型组成角色"><a href="#模型组成角色" class="headerlink" title="模型组成角色"></a>模型组成角色</h5><ul>
+<li>Client进程（Android客户端）：使用服务的进程。</li>
+<li>Server进程（服务器端）：提供服务的进程。</li>
+<li>ServiceManager进程（类似于路由器）：管理Service注册与查询（将字符形式的Binder名字转化成Client中对该Binder的引用）。</li>
+<li>Binder驱动（持有每个Server进程在内和空间的Binder实体，并提供Client进程Binder实体的引用）：<ul>
+<li>虚拟设备驱动，是连接Servier、Client和ServiceManager的桥梁。</li>
+<li><strong>传递服务进程消息。</strong></li>
+<li><strong>传递进程间需要传递的数据：通过内存映射。</strong></li>
+<li>线程控制：采用Binder线程池，并有Binder驱动自身进行管理。</li>
+</ul>
+</li>
+</ul>
+<h5 id="原理步骤"><a href="#原理步骤" class="headerlink" title="原理步骤"></a>原理步骤</h5><ul>
+<li>注册服务：ServiceManager拥有Server进程的信息。<ol>
+<li>Server进程向Binder驱动发起服务注册请求。</li>
+<li>Binder驱动将注册请求转发给ServiceManager。</li>
+<li>ServiceManager添加该Server进程。</li>
+</ol>
+</li>
+<li>获取服务：（Client进程与Server进程已建立连接）<ol>
+<li>Client向Binder驱动传递要获取服务的名称，获取请求服务。</li>
+<li>Binder驱动将请求转发给ServiceManager进程。</li>
+<li>ServiceManager通过名称查找需要的Server信息。</li>
+<li>通过Binder驱动将上述服务信息返回给Client进程。</li>
+</ol>
+</li>
+<li>使用服务<ol>
+<li>Binder驱动为跨进程通信做准备——实现内存映射。<ol>
+<li>Binder驱动创建一块接收缓存区。</li>
+<li>根据ServiceManager进程里的Server信息找到对应的Server进程，实现<u>内核缓存区和Server进程用户空间地址同时映射到<strong>同一个接收缓存区</strong>中</u>。</li>
+</ol>
+</li>
+<li>Client进程将参数数据发送到Server进程。<ol>
+<li>Client进程通过系统调用copy_from_user()发送数据到内核空间中的缓存区；（当前线程被挂起）</li>
+<li>由于内核缓存</li>
+</ol>
+</li>
+</ol>
+</li>
 </ul>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月24日 08:24</p>
+        <p>最后更新： 2018年04月24日 17:10</p>
         <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/04/24/Binder进程通信/" title="Binder进程通信">https://batuer.github.io/2018/04/24/Binder进程通信/</a></p>
         <footer>
             <a href="https://batuer.github.io">
@@ -267,7 +322,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Binder理解："><span class="post-toc-text">Binder理解：</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder"><span class="post-toc-text">Binder</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder跨进程通信机制、模型"><span class="post-toc-text">Binder跨进程通信机制、模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#模型原理"><span class="post-toc-text">模型原理</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#模型组成角色"><span class="post-toc-text">模型组成角色</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#原理步骤"><span class="post-toc-text">原理步骤</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
