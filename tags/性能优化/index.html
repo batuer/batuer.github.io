@@ -3,23 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>AsyncTask | YlwBlog</title>
+  <title>Tag: 性能优化 | YlwBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Keep learning!" />
   
-  <meta name="description" content="AsyncTask AsyncTask 是 Android 中一个异步处理的框架，它内部集成了线程池和 Handler 机制，实现了异步任务加载和主线程更新 UI 的功能，在 Android 中不同的版本的 AsyncTask 却有点不一样。 Android中工作者线程主要有AsyncTask、IntentService、HandlerThread，它们本事上都是对线程或线程池的封装。(Threa">
-<meta name="keywords" content="Android,AsyncTask">
-<meta property="og:type" content="article">
-<meta property="og:title" content="AsyncTask">
-<meta property="og:url" content="https://batuer.github.io/2018/04/13/AsyncTask/index.html">
+  <meta name="description" content="Keep learning!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="YlwBlog">
+<meta property="og:url" content="https://batuer.github.io/tags/性能优化/index.html">
 <meta property="og:site_name" content="YlwBlog">
-<meta property="og:description" content="AsyncTask AsyncTask 是 Android 中一个异步处理的框架，它内部集成了线程池和 Handler 机制，实现了异步任务加载和主线程更新 UI 的功能，在 Android 中不同的版本的 AsyncTask 却有点不一样。 Android中工作者线程主要有AsyncTask、IntentService、HandlerThread，它们本事上都是对线程或线程池的封装。(Threa">
+<meta property="og:description" content="Keep learning!">
 <meta property="og:locale" content="CN">
-<meta property="og:updated_time" content="2018-04-13T00:27:55.427Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AsyncTask">
-<meta name="twitter:description" content="AsyncTask AsyncTask 是 Android 中一个异步处理的框架，它内部集成了线程池和 Handler 机制，实现了异步任务加载和主线程更新 UI 的功能，在 Android 中不同的版本的 AsyncTask 却有点不一样。 Android中工作者线程主要有AsyncTask、IntentService、HandlerThread，它们本事上都是对线程或线程池的封装。(Threa">
+<meta name="twitter:title" content="YlwBlog">
+<meta name="twitter:description" content="Keep learning!">
   
   
     <link rel="icon" href="/avatar.jpg">
@@ -104,211 +102,55 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-AsyncTask" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+        <section id="main" class="body-wrap">
   
-    <h1 class="post-title" itemprop="name">
-      AsyncTask
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/batuer.github.io/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/batuer.github.io/2018/04/24/Android性能优化/" class="archive-article-date">
+  <time datetime="2018-04-24T00:24:40.007Z" itemprop="datePublished">04-24</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/batuer.github.io/2018/04/24/Android性能优化/"  target="_blank"  >Android性能优化</a>
     </h1>
-    <div class="post-title-bar">
-      <ul>
-          
-              <li>
-                  <i class="fa fa-book"></i>
-                  
-                      <a href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a>
-                  
-              </li>
-          
-        <li>
-          <i class="fa fa-calendar"></i>  2018-04-13
-        </li>
-        <li>
-          <i class="fa fa-eye"></i>
-          <span id="busuanzi_value_page_pv"></span>
-        </li>
-      </ul>
-    </div>
   
 
-          
-      </header>
-    
-    <div class="article-entry post-content" itemprop="articleBody">
+    </header>
       
-            
-            <h3 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h3><ul>
-<li>AsyncTask 是 Android 中一个异步处理的框架，它内部集成了线程池和 Handler 机制，实现了异步任务加载和主线程更新 UI 的功能，在 Android 中不同的版本的 AsyncTask 却有点不一样。</li>
-<li>Android中工作者线程主要有AsyncTask、IntentService、HandlerThread，它们本事上都是对线程或线程池的封装。(ThreadPoolExecutor)</li>
-</ul>
-<h4 id="使用简介"><a href="#使用简介" class="headerlink" title="使用简介"></a>使用简介</h4><ul>
-<li>AsyncTask是对Handler与线程池的封装。AsyncTask内部包含一个Handler，方便更新UI。使用线程池</li>
-<li>onPreExecute() //此方法会在后台任务执行前被调用，用于进行一些准备工作 </li>
-<li>doInBackground(Params… params) //此方法中定义要执行的后台任务，在这个方法中可以调用publishProgress来更新任务进度（publishProgress内部会调用onProgressUpdate方法） </li>
-<li>onProgressUpdate(Progress… values) //由publishProgress内部调用，表示任务进度更新 </li>
-<li>onPostExecute(Result result) //后台任务执行完毕后，此方法会被调用，参数即为后台任务的返回结果 </li>
-<li>onCancelled() //此方法会在后台任务被取消时被调用</li>
-<li>以上方法中，除了doInBackground方法由AsyncTask内部线程池执行外，其余方法均在主线程中执行。</li>
-</ul>
-<h4 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h4><ul>
-<li>Android4.1之前AsyncTask类必须在主线程中加载。</li>
-<li>在Android 4.1以及以上版本则不存在这一限制，因为ActivityThread（代表了主线程）的main方法中会自动加载AsyncTask 。</li>
-<li>一个AsyncTask对象只能调用一次execute方法。</li>
-</ul>
-
-            <div class="post-copyright">
-    <div class="content">
-        <p>最后更新： 2018年04月13日 08:27</p>
-        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/04/13/AsyncTask/" title="AsyncTask">https://batuer.github.io/2018/04/13/AsyncTask/</a></p>
-        <footer>
-            <a href="https://batuer.github.io">
-                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
-                Yuliwen
-            </a>
-        </footer>
-    </div>
-</div>
-
-      
-        
-            
-<div class="page-reward">
-    <a id="rewardBtn" href="javascript:;">赏</a>
-</div>
-
-<div id="reward" class="post-modal reward-lay">
-    <a class="close" href="javascript:;" id="reward-close">×</a>
-    <span class="reward-title">
-        <i class="icon icon-quote-left"></i>
-        听说赞赏的那家伙买彩票中了！
-        <i class="icon icon-quote-right"></i>
-    </span>
-    <div class="reward-content">
-        
-        <div class="reward-code">
-            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
-        </div>
-        <div class="reward-select">
-            
-            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
-                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
-            </label>
-            
-            
-            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
-                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
-            </label>
-            
-        </div>
-    </div>
-</div>
-
-
-        
-    </div>
-    <footer class="article-footer">
-        
-        
-<div class="post-share">
-    <a href="javascript:;" id="share-sub" class="post-share-fab">
-        <i class="fa fa-share-alt"></i>
-    </a>
-    <div class="post-share-list" id="share-list">
-        <ul class="share-icons">
-          <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/04/13/AsyncTask/&title=《AsyncTask》 — YlwBlog&pic=/images/common.png" data-title="微博">
-              <i class="fa fa-weibo"></i>
-            </a>
-          </li>
-          <li>
-            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
-              <i class="fa fa-weixin"></i>
-            </a>
-          </li>
-          <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/04/13/AsyncTask/&title=《AsyncTask》 — YlwBlog&source=Keep learning!" data-title="QQ">
-              <i class="fa fa-qq"></i>
-            </a>
-          </li>
-          <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/04/13/AsyncTask/" data-title="Facebook">
-              <i class="fa fa-facebook"></i>
-            </a>
-          </li>
-          <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《AsyncTask》 — YlwBlog&url=https://batuer.github.io/2018/04/13/AsyncTask/&via=https://batuer.github.io" data-title="Twitter">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </li>
-          <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/04/13/AsyncTask/" data-title="Google+">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-        </ul>
-     </div>
-</div>
-<div class="post-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;" id="wxShare-close">×</a>
-    <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/04/13/AsyncTask/" alt="微信分享二维码">
-</div>
-
-<div class="mask"></div>
-
-        
-        <ul class="article-footer-menu">
-            
+        <div class="archive-post-footer">
             
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
     <a href="/batuer.github.io/tags/Android/" class="color3">Android</a>
       
-    <a href="/batuer.github.io/tags/AsyncTask/" class="color5">AsyncTask</a>
+    <a href="/batuer.github.io/tags/性能优化/" class="color5">性能优化</a>
       
   </li>
 
-        </ul>
-        
-    </footer>
+        </div>
+      
   </div>
 </article>
 
-
-    <aside class="post-toc-pos post-toc-top" id="post-toc">
-        <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AsyncTask"><span class="post-toc-text">AsyncTask</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用简介"><span class="post-toc-text">使用简介</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#局限性"><span class="post-toc-text">局限性</span></a></li></ol></li></ol>
-        </nav>
-    </aside>
-    
-
-<nav id="article-nav">
-  
-    <a href="/batuer.github.io/2018/04/13/AnrdroidFrameWork/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          Android FrameWork
-        
-      </span>
-    </a>
   
   
-    <a href="/batuer.github.io/2018/04/13/Activity启动流程/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Activity启动流程</span>
-      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
-    </a>
+    </div></section>
   
-</nav>
 
-
-
-    
 </section>
         
       </div>

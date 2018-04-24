@@ -3,23 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>AsyncTask | YlwBlog</title>
+  <title>Android性能优化 | YlwBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Keep learning!" />
   
-  <meta name="description" content="AsyncTask AsyncTask 是 Android 中一个异步处理的框架，它内部集成了线程池和 Handler 机制，实现了异步任务加载和主线程更新 UI 的功能，在 Android 中不同的版本的 AsyncTask 却有点不一样。 Android中工作者线程主要有AsyncTask、IntentService、HandlerThread，它们本事上都是对线程或线程池的封装。(Threa">
-<meta name="keywords" content="Android,AsyncTask">
+  <meta name="description" content="性能优化 流畅(卡顿优化) 内存优化 耗电优化 安装包大小优化  卡顿优化  原因 绘制任务太重，绘制一帧内容耗时太长。 主线程太忙，根据系统传递过来的 VSYNC 信号来时还没准备好数据导致丢帧。   优化 界面绘制卡顿 布局优化：布局嵌套过深、使用合适布局。列表控件缓存复用、include、merge、ViewStub、移除Activity默认背景。   数据处理阻塞UI线程。 获取数去耗时，">
+<meta name="keywords" content="Android,性能优化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AsyncTask">
-<meta property="og:url" content="https://batuer.github.io/2018/04/13/AsyncTask/index.html">
+<meta property="og:title" content="Android性能优化">
+<meta property="og:url" content="https://batuer.github.io/2018/04/24/Android性能优化/index.html">
 <meta property="og:site_name" content="YlwBlog">
-<meta property="og:description" content="AsyncTask AsyncTask 是 Android 中一个异步处理的框架，它内部集成了线程池和 Handler 机制，实现了异步任务加载和主线程更新 UI 的功能，在 Android 中不同的版本的 AsyncTask 却有点不一样。 Android中工作者线程主要有AsyncTask、IntentService、HandlerThread，它们本事上都是对线程或线程池的封装。(Threa">
+<meta property="og:description" content="性能优化 流畅(卡顿优化) 内存优化 耗电优化 安装包大小优化  卡顿优化  原因 绘制任务太重，绘制一帧内容耗时太长。 主线程太忙，根据系统传递过来的 VSYNC 信号来时还没准备好数据导致丢帧。   优化 界面绘制卡顿 布局优化：布局嵌套过深、使用合适布局。列表控件缓存复用、include、merge、ViewStub、移除Activity默认背景。   数据处理阻塞UI线程。 获取数去耗时，">
 <meta property="og:locale" content="CN">
-<meta property="og:updated_time" content="2018-04-13T00:27:55.427Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-be2fac616c7b93b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-24T01:19:48.695Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AsyncTask">
-<meta name="twitter:description" content="AsyncTask AsyncTask 是 Android 中一个异步处理的框架，它内部集成了线程池和 Handler 机制，实现了异步任务加载和主线程更新 UI 的功能，在 Android 中不同的版本的 AsyncTask 却有点不一样。 Android中工作者线程主要有AsyncTask、IntentService、HandlerThread，它们本事上都是对线程或线程池的封装。(Threa">
+<meta name="twitter:title" content="Android性能优化">
+<meta name="twitter:description" content="性能优化 流畅(卡顿优化) 内存优化 耗电优化 安装包大小优化  卡顿优化  原因 绘制任务太重，绘制一帧内容耗时太长。 主线程太忙，根据系统传递过来的 VSYNC 信号来时还没准备好数据导致丢帧。   优化 界面绘制卡顿 布局优化：布局嵌套过深、使用合适布局。列表控件缓存复用、include、merge、ViewStub、移除Activity默认背景。   数据处理阻塞UI线程。 获取数去耗时，">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2088926-be2fac616c7b93b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
   
     <link rel="icon" href="/avatar.jpg">
@@ -104,14 +106,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-AsyncTask" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-Android性能优化" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      AsyncTask
+      Android性能优化
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -119,12 +121,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a>
+                      <a href="/batuer.github.io/categories/Android/">Android</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-04-13
+          <i class="fa fa-calendar"></i>  2018-04-24
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -140,29 +142,161 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h3 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h3><ul>
-<li>AsyncTask 是 Android 中一个异步处理的框架，它内部集成了线程池和 Handler 机制，实现了异步任务加载和主线程更新 UI 的功能，在 Android 中不同的版本的 AsyncTask 却有点不一样。</li>
-<li>Android中工作者线程主要有AsyncTask、IntentService、HandlerThread，它们本事上都是对线程或线程池的封装。(ThreadPoolExecutor)</li>
+            <h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><ul>
+<li>流畅(卡顿优化)</li>
+<li>内存优化</li>
+<li>耗电优化</li>
+<li>安装包大小优化</li>
 </ul>
-<h4 id="使用简介"><a href="#使用简介" class="headerlink" title="使用简介"></a>使用简介</h4><ul>
-<li>AsyncTask是对Handler与线程池的封装。AsyncTask内部包含一个Handler，方便更新UI。使用线程池</li>
-<li>onPreExecute() //此方法会在后台任务执行前被调用，用于进行一些准备工作 </li>
-<li>doInBackground(Params… params) //此方法中定义要执行的后台任务，在这个方法中可以调用publishProgress来更新任务进度（publishProgress内部会调用onProgressUpdate方法） </li>
-<li>onProgressUpdate(Progress… values) //由publishProgress内部调用，表示任务进度更新 </li>
-<li>onPostExecute(Result result) //后台任务执行完毕后，此方法会被调用，参数即为后台任务的返回结果 </li>
-<li>onCancelled() //此方法会在后台任务被取消时被调用</li>
-<li>以上方法中，除了doInBackground方法由AsyncTask内部线程池执行外，其余方法均在主线程中执行。</li>
+<h4 id="卡顿优化"><a href="#卡顿优化" class="headerlink" title="卡顿优化"></a>卡顿优化</h4><p><img src="https://upload-images.jianshu.io/upload_images/2088926-be2fac616c7b93b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>原因<ul>
+<li>绘制任务太重，绘制一帧内容耗时太长。</li>
+<li>主线程太忙，根据系统传递过来的 VSYNC 信号来时还没准备好数据导致丢帧。</li>
 </ul>
-<h4 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h4><ul>
-<li>Android4.1之前AsyncTask类必须在主线程中加载。</li>
-<li>在Android 4.1以及以上版本则不存在这一限制，因为ActivityThread（代表了主线程）的main方法中会自动加载AsyncTask 。</li>
-<li>一个AsyncTask对象只能调用一次execute方法。</li>
+</li>
+<li>优化<ul>
+<li>界面绘制卡顿<ul>
+<li>布局优化：布局嵌套过深、使用合适布局。列表控件缓存复用、include、merge、ViewStub、移除Activity默认背景。</li>
+</ul>
+</li>
+<li>数据处理阻塞UI线程。<ul>
+<li>获取数去耗时，占用UI线程。</li>
+<li>处理数据占用CPU高，UI线程拿不到时间片。</li>
+</ul>
+</li>
+<li>内存占用过大<ul>
+<li>具体见内存优化。</li>
+</ul>
+</li>
+<li>启动优化<ul>
+<li>绘制优化。</li>
+<li>启动加载逻辑优化。</li>
+<li>可延迟初始化项，延迟初始化。</li>
+</ul>
+</li>
+<li>动画优化<ul>
+<li>可以使用硬件加速，提高流畅度。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>工具</p>
+<ul>
+<li><p>System Trace（收集和检测时间信息，CPU的消耗）</p>
+</li>
+<li><p>Hierarchy Viewer（布局层级、绘制）</p>
+</li>
+<li><p>TraceView（定位代码的执行时间）</p>
+</li>
+<li><p>AndroidStudio3.0 自带的 <a href="https://developer.android.google.cn/studio/releases/index.html#3-0-0" target="_blank" rel="noopener">Profiler</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="内存优化"><a href="#内存优化" class="headerlink" title="内存优化"></a>内存优化</h4><p>内存优化主要就是消除应用中的内存泄漏、避免内存抖动。</p>
+<p>Android应用的沙箱机制，每个应用所分配的大小是有限度的，内存太低会被系统清除，即会出现闪退现象。搞懂Android内存管理机制，如何分配和回收的。</p>
+<p>Android应用都是在Android虚拟机上运行，应用后才能徐的内存分配与垃圾回收都是由虚拟机完成的，因此不需要在代码中分配和释放内存。</p>
+<ul>
+<li><p>Android内存分配回收机制</p>
+<ul>
+<li>Anroid基于进程中运行的组件及其状态规定了默认的五个回收优先级：Empty process(空进程) &gt;  Background process(后台进程) &gt; Service process(服务进程) &gt; Visible process(可见进程) &gt; Foreground process(前台进程)。</li>
+<li>Android中由ActivityManagerService 集中管理所有进程的内存资源分配。</li>
+<li>Android Dalvik Heap与原生Java一样，将堆的内存空间分为三个区域，Young Generation，Old Generation， Permanent Generation。最近分配的对象会存放在Young Generation区域，当这个对象在这个区域停留的时间达到一定程度，它会被移动到Old Generation，最后累积一定时间再移动到Permanent Generation区域。系统会根据内存中不同的内存数据类型分别执行不同的gc操作。GC发生的时候，所有的线程都是会被暂停的。执行GC所占用的时间和它发生在哪一个Generation也有关系，Young Generation中的每次GC操作时间是最短的，Old Generation其次，Permanent Generation最长。</li>
+</ul>
+</li>
+<li><p>内存常见问题及解决</p>
+<ul>
+<li><p>内存泄漏</p>
+<ul>
+<li><strong>单例</strong>（主要原因还是因为一般情况下单例都是全局的，有时候会引用一些实际生命周期比较短的变量，导致其无法释放）</li>
+<li><strong>静态变量</strong>（同样也是因为生命周期比较长）</li>
+<li><strong>Handler内存泄露</strong>[</li>
+<li><strong>匿名内部类</strong>（匿名内部类会引用外部类，导致无法释放，比如各种回调）</li>
+<li><strong>资源使用完未关闭</strong>（BraodcastReceiver，ContentObserver，File，Cursor，Stream，Bitmap）</li>
+<li>内存泄漏检测LeakCanary，监控每个Activity，在activity ondestory后，在后台线程检测引用，然后过一段时间进行gc，gc后如果引用还在，那么dump出内存堆栈，并解析进行可视化显示。</li>
+<li>资源性对象未关闭。比如Cursor、File文件等，往往都用了一些缓冲，在不使用时，应该及时关闭它们。</li>
+<li>注册对象未注销。比如事件注册后未注销，会导致观察者列表中维持着对象的引用。</li>
+<li>WebView。WebView 存在着内存泄漏的问题，在应用中只要使用一次 WebView，内存就不会被释放掉。</li>
+</ul>
+</li>
+<li><p>图片分辨率相关</p>
+<ul>
+<li>很多情况下图片所占的内存在整个App内存占用中会占大部分。适配不同屏幕的图片资源。</li>
+<li>优先考虑率使用webp格式图片代替传统格式图片。</li>
+</ul>
+</li>
+<li><p>图片压缩</p>
+<ul>
+<li>BitmapFactory 在解码图片时，可以带一个Options参数，适当配置该参数。</li>
+</ul>
+</li>
+<li><p>缓存池大小</p>
+<ul>
+<li>图片加载组件都不仅仅是使用软引用或者弱引用了，实际上类似Glide 默认使用的事LruCache，因为软引用 弱引用都比较难以控制，使用LruCache可以实现比较精细的控制，而默认缓存池设置太大了会导致浪费内存，设置小了又会导致图片经常被回收，所以需要根据每个App的情况，以及设备的分辨率，内存计算出一个比较合理的初始值，可以参考Glide的做法。</li>
+</ul>
+</li>
+<li><p>内存抖动</p>
+<ul>
+<li>内存抖动引起OOM。大量小的对象频繁创建，导致内存碎片，从而当需要分配内存时，虽然总体上还是有剩余内存可分配，而由于这些内存不连续，导致无法分配，系统直接就返回OOM了。</li>
+</ul>
+</li>
+<li><p>常用数据结构优化</p>
+<ul>
+<li>ArrayMap及SparseArray是android的系统API，是专门为移动设备而定制的。用于在一定情况下取代HashMap而达到节省内存的目的,具体性能见<a href="http://www.jianshu.com/p/7b9a1b386265" target="_blank" rel="noopener">HashMap，ArrayMap，SparseArray源码分析及性能对比</a>，对于key为int的HashMap尽量使用SparceArray替代，大概可以省30%的内存，而对于其他类型，ArrayMap对内存的节省实际并不明显，10%左右，但是数据量在1000以上时，查找速度可能会变慢。</li>
+</ul>
+</li>
+<li><p>枚举</p>
+<ul>
+<li>Android平台上枚举是比较争议的，在较早的Android版本，使用枚举会导致包过大，在个例子里面，使用枚举甚至比直接使用int包的size大了10多倍 ，使用枚举需要谨慎，因为枚举变量可能比直接用int多使用2倍的内存。</li>
+</ul>
+</li>
+<li><p>尽量使用系统资源。</p>
+</li>
+<li><p>减少view的层级。</p>
+</li>
+<li><p>数据相关</p>
+<ul>
+<li>使用protobuf。</li>
+</ul>
+</li>
+<li><p>dex优化，代码优化，谨慎使用外部库。</p>
+</li>
+<li><p>常用工具</p>
+<ul>
+<li><p>Memory Analyzer(MAT)工具。<a href="[http://blog.csdn.net/itomge/article/details/48719527](">MAT使用教程</a>)，<a href="[http://www.lightskystreet.com/2015/09/01/mat_usage/](">MAT - Memory Analyzer Tool 使用进阶</a>)。</p>
+</li>
+<li><p>内存泄漏检测 <a href="https://github.com/square/leakcanary" target="_blank" rel="noopener">Leakcanary</a>。</p>
+</li>
+<li><p>AndroidStudio3.0 自带的 <a href="https://developer.android.google.cn/studio/releases/index.html#3-0-0" target="_blank" rel="noopener">Profiler</a>。</p>
+</li>
+<li><p>Android Lint 工具。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="耗电优化"><a href="#耗电优化" class="headerlink" title="耗电优化"></a>耗电优化</h4><p>Android5.0 以前，在应用中测试电量消耗比较麻烦，也不准确，5.0 之后专门引入了一个获取设备上电量消耗信息的 API:Battery Historian。Battery Historian 是一款由 Google 提供的 Android 系统电量分析工具，和Systrace 一样，是一款图形化数据分析工具，直观地展示出手机的电量消耗过程，通过输入电量分析文件，显示消耗情况，最后提供一些可供参考电量优化的方法。</p>
+<p>常用方案：</p>
+<ul>
+<li>计算优化，避开浮点运算等。</li>
+<li>避免 WaleLock 使用不当。</li>
+<li>使用 Job Scheduler。</li>
+</ul>
+<h4 id="安装包大小优化"><a href="#安装包大小优化" class="headerlink" title="安装包大小优化"></a>安装包大小优化</h4><p>应用安装包大小对应用使用没有影响，但应用的安装包越大，用户下载的门槛越高，特别是在移动网络情况下，用户在下载应用时，对安装包大小的要求更高，因此，减小安装包大小可以让更多用户愿意下载和体验产品。常用方案：</p>
+<ul>
+<li>代码混淆。使用proGuard 代码混淆器工具，它包括压缩、优化、混淆等功能。</li>
+<li>资源优化。比如使用 Android Lint 删除冗余资源，资源文件最少化等。</li>
+<li>图片优化。比如利用 AAPT 工具对 PNG 格式的图片做压缩处理，降低图片色彩位数等。</li>
+<li>避免重复功能的库，使用 WebP图片格式等。</li>
+<li>插件化。比如功能模块放在服务器上，按需下载，可以减少安装包大小。</li>
 </ul>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月13日 08:27</p>
-        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/04/13/AsyncTask/" title="AsyncTask">https://batuer.github.io/2018/04/13/AsyncTask/</a></p>
+        <p>最后更新： 2018年04月24日 09:19</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/04/24/Android性能优化/" title="Android性能优化">https://batuer.github.io/2018/04/24/Android性能优化/</a></p>
         <footer>
             <a href="https://batuer.github.io">
                 <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
@@ -219,7 +353,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/04/13/AsyncTask/&title=《AsyncTask》 — YlwBlog&pic=/images/common.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/04/24/Android性能优化/&title=《Android性能优化》 — YlwBlog&pic=/images/OptimizingPerformance.jpg" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -229,22 +363,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/04/13/AsyncTask/&title=《AsyncTask》 — YlwBlog&source=Keep learning!" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/04/24/Android性能优化/&title=《Android性能优化》 — YlwBlog&source=Keep learning!" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/04/13/AsyncTask/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/04/24/Android性能优化/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《AsyncTask》 — YlwBlog&url=https://batuer.github.io/2018/04/13/AsyncTask/&via=https://batuer.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android性能优化》 — YlwBlog&url=https://batuer.github.io/2018/04/24/Android性能优化/&via=https://batuer.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/04/13/AsyncTask/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/04/24/Android性能优化/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -254,7 +388,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/04/13/AsyncTask/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/04/24/Android性能优化/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -268,7 +402,7 @@
       
     <a href="/batuer.github.io/tags/Android/" class="color3">Android</a>
       
-    <a href="/batuer.github.io/tags/AsyncTask/" class="color5">AsyncTask</a>
+    <a href="/batuer.github.io/tags/性能优化/" class="color5">性能优化</a>
       
   </li>
 
@@ -281,26 +415,26 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AsyncTask"><span class="post-toc-text">AsyncTask</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用简介"><span class="post-toc-text">使用简介</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#局限性"><span class="post-toc-text">局限性</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#性能优化"><span class="post-toc-text">性能优化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#卡顿优化"><span class="post-toc-text">卡顿优化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#内存优化"><span class="post-toc-text">内存优化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#耗电优化"><span class="post-toc-text">耗电优化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安装包大小优化"><span class="post-toc-text">安装包大小优化</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/batuer.github.io/2018/04/13/AnrdroidFrameWork/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/batuer.github.io/2018/04/24/Binder进程通信/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          Android FrameWork
+          Binder进程通信
         
       </span>
     </a>
   
   
-    <a href="/batuer.github.io/2018/04/13/Activity启动流程/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Activity启动流程</span>
+    <a href="/batuer.github.io/2018/04/13/Java内存模型/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java内存</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
