@@ -18,7 +18,10 @@
 <meta property="og:locale" content="CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-d7e9a9466dec9452.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-86a9acfe520ed71f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-04-25T01:07:36.437Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-62925df9974d278b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-017b7a26b17765c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-416ecacccf3623b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-25T15:59:19.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Binder进程通信">
 <meta name="twitter:description" content="链接 Binder 从机制、模型的角度 定义：Binder是Android中IPC^1的一种方式。 作用：Android中跨进程通信。   模型的结构、组成 定义：Binder是一种虚拟的物理设备驱动（Binder驱动)。 作用：连接Service进程，Client进程和ServiceManager进程。   Android代码的实现 定义：Binder是一个类，实现IBinder接口。 作用：B">
@@ -258,11 +261,38 @@
 <li>Binder驱动通过内核空间的Binder实体找到用户空间的Server对象。</li>
 </ol>
 </li>
+<li>注册服务后，Binder驱动持有Server进程创建的BInder实体。</li>
+</ul>
+<h5 id="获取服务"><a href="#获取服务" class="headerlink" title="获取服务"></a>获取服务</h5><ul>
+<li>Client进程使用某个service前，须通过Binder驱动向ServiceManager进程获取相应的Service信息。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-62925df9974d278b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h5 id="使用服务"><a href="#使用服务" class="headerlink" title="使用服务"></a>使用服务</h5><p>Client 进程获取到的Service信息(Binder代理对象)，通过Binder驱动建立与该Server所在Server进程通信的链路，并开始使用服务。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-017b7a26b17765c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-416ecacccf3623b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><p>Linux上的其他进程通信方式(管道、消息队列、共享内存、信号量、Socker)，Binder机制的优点：</p>
+<ul>
+<li>高效<ul>
+<li>Binder机制拷贝只需一次，而管道、消息队列、Socket都需两次。</li>
+<li>通过驱动在内核空间拷贝数据，不需要额外的同步处理。</li>
+</ul>
+</li>
+<li>安全性高<ul>
+<li>Binder机制为每个进程分配了UUID/PID来作为鉴别身份的表示。</li>
+<li>在Binder通信时会根据UUID/PID进行有效性检测。</li>
+<li>传统的进程通信方式对于通信双方的身份没有做出严格的验证。</li>
+</ul>
+</li>
+<li>使用简单<ul>
+<li>采用Client/Server架构</li>
+<li>实现面向对象的调用方式(即在使用BInder时，就和调用一个本地对象实例一样)</li>
+</ul>
+</li>
 </ul>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月25日 09:07</p>
+        <p>最后更新： 2018年04月25日 23:59</p>
         <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/04/24/Binder进程通信/" title="Binder进程通信">https://batuer.github.io/2018/04/24/Binder进程通信/</a></p>
         <footer>
             <a href="https://batuer.github.io">
@@ -382,7 +412,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder"><span class="post-toc-text">Binder</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#进程空间"><span class="post-toc-text">进程空间</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#划分"><span class="post-toc-text">划分</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#进程隔离"><span class="post-toc-text">进程隔离</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#IPC"><span class="post-toc-text">IPC</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder跨进程通信机制、模型"><span class="post-toc-text">Binder跨进程通信机制、模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#模型原理"><span class="post-toc-text">模型原理</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#模型组成角色"><span class="post-toc-text">模型组成角色</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#原理步骤"><span class="post-toc-text">原理步骤</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#额外说明"><span class="post-toc-text">额外说明</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder机制在Android具体实现原理"><span class="post-toc-text">Binder机制在Android具体实现原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#注册服务"><span class="post-toc-text">注册服务</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder"><span class="post-toc-text">Binder</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#进程空间"><span class="post-toc-text">进程空间</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#划分"><span class="post-toc-text">划分</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#进程隔离"><span class="post-toc-text">进程隔离</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#IPC"><span class="post-toc-text">IPC</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder跨进程通信机制、模型"><span class="post-toc-text">Binder跨进程通信机制、模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#模型原理"><span class="post-toc-text">模型原理</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#模型组成角色"><span class="post-toc-text">模型组成角色</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#原理步骤"><span class="post-toc-text">原理步骤</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#额外说明"><span class="post-toc-text">额外说明</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder机制在Android具体实现原理"><span class="post-toc-text">Binder机制在Android具体实现原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#注册服务"><span class="post-toc-text">注册服务</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#获取服务"><span class="post-toc-text">获取服务</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#使用服务"><span class="post-toc-text">使用服务</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优点"><span class="post-toc-text">优点</span></a></li></ol>
         </nav>
     </aside>
     
