@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives | YlwBlog</title>
+  <title>Android事件 | YlwBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Keep learning!" />
   
-  <meta name="description" content="Keep learning!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="YlwBlog">
-<meta property="og:url" content="https://batuer.github.io/archives/index.html">
+  <meta name="description" content="事件一般有  MotionEvent.ACTION_DOWN MotionEvent.ACTION_UP MotionEvent.ACTION_MOVE MotionEvent.ACTION_CANCEL(触摸移出第一消费事件View外)   事件顺序Activity → ViewGroup → … →View  相应决定事件分发、拦截、消费的具体   Activity  dispatchTo">
+<meta name="keywords" content="Android,事件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android事件">
+<meta property="og:url" content="https://batuer.github.io/2018/05/02/Android事件传递/index.html">
 <meta property="og:site_name" content="YlwBlog">
-<meta property="og:description" content="Keep learning!">
+<meta property="og:description" content="事件一般有  MotionEvent.ACTION_DOWN MotionEvent.ACTION_UP MotionEvent.ACTION_MOVE MotionEvent.ACTION_CANCEL(触摸移出第一消费事件View外)   事件顺序Activity → ViewGroup → … →View  相应决定事件分发、拦截、消费的具体   Activity  dispatchTo">
 <meta property="og:locale" content="CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-4303b925c1b36f80.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-01T16:47:31.729Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YlwBlog">
-<meta name="twitter:description" content="Keep learning!">
+<meta name="twitter:title" content="Android事件">
+<meta name="twitter:description" content="事件一般有  MotionEvent.ACTION_DOWN MotionEvent.ACTION_UP MotionEvent.ACTION_MOVE MotionEvent.ACTION_CANCEL(触摸移出第一消费事件View外)   事件顺序Activity → ViewGroup → … →View  相应决定事件分发、拦截、消费的具体   Activity  dispatchTo">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2088926-4303b925c1b36f80.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
   
     <link rel="icon" href="/avatar.jpg">
@@ -102,35 +106,185 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap">
-  
-  
+        <section id="main" class="body-wrap"><article id="post-Android事件传递" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/batuer.github.io/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/05/02/Android事件传递/" class="archive-article-date">
-  <time datetime="2018-05-01T16:23:33.325Z" itemprop="datePublished">05-02</time>
-</a>
-      
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/05/02/Android事件传递/"  target="_blank"  >Android事件</a>
+    <h1 class="post-title" itemprop="name">
+      Android事件
     </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/batuer.github.io/categories/Android/">Android</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-05-02
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
   
 
-    </header>
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
       
-        <div class="archive-post-footer">
+            
+            <p><img src="https://upload-images.jianshu.io/upload_images/2088926-4303b925c1b36f80.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li><p>事件一般有</p>
+<ul>
+<li>MotionEvent.ACTION_DOWN</li>
+<li>MotionEvent.ACTION_UP</li>
+<li>MotionEvent.ACTION_MOVE</li>
+<li>MotionEvent.ACTION_CANCEL(触摸移出第一消费事件View外)</li>
+</ul>
+</li>
+<li><p>事件顺序Activity → ViewGroup → … →View</p>
+</li>
+<li><p>相应决定事件分发、拦截、消费的具体 </p>
+<ul>
+<li><p>Activity</p>
+<ul>
+<li><p>dispatchTouchEvent</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (ev.getAction() == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">        <span class="comment">//空方法，实现屏保功能，当此activity在栈顶时，触屏点击按home，back，menu键等都会触发此方法</span></span><br><span class="line">        onUserInteraction();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//重要！！！ 找到PhoneWindow及DecoreView，往下传递事件</span></span><br><span class="line">    <span class="keyword">if</span> (getWindow().superDispatchTouchEvent(ev)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> onTouchEvent(ev);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>onTouchEvent(消费事件，true消费)</p>
+</li>
+</ul>
+</li>
+<li><p>ViewGroup</p>
+<ul>
+<li>dispatchTouchEvent</li>
+<li>onInterceptTouchEvent</li>
+<li>onTouchEvent</li>
+</ul>
+</li>
+<li><p>View</p>
+<ul>
+<li>dispatchTouchEvent</li>
+<li>onTouchEvent</li>
+</ul>
+</li>
+</ul>
+<h5 id="super很重要决定事件的下一步走向，不执行super时谨慎使用-如Activity的super-dispatchTouchEvent-ev-。"><a href="#super很重要决定事件的下一步走向，不执行super时谨慎使用-如Activity的super-dispatchTouchEvent-ev-。" class="headerlink" title="super很重要决定事件的下一步走向，不执行super时谨慎使用(如Activity的super.dispatchTouchEvent(ev))。"></a>super很重要决定事件的下一步走向，不执行super时谨慎使用(如Activity的super.dispatchTouchEvent(ev))。</h5></li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月02日 00:47</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/05/02/Android事件传递/" title="Android事件">https://batuer.github.io/2018/05/02/Android事件传递/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/05/02/Android事件传递/&title=《Android事件》 — YlwBlog&pic=/images/Android事件传递.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/05/02/Android事件传递/&title=《Android事件》 — YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/05/02/Android事件传递/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android事件》 — YlwBlog&url=https://batuer.github.io/2018/05/02/Android事件传递/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/05/02/Android事件传递/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/05/02/Android事件传递/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
             
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
@@ -141,322 +295,33 @@
       
   </li>
 
-        </div>
-      
+        </ul>
+        
+    </footer>
   </div>
 </article>
 
-  
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#super很重要决定事件的下一步走向，不执行super时谨慎使用-如Activity的super-dispatchTouchEvent-ev-。"><span class="post-toc-text">super很重要决定事件的下一步走向，不执行super时谨慎使用(如Activity的super.dispatchTouchEvent(ev))。</span></a></li></ol>
+        </nav>
+    </aside>
     
+
+<nav id="article-nav">
+  
+  
+    <a href="/batuer.github.io/2018/04/24/Binder进程通信/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Binder进程通信</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/04/24/Binder进程通信/" class="archive-article-date">
-  <time datetime="2018-04-24T00:24:40.011Z" itemprop="datePublished">04-24</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/04/24/Binder进程通信/"  target="_blank"  >Binder进程通信</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/batuer.github.io/tags/Android/" class="color3">Android</a>
-      
-    <a href="/batuer.github.io/tags/Binder/" class="color2">Binder</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/04/24/Android性能优化/" class="archive-article-date">
-  <time datetime="2018-04-24T00:24:40.007Z" itemprop="datePublished">04-24</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/04/24/Android性能优化/"  target="_blank"  >Android性能优化</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/batuer.github.io/tags/Android/" class="color3">Android</a>
-      
-    <a href="/batuer.github.io/tags/性能优化/" class="color5">性能优化</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/04/13/Java内存模型/" class="archive-article-date">
-  <time datetime="2018-04-13T00:31:06.347Z" itemprop="datePublished">04-13</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/04/13/Java内存模型/"  target="_blank"  >Java内存</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/batuer.github.io/tags/Java/" class="color5">Java</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/04/13/javaGenericity.jpg/" class="archive-article-date">
-  <time datetime="2018-04-13T00:10:25.833Z" itemprop="datePublished">04-13</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/04/13/javaGenericity.jpg/"  target="_blank"  >Java泛型</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/batuer.github.io/tags/Java基础/" class="color2">Java基础</a>
-      
-    <a href="/batuer.github.io/tags/Java泛型/" class="color2">Java泛型</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/04/13/JavaReflect/" class="archive-article-date">
-  <time datetime="2018-04-13T00:10:25.833Z" itemprop="datePublished">04-13</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/04/13/JavaReflect/"  target="_blank"  >Java反射</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/batuer.github.io/tags/Java基础/" class="color2">Java基础</a>
-      
-    <a href="/batuer.github.io/tags/Java反射/" class="color2">Java反射</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/04/13/MultiProcess/" class="archive-article-date">
-  <time datetime="2018-04-13T00:10:25.833Z" itemprop="datePublished">04-13</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/04/13/MultiProcess/"  target="_blank"  >Android多进程</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/batuer.github.io/tags/Android/" class="color3">Android</a>
-      
-    <a href="/batuer.github.io/tags/多进程/" class="color4">多进程</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/04/13/RxJava2操作符/" class="archive-article-date">
-  <time datetime="2018-04-13T00:10:25.833Z" itemprop="datePublished">04-13</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/04/13/RxJava2操作符/"  target="_blank"  >RxJava2操作符</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/batuer.github.io/tags/RxJava2/" class="color3">RxJava2</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/04/13/JavaAnnotaion/" class="archive-article-date">
-  <time datetime="2018-04-13T00:10:25.832Z" itemprop="datePublished">04-13</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/04/13/JavaAnnotaion/"  target="_blank"  >Java注解</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/batuer.github.io/tags/Java基础/" class="color2">Java基础</a>
-      
-    <a href="/batuer.github.io/tags/Java注解/" class="color2">Java注解</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/04/13/JavaBasic/" class="archive-article-date">
-  <time datetime="2018-04-13T00:10:25.832Z" itemprop="datePublished">04-13</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/04/13/JavaBasic/"  target="_blank"  >Java集合</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
-            
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/batuer.github.io/tags/Java基础/" class="color2">Java基础</a>
-      
-    <a href="/batuer.github.io/tags/Java集合/" class="color2">Java集合</a>
-      
-  </li>
-
-        </div>
-      
-  </div>
-</article>
-
-  
-  
-    </div></section>
-  
-
-
-  <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/batuer.github.io/archives/page/2/">2</a><a class="extend next" rel="next" href="/batuer.github.io/archives/page/2/">Next >></a>
-  </nav>
 </section>
         
       </div>
