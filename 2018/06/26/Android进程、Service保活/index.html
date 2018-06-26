@@ -3,23 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ExecutorService和Executors | YlwBlog</title>
+  <title>Android进程保活Service常驻 | YlwBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Keep learning!" />
   
-  <meta name="description" content="1.  newFixedThreadPool 创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。在任意点，在大多数 nThreads 线程会处于处理任务的活动状态。如果在所有线程处于活动状态时提交附加任务，则在有可用线程之前，附加任务将在队列中等待。如果在关闭前的执行期间由于失败而导致任何线程终止，那么一个新线程将代替它执行后续的任务（如果需要）。在某个线程被显式地关闭之前，池">
-<meta name="keywords" content="线程,Executors">
+  <meta name="description" content="https://mp.weixin.qq.com/s/OXiFQNTyCHpqSP6B9HOiHw  进程保活进程保活两个层面： 提高进程优先级，降低被系统杀死概率。 进程被杀死后，进行拉活。  进程的优先级 前台进程：前台进程不多，内存不足时系统才会清理。  正在可交互的Activity(onResume()和onStart()区别)。  Service绑定到正在可交互的Activity。">
+<meta name="keywords" content="Android,进程保活,Service保活">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ExecutorService和Executors">
-<meta property="og:url" content="https://batuer.github.io/2018/04/13/Executor/index.html">
+<meta property="og:title" content="Android进程保活Service常驻">
+<meta property="og:url" content="https://batuer.github.io/2018/06/26/Android进程、Service保活/index.html">
 <meta property="og:site_name" content="YlwBlog">
-<meta property="og:description" content="1.  newFixedThreadPool 创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。在任意点，在大多数 nThreads 线程会处于处理任务的活动状态。如果在所有线程处于活动状态时提交附加任务，则在有可用线程之前，附加任务将在队列中等待。如果在关闭前的执行期间由于失败而导致任何线程终止，那么一个新线程将代替它执行后续的任务（如果需要）。在某个线程被显式地关闭之前，池">
+<meta property="og:description" content="https://mp.weixin.qq.com/s/OXiFQNTyCHpqSP6B9HOiHw  进程保活进程保活两个层面： 提高进程优先级，降低被系统杀死概率。 进程被杀死后，进行拉活。  进程的优先级 前台进程：前台进程不多，内存不足时系统才会清理。  正在可交互的Activity(onResume()和onStart()区别)。  Service绑定到正在可交互的Activity。">
 <meta property="og:locale" content="CN">
-<meta property="og:updated_time" content="2018-04-13T00:10:25.831Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-53ec9a177a175316.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-06-26T16:14:45.445Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ExecutorService和Executors">
-<meta name="twitter:description" content="1.  newFixedThreadPool 创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。在任意点，在大多数 nThreads 线程会处于处理任务的活动状态。如果在所有线程处于活动状态时提交附加任务，则在有可用线程之前，附加任务将在队列中等待。如果在关闭前的执行期间由于失败而导致任何线程终止，那么一个新线程将代替它执行后续的任务（如果需要）。在某个线程被显式地关闭之前，池">
+<meta name="twitter:title" content="Android进程保活Service常驻">
+<meta name="twitter:description" content="https://mp.weixin.qq.com/s/OXiFQNTyCHpqSP6B9HOiHw  进程保活进程保活两个层面： 提高进程优先级，降低被系统杀死概率。 进程被杀死后，进行拉活。  进程的优先级 前台进程：前台进程不多，内存不足时系统才会清理。  正在可交互的Activity(onResume()和onStart()区别)。  Service绑定到正在可交互的Activity。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2088926-53ec9a177a175316.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
   
     <link rel="icon" href="/avatar.jpg">
@@ -104,14 +106,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-Executor" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-Android进程、Service保活" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      ExecutorService和Executors
+      Android进程保活Service常驻
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -119,12 +121,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/batuer.github.io/categories/Executors/">Executors</a>
+                      <a href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-04-13
+          <i class="fa fa-calendar"></i>  2018-06-26
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -140,68 +142,100 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h3 id="1-newFixedThreadPool"><a href="#1-newFixedThreadPool" class="headerlink" title="1.  newFixedThreadPool"></a>1.  newFixedThreadPool</h3><ul>
-<li>创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。在任意点，在大多数 nThreads 线程会处于处理任务的活动状态。如果在所有线程处于活动状态时提交附加任务，则在有可用线程之前，附加任务将在队列中等待。如果在关闭前的执行期间由于失败而导致任何线程终止，那么一个新线程将代替它执行后续的任务（如果需要）。在某个线程被显式地关闭之前，池中的线程将一直存在。</li>
-<li>该方法返回一个固定线程数量的线程池，该线程池中的线程数量始终不变，即不会再创建新的线程，也不会销毁已经创建好的线程，自始自终都是那几个固定的线程在工作，所以该线程池可以控制线程的最大并发数。</li>
-<li>newFixedThreadPool与cacheThreadPool差不多，也是能reuse就用，但不能随时建新的线程。</li>
-<li>其独特之处:任意时间点，最多只能有固定数目的活动线程存在，此时如果有新的线程要建立，只能放在另外的队列中等待，直到当前的线程中某个线程终止直接被移出池子 。</li>
-<li>和cacheThreadPool不同，FixedThreadPool没有IDLE机制，所以FixedThreadPool多数针对一些很稳定很固定的正规并发线程，多用于服务器 。</li>
-<li>从方法的源代码看，cache池和fixed 池调用的是同一个底层池，只不过参数不同。</li>
-<li>fixed池线程数固定，并且是0秒IDLE（无IDLE），cache池线程数支持0-Integer.MAX_VALUE(显然完全没考虑主机的资源承受能力），60秒IDLE。</li>
-<li><strong>重用</strong>：fixedThreadPool与cacheThreadPool差不多，也是能reuse就用，但不能随时建新的线程。</li>
-<li><strong>固定数目：</strong>其独特之处在于，任意时间点，最多只能有固定数目的活动线程存在，此时如果有新的线程要建立，只能放在另外的队列中等待，直到当前的线程中某个线程终止直接被移出池子。</li>
-<li><strong>超时：</strong>和cacheThreadPool不同，FixedThreadPool没有IDLE机制（可能也有，但既然文档没提，肯定非常长，类似依赖上层的TCP或UDP IDLE机制之类的）</li>
-<li><strong>使用场景：</strong>所以FixedThreadPool多数针对一些很稳定很固定的正规并发线程，多用于服务器。</li>
-<li><strong>源码分析：</strong>从方法的源代码看，cache池和fixed 池调用的是同一个底层池，只不过参数不同：<ul>
-<li>fixed池线程数固定，并且是0秒IDLE（无IDLE）。</li>
-<li>cache池线程数支持0-Integer.MAX_VALUE(显然完全没考虑主机的资源承受能力），60秒IDLE。</li>
-</ul>
+            <blockquote>
+<p><a href="https://mp.weixin.qq.com/s/OXiFQNTyCHpqSP6B9HOiHw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/OXiFQNTyCHpqSP6B9HOiHw</a></p>
+</blockquote>
+<h3 id="进程保活"><a href="#进程保活" class="headerlink" title="进程保活"></a>进程保活</h3><h5 id="进程保活两个层面："><a href="#进程保活两个层面：" class="headerlink" title="进程保活两个层面："></a>进程保活两个层面：</h5><ol>
+<li>提高进程优先级，降低被系统杀死概率。</li>
+<li>进程被杀死后，进行拉活。</li>
+</ol>
+<h5 id="进程的优先级"><a href="#进程的优先级" class="headerlink" title="进程的优先级"></a>进程的优先级</h5><ol>
+<li><p>前台进程：前台进程不多，内存不足时系统才会清理。</p>
+<ol>
+<li><p>正在可交互的Activity(onResume()和onStart()区别)。</p>
 </li>
-</ul>
-<h3 id="2-newCachedThreadPool"><a href="#2-newCachedThreadPool" class="headerlink" title="2.  newCachedThreadPool"></a>2.  newCachedThreadPool</h3><ul>
-<li>创建一个可根据需要创建新线程的线程池，但是在以前构造的线程可用时将重用它们。对于执行很多短期异步任务的程序而言，这些线程池通常可提高程序性能。调用 execute 将重用以前构造的线程（如果线程可用）。如果现有线程没有可用的，则创建一个新线程并添加到池中。终止并从缓存中移除那些已有 60 秒钟未被使用的线程。因此，长时间保持空闲的线程池不会使用任何资源。注意，可以使用 ThreadPoolExecutor 构造方法创建具有类似属性但细节不同（例如超时参数）的线程池。</li>
-<li>该方法返回一个可以根据实际情况调整线程池中线程的数量的线程池。即该线程池中的线程数量不确定，是根据实际情况动态调整的。 </li>
-<li>缓存型池子，先查看池中有没有以前建立的线程，如果有，就reuse.如果没有，就建一个新的线程加入池中 。</li>
-<li>缓存型池子通常用于执行一些生存期很短的异步型任务。</li>
-<li>能reuse的线程，必须是timeout IDLE内的池中线程，缺省timeout是60s,超过这个IDLE时长，线程实例将被终止及移出池。</li>
-<li>注意，放入CachedThreadPool的线程不必担心其结束，超过TIMEOUT不活动，其会自动被终止。</li>
-<li><strong>重用：</strong>缓存型池子，先查看池中有没有以前建立的线程，如果有，就reuse；如果没有，就建一个新的线程加入池中。</li>
-<li><strong>使用场景：</strong>缓存型池子通常用于执行一些生存期很短的异步型任务，因此在一些面向连接的daemon型SERVER中用得不多。</li>
-<li><strong>超时：</strong>能reuse的线程，必须是timeout IDLE内的池中线程，缺省timeout是60s，超过这个IDLE时长，线程实例将被终止及移出池。</li>
-<li><strong>结束：</strong>注意，放入CachedThreadPool的线程不必担心其结束，超过TIMEOUT不活动，其会自动被终止。</li>
-</ul>
-<h3 id="3-newSingleThreadExecutor"><a href="#3-newSingleThreadExecutor" class="headerlink" title="3.  newSingleThreadExecutor"></a>3.  newSingleThreadExecutor</h3><ul>
-<li>创建一个使用单个 worker 线程的 Executor，以无界队列方式来运行该线程。（注意，如果因为在关闭前的执行期间出现失败而终止了此单个线程，那么如果需要，一个新线程将代替它执行后续的任务）。可保证顺序地执行各个任务，并且在任意给定的时间不会有多个线程是活动的。与其他等效的 newFixedThreadPool(1) 不同，可保证无需重新配置此方法所返回的执行程序即可使用其他的线程。</li>
-<li>该方法返回一个只有一个线程的线程池，即每次只能执行一个线程任务，多余的任务会保存到一个任务队列中，等待这一个线程空闲，当这个线程空闲了再按FIFO方式顺序执行任务队列中的任务。</li>
-<li>单例线程，任意时间池中只能有一个线程 。</li>
-<li>用的是和cache池和fixed池相同的底层池，但线程数目是1-1,0秒IDLE（无IDLE）。</li>
-<li>SingleThreadExecutor得到的是一个单个的线程，这个线程会保证你的任务执行完成。</li>
-<li>如果当前线程意外终止，会创建一个新线程继续执行任务，这和我们直接创建线程不同，也和newFixedThreadPool(1)不同。</li>
-</ul>
-<h3 id="4-newScheduledThreadPool"><a href="#4-newScheduledThreadPool" class="headerlink" title="4. newScheduledThreadPool"></a>4. newScheduledThreadPool</h3><ul>
-<li>调度型线程池，这个池子里的线程可以按schedule依次delay执行，或周期执行。</li>
-<li>该方法返回一个可以控制线程池内线程定时或周期性执行某任务的线程池。</li>
-<li>ScheduledThreadPool是一个固定大小的线程池，与FixedThreadPool类似，执行的任务是定时执行。</li>
-</ul>
-<h3 id="5-Android性能优化之使用线程池处理异步任务"><a href="#5-Android性能优化之使用线程池处理异步任务" class="headerlink" title="5.  Android性能优化之使用线程池处理异步任务"></a>5.  Android性能优化之使用线程池处理异步任务</h3><ul>
-<li>线程的创建和销毁都需要时间，当有大量的线程创建和销毁时，那么这些时间的消耗则比较明显，将导致性能上的缺失。</li>
-<li>大量的线程创建、执行和销毁是非常耗cpu和内存的，这样将直接影响系统的吞吐量，导致性能急剧下降，如果内存资源占用的比较多，还很可能造成OOM。</li>
-<li>大量的线程的创建和销毁很容易导致GC频繁的执行，从而发生内存抖动现象，而发生了内存抖动，对于移动端来说，最大的影响就是造成界面卡顿。</li>
-</ul>
-<h3 id="6-使用线程池管理线程的优点"><a href="#6-使用线程池管理线程的优点" class="headerlink" title="6.  使用线程池管理线程的优点"></a>6.  使用线程池管理线程的优点</h3><ul>
-<li>ExecutorService是一个接口，线程池服务。</li>
-<li>hreadPoolExecutor实现ExecutorService接口封装了一系列API是的它具有线程池的特性，包括工作队列，核心线程池数，最大线程池数。</li>
-<li>管理线程，节省内存资源，减小消耗。</li>
-</ul>
-<h3 id="7-shutdown-和shutdownNow-的区别"><a href="#7-shutdown-和shutdownNow-的区别" class="headerlink" title="7.  shutdown()和shutdownNow()的区别"></a>7.  shutdown()和shutdownNow()的区别</h3><ul>
-<li>shutdown()方法在终止前允许执行以前提交的任务。不再接受新的任务。</li>
-<li>shutdownNow()方法则是阻止正在任务队列中等待任务的启动并试图停止当前正在执行的任务。</li>
-</ul>
+<li><p>Service绑定到正在可交互的Activity。</p>
+</li>
+<li><p>前台Service</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">startForeground</span><span class="params">(<span class="keyword">int</span> id, Notification notification)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ComponentName <span class="title">startForegroundService</span><span class="params">(Intent service)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>正执行生命周期的Service。</p>
+</li>
+<li><p>正执行生命周期的BroadcastReceiver。</p>
+</li>
+</ol>
+</li>
+<li><p>可见进程：可见不可交互的进程。</p>
+<ol>
+<li>Activity执行onStart()未执行onStop()。</li>
+<li>Service绑定到可见的Activity。</li>
+</ol>
+</li>
+<li><p>服务进程：进程中有Service正在运行。</p>
+</li>
+<li><p>后台进程：进程最后一个Activity执行onStop()。</p>
+</li>
+<li><p>空进程：这种进程唯一目的用作缓存，缩短下次启动时间。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-53ec9a177a175316.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</li>
+</ol>
+<h5 id="提升进程优先级"><a href="#提升进程优先级" class="headerlink" title="提升进程优先级"></a>提升进程优先级</h5><h6 id="利用Activity提升权限"><a href="#利用Activity提升权限" class="headerlink" title="利用Activity提升权限"></a>利用Activity提升权限</h6><ol>
+<li>监控解锁屏事件，锁屏时启动1个像素的透明Activity，解锁时销毁。</li>
+<li>可以使进程变为<strong>可见进程</strong>。</li>
+</ol>
+<h5 id="利用Notification提升权限"><a href="#利用Notification提升权限" class="headerlink" title="利用Notification提升权限"></a>利用Notification提升权限</h5><ol>
+<li>普通服务进程升级为前台进程，会在通知栏有通知，用户可感知。</li>
+<li>通过实现一个内部 Service，在 LiveService 和其内部 Service 中同时发送具有相同 ID 的 Notification，然后将内部 Service 结束掉。随着内部 Service 的结束，Notification 将会消失，但系统优先级依然保持为2。 </li>
+</ol>
+<h5 id="进程杀死后拉活"><a href="#进程杀死后拉活" class="headerlink" title="进程杀死后拉活"></a>进程杀死后拉活</h5><h6 id="利用系统广播"><a href="#利用系统广播" class="headerlink" title="利用系统广播"></a>利用系统广播</h6><ol>
+<li>注册静态广播监听系统广播事件。</li>
+<li>广播管理器会被系统软件或管理软件禁用进而无法接收到广播。</li>
+<li>系统广播事件不可控。</li>
+</ol>
+<h5 id="利用第三方应用广播"><a href="#利用第三方应用广播" class="headerlink" title="利用第三方应用广播"></a>利用第三方应用广播</h5><ol>
+<li>反编译监听第三方应用会发送的广播。</li>
+<li>存在第三方广播会升级修改，不能及时通知。</li>
+</ol>
+<h5 id="利用系统Service机制拉活"><a href="#利用系统Service机制拉活" class="headerlink" title="利用系统Service机制拉活"></a>利用系统Service机制拉活</h5><ol>
+<li><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">onStartCommand</span><span class="params">(Intent intent, <span class="keyword">int</span> flags, <span class="keyword">int</span> startId)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">return</span> Service.START_STICKY;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Service 第一次被异常杀死后会在5秒内重启，第二次被杀死会在10秒内重启，第三次会在20秒内重启，一旦在短时间内 Service 被杀死达到5次，则系统不再拉起。 </p>
+</li>
+<li><p>进程被取得 Root 权限的管理工具或系统工具通过 forestop 停止掉，无法重启。 </p>
+</li>
+</ol>
+<h5 id="利用Native进程拉活"><a href="#利用Native进程拉活" class="headerlink" title="利用Native进程拉活"></a>利用Native进程拉活</h5><ol>
+<li>利用 Linux 中的 fork 机制创建 Native 进程，在 Native 进程中监控主进程的存活，当主进程挂掉后，在 Native 进程中立即对主进程进行拉活。 </li>
+<li>……</li>
+</ol>
+<h5 id="利用JobScheduler机制拉活"><a href="#利用JobScheduler机制拉活" class="headerlink" title="利用JobScheduler机制拉活"></a>利用JobScheduler机制拉活</h5><ol>
+<li>Android5.0 以后系统对 Native 进程等加强了管理，Native 拉活方式失效。系统在 Android5.0 以上版本提供了 JobScheduler 接口，系统会定时调用该进程以使应用进行一些逻辑操作。 </li>
+</ol>
+<h5 id="利用账号同步机制"><a href="#利用账号同步机制" class="headerlink" title="利用账号同步机制"></a>利用账号同步机制</h5><ol>
+<li>Android 系统的账号同步机制会定期同步账号进行，该方案目的在于利用同步机制进行进程的拉活。 </li>
+<li>该方案适用于所有的 Android 版本，包括被 forestop 掉的进程也可以进行拉活。</li>
+<li>最新 Android 版本（Android N）中系统好像对账户同步这里做了变动，该方法不再有效。</li>
+</ol>
+<h5 id="其它方案"><a href="#其它方案" class="headerlink" title="其它方案"></a>其它方案</h5><ol>
+<li>利用系统通知管理权限进行拉活 。</li>
+<li>利用辅助功能拉活，将应用加入厂商或管理软件白名单。 </li>
+<li>根据终端不同，在小米手机（包括 MIUI）接入小米推送、华为手机接入华为推送；其他手机可以考虑接入腾讯信鸽或极光推送与小米推送做 A/B Test。 </li>
+</ol>
+<h3 id="Service常驻"><a href="#Service常驻" class="headerlink" title="Service常驻"></a>Service常驻</h3><ol>
+<li><p>JNI：5.0以前，Android系统本身不管理JNI层的，用Linux的Fork机制将App和进程分开。</p>
+</li>
+<li><p>JobService：可以在自动创建进程后台干任何事情，包括拉活activity、service或者执行任何的代码。但JobService并不意味着你不受任何限制，比如受到doze、monitor之类的管理。 </p>
+</li>
+<li><p>前台服务。</p>
+</li>
+<li><p>Service 的 onstartCommand()。</p>
+</li>
+</ol>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月13日 08:10</p>
-        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/04/13/Executor/" title="ExecutorService和Executors">https://batuer.github.io/2018/04/13/Executor/</a></p>
+        <p>最后更新： 2018年06月27日 00:14</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/06/26/Android进程、Service保活/" title="Android进程保活Service常驻">https://batuer.github.io/2018/06/26/Android进程、Service保活/</a></p>
         <footer>
             <a href="https://batuer.github.io">
                 <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
@@ -258,7 +292,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/04/13/Executor/&title=《ExecutorService和Executors》 — YlwBlog&pic=/images/Executor.jpg" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/06/26/Android进程、Service保活/&title=《Android进程保活Service常驻》 — YlwBlog&pic=/images/ProcessGrade.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -268,22 +302,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/04/13/Executor/&title=《ExecutorService和Executors》 — YlwBlog&source=Keep learning!" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/06/26/Android进程、Service保活/&title=《Android进程保活Service常驻》 — YlwBlog&source=Keep learning!" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/04/13/Executor/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/06/26/Android进程、Service保活/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ExecutorService和Executors》 — YlwBlog&url=https://batuer.github.io/2018/04/13/Executor/&via=https://batuer.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android进程保活Service常驻》 — YlwBlog&url=https://batuer.github.io/2018/06/26/Android进程、Service保活/&via=https://batuer.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/04/13/Executor/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/06/26/Android进程、Service保活/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -293,7 +327,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/04/13/Executor/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/06/26/Android进程、Service保活/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -305,9 +339,11 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/batuer.github.io/tags/线程/" class="color3">线程</a>
+    <a href="/batuer.github.io/tags/Android/" class="color3">Android</a>
       
-    <a href="/batuer.github.io/tags/Executors/" class="color5">Executors</a>
+    <a href="/batuer.github.io/tags/进程保活/" class="color5">进程保活</a>
+      
+    <a href="/batuer.github.io/tags/Service保活/" class="color5">Service保活</a>
       
   </li>
 
@@ -320,26 +356,16 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-newFixedThreadPool"><span class="post-toc-text">1.  newFixedThreadPool</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-newCachedThreadPool"><span class="post-toc-text">2.  newCachedThreadPool</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-newSingleThreadExecutor"><span class="post-toc-text">3.  newSingleThreadExecutor</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-newScheduledThreadPool"><span class="post-toc-text">4. newScheduledThreadPool</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-Android性能优化之使用线程池处理异步任务"><span class="post-toc-text">5.  Android性能优化之使用线程池处理异步任务</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-使用线程池管理线程的优点"><span class="post-toc-text">6.  使用线程池管理线程的优点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-shutdown-和shutdownNow-的区别"><span class="post-toc-text">7.  shutdown()和shutdownNow()的区别</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#进程保活"><span class="post-toc-text">进程保活</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#进程保活两个层面："><span class="post-toc-text">进程保活两个层面：</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#进程的优先级"><span class="post-toc-text">进程的优先级</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#提升进程优先级"><span class="post-toc-text">提升进程优先级</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#利用Activity提升权限"><span class="post-toc-text">利用Activity提升权限</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#利用Notification提升权限"><span class="post-toc-text">利用Notification提升权限</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#进程杀死后拉活"><span class="post-toc-text">进程杀死后拉活</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#利用系统广播"><span class="post-toc-text">利用系统广播</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#利用第三方应用广播"><span class="post-toc-text">利用第三方应用广播</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#利用系统Service机制拉活"><span class="post-toc-text">利用系统Service机制拉活</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#利用Native进程拉活"><span class="post-toc-text">利用Native进程拉活</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#利用JobScheduler机制拉活"><span class="post-toc-text">利用JobScheduler机制拉活</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#利用账号同步机制"><span class="post-toc-text">利用账号同步机制</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#其它方案"><span class="post-toc-text">其它方案</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Service常驻"><span class="post-toc-text">Service常驻</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/batuer.github.io/2018/04/13/Githug/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          Githug
-        
-      </span>
-    </a>
   
-  
-    <a href="/batuer.github.io/2018/04/13/Activity启动流程/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Activity启动流程</span>
+    <a href="/batuer.github.io/2018/05/03/Android自定义View/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">自定义View</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
