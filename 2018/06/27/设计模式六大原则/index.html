@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ExecutorService和Executors | YlwBlog</title>
+  <title>设计模式六大原则 | YlwBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Keep learning!" />
   
-  <meta name="description" content="1.  newFixedThreadPool 创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。在任意点，在大多数 nThreads 线程会处于处理任务的活动状态。如果在所有线程处于活动状态时提交附加任务，则在有可用线程之前，附加任务将在队列中等待。如果在关闭前的执行期间由于失败而导致任何线程终止，那么一个新线程将代替它执行后续的任务（如果需要）。在某个线程被显式地关闭之前，池">
-<meta name="keywords" content="线程,Executors">
+  <meta name="description" content="单一职责原则定义一个类只做一件事。 优点 类的复杂性降低，职责清晰。 可读性、可维护性提高。 变更风险降低，变更是必然的。遵守单一职责，修改一个功能时，显著降低对其它功能的影响。  里氏替换原则面向对象三大特点：继承、多态、封装，里氏替换原则就是依赖于继承、多态这两大特性。 定义只要父类能出现的地方子类就可以替换，并且替换为子类也不会差生任何错误和异常。 优点 代码共享，减少创建类的工作量，每个字">
+<meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ExecutorService和Executors">
-<meta property="og:url" content="https://batuer.github.io/2018/04/13/Executor/index.html">
+<meta property="og:title" content="设计模式六大原则">
+<meta property="og:url" content="https://batuer.github.io/2018/06/27/设计模式六大原则/index.html">
 <meta property="og:site_name" content="YlwBlog">
-<meta property="og:description" content="1.  newFixedThreadPool 创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。在任意点，在大多数 nThreads 线程会处于处理任务的活动状态。如果在所有线程处于活动状态时提交附加任务，则在有可用线程之前，附加任务将在队列中等待。如果在关闭前的执行期间由于失败而导致任何线程终止，那么一个新线程将代替它执行后续的任务（如果需要）。在某个线程被显式地关闭之前，池">
+<meta property="og:description" content="单一职责原则定义一个类只做一件事。 优点 类的复杂性降低，职责清晰。 可读性、可维护性提高。 变更风险降低，变更是必然的。遵守单一职责，修改一个功能时，显著降低对其它功能的影响。  里氏替换原则面向对象三大特点：继承、多态、封装，里氏替换原则就是依赖于继承、多态这两大特性。 定义只要父类能出现的地方子类就可以替换，并且替换为子类也不会差生任何错误和异常。 优点 代码共享，减少创建类的工作量，每个字">
 <meta property="og:locale" content="CN">
-<meta property="og:updated_time" content="2018-04-13T00:10:25.831Z">
+<meta property="og:updated_time" content="2018-06-27T15:40:18.612Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ExecutorService和Executors">
-<meta name="twitter:description" content="1.  newFixedThreadPool 创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。在任意点，在大多数 nThreads 线程会处于处理任务的活动状态。如果在所有线程处于活动状态时提交附加任务，则在有可用线程之前，附加任务将在队列中等待。如果在关闭前的执行期间由于失败而导致任何线程终止，那么一个新线程将代替它执行后续的任务（如果需要）。在某个线程被显式地关闭之前，池">
+<meta name="twitter:title" content="设计模式六大原则">
+<meta name="twitter:description" content="单一职责原则定义一个类只做一件事。 优点 类的复杂性降低，职责清晰。 可读性、可维护性提高。 变更风险降低，变更是必然的。遵守单一职责，修改一个功能时，显著降低对其它功能的影响。  里氏替换原则面向对象三大特点：继承、多态、封装，里氏替换原则就是依赖于继承、多态这两大特性。 定义只要父类能出现的地方子类就可以替换，并且替换为子类也不会差生任何错误和异常。 优点 代码共享，减少创建类的工作量，每个字">
   
   
     <link rel="icon" href="/avatar.jpg">
@@ -104,14 +104,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-Executor" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-设计模式六大原则" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      ExecutorService和Executors
+      设计模式六大原则
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -119,12 +119,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/batuer.github.io/categories/Executors/">Executors</a>
+                      <a href="/batuer.github.io/categories/设计原则/">设计原则</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-04-13
+          <i class="fa fa-calendar"></i>  2018-06-27
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -140,68 +140,64 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h3 id="1-newFixedThreadPool"><a href="#1-newFixedThreadPool" class="headerlink" title="1.  newFixedThreadPool"></a>1.  newFixedThreadPool</h3><ul>
-<li>创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。在任意点，在大多数 nThreads 线程会处于处理任务的活动状态。如果在所有线程处于活动状态时提交附加任务，则在有可用线程之前，附加任务将在队列中等待。如果在关闭前的执行期间由于失败而导致任何线程终止，那么一个新线程将代替它执行后续的任务（如果需要）。在某个线程被显式地关闭之前，池中的线程将一直存在。</li>
-<li>该方法返回一个固定线程数量的线程池，该线程池中的线程数量始终不变，即不会再创建新的线程，也不会销毁已经创建好的线程，自始自终都是那几个固定的线程在工作，所以该线程池可以控制线程的最大并发数。</li>
-<li>newFixedThreadPool与cacheThreadPool差不多，也是能reuse就用，但不能随时建新的线程。</li>
-<li>其独特之处:任意时间点，最多只能有固定数目的活动线程存在，此时如果有新的线程要建立，只能放在另外的队列中等待，直到当前的线程中某个线程终止直接被移出池子 。</li>
-<li>和cacheThreadPool不同，FixedThreadPool没有IDLE机制，所以FixedThreadPool多数针对一些很稳定很固定的正规并发线程，多用于服务器 。</li>
-<li>从方法的源代码看，cache池和fixed 池调用的是同一个底层池，只不过参数不同。</li>
-<li>fixed池线程数固定，并且是0秒IDLE（无IDLE），cache池线程数支持0-Integer.MAX_VALUE(显然完全没考虑主机的资源承受能力），60秒IDLE。</li>
-<li><strong>重用</strong>：fixedThreadPool与cacheThreadPool差不多，也是能reuse就用，但不能随时建新的线程。</li>
-<li><strong>固定数目：</strong>其独特之处在于，任意时间点，最多只能有固定数目的活动线程存在，此时如果有新的线程要建立，只能放在另外的队列中等待，直到当前的线程中某个线程终止直接被移出池子。</li>
-<li><strong>超时：</strong>和cacheThreadPool不同，FixedThreadPool没有IDLE机制（可能也有，但既然文档没提，肯定非常长，类似依赖上层的TCP或UDP IDLE机制之类的）</li>
-<li><strong>使用场景：</strong>所以FixedThreadPool多数针对一些很稳定很固定的正规并发线程，多用于服务器。</li>
-<li><strong>源码分析：</strong>从方法的源代码看，cache池和fixed 池调用的是同一个底层池，只不过参数不同：<ul>
-<li>fixed池线程数固定，并且是0秒IDLE（无IDLE）。</li>
-<li>cache池线程数支持0-Integer.MAX_VALUE(显然完全没考虑主机的资源承受能力），60秒IDLE。</li>
+            <h5 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h5><h6 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h6><p>一个类只做一件事。</p>
+<h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ol>
+<li>类的复杂性降低，职责清晰。</li>
+<li>可读性、可维护性提高。</li>
+<li>变更风险降低，变更是必然的。遵守单一职责，修改一个功能时，显著降低对其它功能的影响。</li>
+</ol>
+<h5 id="里氏替换原则"><a href="#里氏替换原则" class="headerlink" title="里氏替换原则"></a>里氏替换原则</h5><p>面向对象三大特点：继承、多态、封装，里氏替换原则就是依赖于<strong>继承、多态</strong>这两大特性。</p>
+<h6 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h6><p>只要父类能出现的地方子类就可以替换，并且替换为子类也不会差生任何错误和异常。</p>
+<h6 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h6><ol>
+<li>代码共享，减少创建类的工作量，每个字类都拥有父类非私有的方法和属性。</li>
+<li>代码重用性。</li>
+<li>代码扩展性，继承父类方法具体子类实现。</li>
+</ol>
+<h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6><ol>
+<li>继承是侵入性的，只要继承就必须拥有父类的非私有属性和方法。</li>
+<li>降低代码灵活性，子类必须拥有父类属性和方法，子类有约束。</li>
+<li>增强耦合性，父类的属性和方法修改时，需要考虑子类的实现。</li>
+</ol>
+<h5 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h5><h6 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>高层模块不应该依赖底层模块，两者都应该依赖其抽象。</li>
+<li>抽象不应该依赖细节。</li>
+<li>细节应该依赖抽象。</li>
 </ul>
-</li>
+<h6 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>可扩展性好。</li>
+<li>耦合度低。</li>
 </ul>
-<h3 id="2-newCachedThreadPool"><a href="#2-newCachedThreadPool" class="headerlink" title="2.  newCachedThreadPool"></a>2.  newCachedThreadPool</h3><ul>
-<li>创建一个可根据需要创建新线程的线程池，但是在以前构造的线程可用时将重用它们。对于执行很多短期异步任务的程序而言，这些线程池通常可提高程序性能。调用 execute 将重用以前构造的线程（如果线程可用）。如果现有线程没有可用的，则创建一个新线程并添加到池中。终止并从缓存中移除那些已有 60 秒钟未被使用的线程。因此，长时间保持空闲的线程池不会使用任何资源。注意，可以使用 ThreadPoolExecutor 构造方法创建具有类似属性但细节不同（例如超时参数）的线程池。</li>
-<li>该方法返回一个可以根据实际情况调整线程池中线程的数量的线程池。即该线程池中的线程数量不确定，是根据实际情况动态调整的。 </li>
-<li>缓存型池子，先查看池中有没有以前建立的线程，如果有，就reuse.如果没有，就建一个新的线程加入池中 。</li>
-<li>缓存型池子通常用于执行一些生存期很短的异步型任务。</li>
-<li>能reuse的线程，必须是timeout IDLE内的池中线程，缺省timeout是60s,超过这个IDLE时长，线程实例将被终止及移出池。</li>
-<li>注意，放入CachedThreadPool的线程不必担心其结束，超过TIMEOUT不活动，其会自动被终止。</li>
-<li><strong>重用：</strong>缓存型池子，先查看池中有没有以前建立的线程，如果有，就reuse；如果没有，就建一个新的线程加入池中。</li>
-<li><strong>使用场景：</strong>缓存型池子通常用于执行一些生存期很短的异步型任务，因此在一些面向连接的daemon型SERVER中用得不多。</li>
-<li><strong>超时：</strong>能reuse的线程，必须是timeout IDLE内的池中线程，缺省timeout是60s，超过这个IDLE时长，线程实例将被终止及移出池。</li>
-<li><strong>结束：</strong>注意，放入CachedThreadPool的线程不必担心其结束，超过TIMEOUT不活动，其会自动被终止。</li>
+<h6 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h6><ul>
+<li>底层模块尽量都要有抽象类或接口，或者都有。</li>
+<li>变量的声明类型尽量是抽象类或接口。</li>
+<li>使用继承时遵循里氏替换原则。</li>
 </ul>
-<h3 id="3-newSingleThreadExecutor"><a href="#3-newSingleThreadExecutor" class="headerlink" title="3.  newSingleThreadExecutor"></a>3.  newSingleThreadExecutor</h3><ul>
-<li>创建一个使用单个 worker 线程的 Executor，以无界队列方式来运行该线程。（注意，如果因为在关闭前的执行期间出现失败而终止了此单个线程，那么如果需要，一个新线程将代替它执行后续的任务）。可保证顺序地执行各个任务，并且在任意给定的时间不会有多个线程是活动的。与其他等效的 newFixedThreadPool(1) 不同，可保证无需重新配置此方法所返回的执行程序即可使用其他的线程。</li>
-<li>该方法返回一个只有一个线程的线程池，即每次只能执行一个线程任务，多余的任务会保存到一个任务队列中，等待这一个线程空闲，当这个线程空闲了再按FIFO方式顺序执行任务队列中的任务。</li>
-<li>单例线程，任意时间池中只能有一个线程 。</li>
-<li>用的是和cache池和fixed池相同的底层池，但线程数目是1-1,0秒IDLE（无IDLE）。</li>
-<li>SingleThreadExecutor得到的是一个单个的线程，这个线程会保证你的任务执行完成。</li>
-<li>如果当前线程意外终止，会创建一个新线程继续执行任务，这和我们直接创建线程不同，也和newFixedThreadPool(1)不同。</li>
+<h5 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h5><h6 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h6><p>一个软件实体如类、模块和函数都应该对扩展开放，对修改关闭。</p>
+<h6 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>增加灵活性。</li>
+<li>可扩展性高。</li>
 </ul>
-<h3 id="4-newScheduledThreadPool"><a href="#4-newScheduledThreadPool" class="headerlink" title="4. newScheduledThreadPool"></a>4. newScheduledThreadPool</h3><ul>
-<li>调度型线程池，这个池子里的线程可以按schedule依次delay执行，或周期执行。</li>
-<li>该方法返回一个可以控制线程池内线程定时或周期性执行某任务的线程池。</li>
-<li>ScheduledThreadPool是一个固定大小的线程池，与FixedThreadPool类似，执行的任务是定时执行。</li>
+<h5 id="接口隔离原则"><a href="#接口隔离原则" class="headerlink" title="接口隔离原则"></a>接口隔离原则</h5><h6 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>一个类对另一个类的依赖应该建立在最小接口上。</li>
+<li>不依赖不需要的接口。</li>
+<li>接口细化。</li>
 </ul>
-<h3 id="5-Android性能优化之使用线程池处理异步任务"><a href="#5-Android性能优化之使用线程池处理异步任务" class="headerlink" title="5.  Android性能优化之使用线程池处理异步任务"></a>5.  Android性能优化之使用线程池处理异步任务</h3><ul>
-<li>线程的创建和销毁都需要时间，当有大量的线程创建和销毁时，那么这些时间的消耗则比较明显，将导致性能上的缺失。</li>
-<li>大量的线程创建、执行和销毁是非常耗cpu和内存的，这样将直接影响系统的吞吐量，导致性能急剧下降，如果内存资源占用的比较多，还很可能造成OOM。</li>
-<li>大量的线程的创建和销毁很容易导致GC频繁的执行，从而发生内存抖动现象，而发生了内存抖动，对于移动端来说，最大的影响就是造成界面卡顿。</li>
+<h6 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h6><ul>
+<li>接口细化，但要有限度，避免接口数量过多，设计复杂化。</li>
+<li>提高内聚，减少对外交互。</li>
 </ul>
-<h3 id="6-使用线程池管理线程的优点"><a href="#6-使用线程池管理线程的优点" class="headerlink" title="6.  使用线程池管理线程的优点"></a>6.  使用线程池管理线程的优点</h3><ul>
-<li>ExecutorService是一个接口，线程池服务。</li>
-<li>hreadPoolExecutor实现ExecutorService接口封装了一系列API是的它具有线程池的特性，包括工作队列，核心线程池数，最大线程池数。</li>
-<li>管理线程，节省内存资源，减小消耗。</li>
+<h5 id="迪米特法则（最少知识原则）"><a href="#迪米特法则（最少知识原则）" class="headerlink" title="迪米特法则（最少知识原则）"></a>迪米特法则（最少知识原则）</h5><h6 id="定义-5"><a href="#定义-5" class="headerlink" title="定义"></a>定义</h6><p>一个对象应该对其他对象最少的了解。</p>
+<h6 id="优点-4"><a href="#优点-4" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>降低复杂度。</li>
+<li>增加稳定性。</li>
+<li>高内聚低耦合，结构清晰。</li>
 </ul>
-<h3 id="7-shutdown-和shutdownNow-的区别"><a href="#7-shutdown-和shutdownNow-的区别" class="headerlink" title="7.  shutdown()和shutdownNow()的区别"></a>7.  shutdown()和shutdownNow()的区别</h3><ul>
-<li>shutdown()方法在终止前允许执行以前提交的任务。不再接受新的任务。</li>
-<li>shutdownNow()方法则是阻止正在任务队列中等待任务的启动并试图停止当前正在执行的任务。</li>
-</ul>
+<p><strong>面向对象六大原则最关键在于：抽象、单一职责、最小化。</strong></p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月13日 08:10</p>
-        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/04/13/Executor/" title="ExecutorService和Executors">https://batuer.github.io/2018/04/13/Executor/</a></p>
+        <p>最后更新： 2018年06月27日 23:40</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/06/27/设计模式六大原则/" title="设计模式六大原则">https://batuer.github.io/2018/06/27/设计模式六大原则/</a></p>
         <footer>
             <a href="https://batuer.github.io">
                 <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
@@ -258,7 +254,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/04/13/Executor/&title=《ExecutorService和Executors》 — YlwBlog&pic=/images/Executor.jpg" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/06/27/设计模式六大原则/&title=《设计模式六大原则》 — YlwBlog&pic=/images/设计模式六大原则.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -268,22 +264,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/04/13/Executor/&title=《ExecutorService和Executors》 — YlwBlog&source=Keep learning!" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/06/27/设计模式六大原则/&title=《设计模式六大原则》 — YlwBlog&source=Keep learning!" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/04/13/Executor/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/06/27/设计模式六大原则/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ExecutorService和Executors》 — YlwBlog&url=https://batuer.github.io/2018/04/13/Executor/&via=https://batuer.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《设计模式六大原则》 — YlwBlog&url=https://batuer.github.io/2018/06/27/设计模式六大原则/&via=https://batuer.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/04/13/Executor/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/06/27/设计模式六大原则/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -293,7 +289,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/04/13/Executor/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/06/27/设计模式六大原则/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -305,9 +301,7 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/batuer.github.io/tags/线程/" class="color3">线程</a>
-      
-    <a href="/batuer.github.io/tags/Executors/" class="color5">Executors</a>
+    <a href="/batuer.github.io/tags/设计模式/" class="color5">设计模式</a>
       
   </li>
 
@@ -320,26 +314,16 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-newFixedThreadPool"><span class="post-toc-text">1.  newFixedThreadPool</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-newCachedThreadPool"><span class="post-toc-text">2.  newCachedThreadPool</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-newSingleThreadExecutor"><span class="post-toc-text">3.  newSingleThreadExecutor</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-newScheduledThreadPool"><span class="post-toc-text">4. newScheduledThreadPool</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-Android性能优化之使用线程池处理异步任务"><span class="post-toc-text">5.  Android性能优化之使用线程池处理异步任务</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#6-使用线程池管理线程的优点"><span class="post-toc-text">6.  使用线程池管理线程的优点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#7-shutdown-和shutdownNow-的区别"><span class="post-toc-text">7.  shutdown()和shutdownNow()的区别</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#单一职责原则"><span class="post-toc-text">单一职责原则</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点"><span class="post-toc-text">优点</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#里氏替换原则"><span class="post-toc-text">里氏替换原则</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-1"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-1"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点"><span class="post-toc-text">缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#依赖倒置原则"><span class="post-toc-text">依赖倒置原则</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-2"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-2"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#注意"><span class="post-toc-text">注意</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#开闭原则"><span class="post-toc-text">开闭原则</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-3"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-3"><span class="post-toc-text">优点</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#接口隔离原则"><span class="post-toc-text">接口隔离原则</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-4"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#注意-1"><span class="post-toc-text">注意</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#迪米特法则（最少知识原则）"><span class="post-toc-text">迪米特法则（最少知识原则）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-5"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-4"><span class="post-toc-text">优点</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/batuer.github.io/2018/04/13/Githug/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          Githug
-        
-      </span>
-    </a>
   
-  
-    <a href="/batuer.github.io/2018/04/13/Dart/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Dart</span>
+    <a href="/batuer.github.io/2018/06/26/Android进程、Service保活/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Android进程保活Service常驻</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
