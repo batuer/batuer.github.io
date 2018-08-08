@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java多线程 | YlwBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Keep learning!" />
+  
+  <meta name="description" content="Synchronized 内置锁，互斥性。 JVM关键字，修饰符。 内置条件队列操作接口Object.waie()、notify()、notifyAll()。  ReentrantLock  默认非公平锁。  内置锁类似功能。  公平锁：等待时间最长的会最先被唤醒获取锁 。  重入锁：线程可以重复获取已经持有的锁。  Synchronized中，所有的线程都在同一个object的条件队列上等待。而">
+<meta name="keywords" content="Synchronized,ReentrantLock,Volitale,Semaphore,CountDownLatch,CyclicBarrier">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程">
+<meta property="og:url" content="https://batuer.github.io/2018/08/08/JavaThread/index.html">
+<meta property="og:site_name" content="YlwBlog">
+<meta property="og:description" content="Synchronized 内置锁，互斥性。 JVM关键字，修饰符。 内置条件队列操作接口Object.waie()、notify()、notifyAll()。  ReentrantLock  默认非公平锁。  内置锁类似功能。  公平锁：等待时间最长的会最先被唤醒获取锁 。  重入锁：线程可以重复获取已经持有的锁。  Synchronized中，所有的线程都在同一个object的条件队列上等待。而">
+<meta property="og:locale" content="CN">
+<meta property="og:updated_time" content="2018-08-08T14:11:30.593Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java多线程">
+<meta name="twitter:description" content="Synchronized 内置锁，互斥性。 JVM关键字，修饰符。 内置条件队列操作接口Object.waie()、notify()、notifyAll()。  ReentrantLock  默认非公平锁。  内置锁类似功能。  公平锁：等待时间最长的会最先被唤醒获取锁 。  重入锁：线程可以重复获取已经持有的锁。  Synchronized中，所有的线程都在同一个object的条件队列上等待。而">
+  
+  
+    <link rel="icon" href="/avatar.jpg">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/batuer.github.io/css/style.css">
+  <script src="/batuer.github.io/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/batuer.github.io/" class="left">
+                    <span class="site-title">Ylw Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/batuer.github.io/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/batuer.github.io/">
+                    <img src="/batuer.github.io/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Ylw Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        A young idler, an old beggar
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="https://github.com/batuer">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="http://weibo.com/bayi806">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-JavaThread" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Java多线程
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/batuer.github.io/categories/多线程/">多线程</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-08-08
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h3><ul>
+<li>内置锁，互斥性。</li>
+<li>JVM关键字，修饰符。</li>
+<li>内置条件队列操作接口Object.waie()、notify()、notifyAll()。</li>
+</ul>
+<p>ReentrantLock</p>
+<ul>
+<li><p>默认非公平锁。</p>
+</li>
+<li><p>内置锁类似功能。</p>
+</li>
+<li><p>公平锁：等待时间最长的会最先被唤醒获取锁 。</p>
+</li>
+<li><p>重入锁：线程可以重复获取<strong>已经持有</strong>的锁。</p>
+</li>
+<li><p>Synchronized中，所有的线程都在同一个object的条件队列上等待。而ReentrantLock中，每个condition都维护了一个条件队列。</p>
+</li>
+<li><p>每一个<strong>Lock</strong>可以有任意数据的<strong>Condition</strong>对象，<strong>Condition</strong>是与<strong>Lock</strong>绑定的，所以就有<strong>Lock</strong>的公平性特性：如果是公平锁，线程为按照FIFO的顺序从<em>Condition.await</em>中释放，如果是非公平锁，那么后续的锁竞争就不保证FIFO顺序了。</p>
+</li>
+<li><p>Condition接口定义的方法，<strong>await</strong>对应于<strong>Object.wait</strong>，<strong>signal</strong>对应于<strong>Object.notify</strong>，<strong>signalAll</strong>对应于<strong>Object.notifyAll</strong>。特别说明的是Condition的接口改变名称就是为了避免与Object中的<em>wait/notify/notifyAll</em>的语义和使用上混淆。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* ReentrantLock 的使用</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Queue</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> T[] mItems;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Lock mLock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    <span class="keyword">private</span> Condition mNotFull = mLock.newCondition();</span><br><span class="line">    <span class="keyword">private</span> Condition mNotEmpty = mLock.newCondition();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> head, tail, count;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Queue</span><span class="params">(<span class="keyword">int</span> maxSize)</span> </span>&#123;</span><br><span class="line">        mItems = (T[]) <span class="keyword">new</span> Object[maxSize];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Queue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(<span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(T t)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        mLock.lock();<span class="comment">//获取锁</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (count == mItems.length) &#123;</span><br><span class="line">                <span class="comment">//数组满时，线程进入等待队列挂起。线程被唤醒时，从这里返回。</span></span><br><span class="line">                mNotFull.await();</span><br><span class="line">            &#125;</span><br><span class="line">            mItems[tail] = t;</span><br><span class="line">            <span class="keyword">if</span> (++tail == mItems.length) &#123;</span><br><span class="line">                tail = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            ++count;</span><br><span class="line">            mNotEmpty.signal();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            mLock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">take</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        mLock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (count == <span class="number">0</span>) &#123;</span><br><span class="line">                mNotEmpty.await();</span><br><span class="line">            &#125;</span><br><span class="line">            T o = mItems[head];</span><br><span class="line">            mItems[head] = <span class="keyword">null</span>;<span class="comment">//GC</span></span><br><span class="line">            <span class="keyword">if</span> (++head == mItems.length) &#123;</span><br><span class="line">                head = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            --count;</span><br><span class="line">            mNotFull.signal();</span><br><span class="line">            <span class="keyword">return</span> o;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            mLock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Volatile"><a href="#Volatile" class="headerlink" title="Volatile"></a>Volatile</h3><ul>
+<li>内存可见性。</li>
+<li>放置指令重排。</li>
+</ul>
+<h3 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h3><ul>
+<li>信号量，跟锁机制存在一定的相似性。</li>
+<li>Semaphore也是一种锁机制。</li>
+<li>ReentrantLock是只允许一个线程获得锁。</li>
+<li>Semaphore允许多个线程同时获得执行许可。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">semaphore</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">final</span> Semaphore semaphore = <span class="keyword">new</span> Semaphore(<span class="number">5</span>);</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">           Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">               <span class="meta">@Override</span></span><br><span class="line">               <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                   <span class="keyword">try</span> &#123;</span><br><span class="line">                       semaphore.acquire();</span><br><span class="line">                       Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">                       semaphore.release();</span><br><span class="line">                       System.err.println(Thread.currentThread().getName() + <span class="string">":"</span> + <span class="keyword">new</span> Date());</span><br><span class="line">                   &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;);</span><br><span class="line">           thread.setName(<span class="string">"Thread:"</span> + i);</span><br><span class="line">           thread.start();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h3><ul>
+<li><p>一个线程等其它一个或多个线程。</p>
+</li>
+<li><p>计数器实现，一个线程完成任务计数器减1.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">countDownLatch</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">final</span> CountDownLatch countDownLatch = <span class="keyword">new</span> CountDownLatch(<span class="number">5</span>);</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">           Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">               <span class="meta">@Override</span></span><br><span class="line">               <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                   <span class="keyword">try</span> &#123;</span><br><span class="line">                       Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">                       System.out.println(Thread.currentThread()</span><br><span class="line">                               .getName() + <span class="string">":"</span> + System.currentTimeMillis());</span><br><span class="line">                       countDownLatch.countDown();</span><br><span class="line">                   &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                       System.out.println(e.toString());</span><br><span class="line">                   &#125;</span><br><span class="line">  </span><br><span class="line">               &#125;</span><br><span class="line">           &#125;);</span><br><span class="line">           thread.setName(<span class="string">"Thread:--:"</span> + i);</span><br><span class="line">           thread.start();</span><br><span class="line">       &#125;</span><br><span class="line">  </span><br><span class="line">       Thread thread1 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">               <span class="keyword">try</span> &#123;</span><br><span class="line">                   System.err.println(countDownLatch.getCount() + <span class="string">"start---------"</span> + System</span><br><span class="line">                           .currentTimeMillis());</span><br><span class="line">                   countDownLatch.await();</span><br><span class="line">                   System.err.println(<span class="string">"end-----------"</span> + countDownLatch.getCount());</span><br><span class="line">               &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                   System.err.println(e.toString());</span><br><span class="line">               &#125;</span><br><span class="line">  </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">       thread1.setName(<span class="string">"Main Thread:"</span>);</span><br><span class="line">       thread1.start();&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="CyclicBarrier"><a href="#CyclicBarrier" class="headerlink" title="CyclicBarrier"></a>CyclicBarrier</h3><ul>
+<li><p>所有线程必须同时到达栅栏位置才能继续执行下一步操作。</p>
+</li>
+<li><p>可以循环使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">cyclicBarrier</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">final</span> CyclicBarrier barrier = <span class="keyword">new</span> CyclicBarrier(<span class="number">5</span>, <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">               System.out.println(<span class="string">"All Over"</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">           Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">               <span class="meta">@Override</span></span><br><span class="line">               <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                   <span class="keyword">try</span> &#123;</span><br><span class="line">                       System.out.println(Thread.currentThread().getName() + <span class="string">"over"</span>);</span><br><span class="line">                       barrier.await();</span><br><span class="line">                   &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                       System.out.println(e.toString());</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;);</span><br><span class="line">           thread.setName(<span class="string">"Thread:"</span> + i);</span><br><span class="line">           thread.start();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年08月08日 22:11</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/08/08/JavaThread/" title="Java多线程">https://batuer.github.io/2018/08/08/JavaThread/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/08/08/JavaThread/&title=《Java多线程》 — YlwBlog&pic=/images/JavaThread.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/08/08/JavaThread/&title=《Java多线程》 — YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/08/08/JavaThread/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java多线程》 — YlwBlog&url=https://batuer.github.io/2018/08/08/JavaThread/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/08/08/JavaThread/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/08/08/JavaThread/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/batuer.github.io/tags/Synchronized/" class="color3">Synchronized</a>
+      
+    <a href="/batuer.github.io/tags/ReentrantLock/" class="color4">ReentrantLock</a>
+      
+    <a href="/batuer.github.io/tags/Volitale/" class="color4">Volitale</a>
+      
+    <a href="/batuer.github.io/tags/Semaphore/" class="color5">Semaphore</a>
+      
+    <a href="/batuer.github.io/tags/CountDownLatch/" class="color5">CountDownLatch</a>
+      
+    <a href="/batuer.github.io/tags/CyclicBarrier/" class="color4">CyclicBarrier</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Synchronized"><span class="post-toc-text">Synchronized</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Volatile"><span class="post-toc-text">Volatile</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Semaphore"><span class="post-toc-text">Semaphore</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CountDownLatch"><span class="post-toc-text">CountDownLatch</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CyclicBarrier"><span class="post-toc-text">CyclicBarrier</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/batuer.github.io/2018/08/08/Java反射/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java反射
+        
+      </span>
+    </a>
+  
+  
+    <a href="/batuer.github.io/2018/08/08/Android面试/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Android面试</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Yuliwen<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://batuer.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/FrameWork/">FrameWork</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/FrameWork/" style="font-size: 10px;">FrameWork</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/batuer.github.io/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/FrameWork/" style="font-size: 10px;">FrameWork</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/batuer.github.io/js/search.js"></script>
+<script src="/batuer.github.io/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/batuer.github.io/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/batuer.github.io/js/animate.js"></script>
+
+
+  <script src="/batuer.github.io/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

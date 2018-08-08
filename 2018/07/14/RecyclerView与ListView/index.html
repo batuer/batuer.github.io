@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>RecyclerView与ListView | YlwBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Keep learning!" />
+  
+  <meta name="description" content="区别布局效果对比 ListView布局单一，纵向。 RecyclerView的布局由LayoutManager决定（可纵向、横向、瀑布流或自定义）。  常用功能与API对比 HeaderView和Foot而View：ListView支持添加HeaderView和FooterView，RecyclerView没有。  EmptyView：ListView默认有setEmptyView()，Recyc">
+<meta name="keywords" content="RecyclerView,ListView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RecyclerView与ListView">
+<meta property="og:url" content="https://batuer.github.io/2018/07/14/RecyclerView与ListView/index.html">
+<meta property="og:site_name" content="YlwBlog">
+<meta property="og:description" content="区别布局效果对比 ListView布局单一，纵向。 RecyclerView的布局由LayoutManager决定（可纵向、横向、瀑布流或自定义）。  常用功能与API对比 HeaderView和Foot而View：ListView支持添加HeaderView和FooterView，RecyclerView没有。  EmptyView：ListView默认有setEmptyView()，Recyc">
+<meta property="og:locale" content="CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-a16a93ebbeed4bee.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-9137cae6bbb5658f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-14T14:07:48.762Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RecyclerView与ListView">
+<meta name="twitter:description" content="区别布局效果对比 ListView布局单一，纵向。 RecyclerView的布局由LayoutManager决定（可纵向、横向、瀑布流或自定义）。  常用功能与API对比 HeaderView和Foot而View：ListView支持添加HeaderView和FooterView，RecyclerView没有。  EmptyView：ListView默认有setEmptyView()，Recyc">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2088926-a16a93ebbeed4bee.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+  
+    <link rel="icon" href="/avatar.jpg">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/batuer.github.io/css/style.css">
+  <script src="/batuer.github.io/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/batuer.github.io/" class="left">
+                    <span class="site-title">Ylw Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/batuer.github.io/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/batuer.github.io/">
+                    <img src="/batuer.github.io/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Ylw Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        A young idler, an old beggar
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="https://github.com/batuer">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="http://weibo.com/bayi806">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-RecyclerView与ListView" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      RecyclerView与ListView
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-07-14
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><h5 id="布局效果对比"><a href="#布局效果对比" class="headerlink" title="布局效果对比"></a>布局效果对比</h5><ol>
+<li>ListView布局单一，纵向。</li>
+<li>RecyclerView的布局由LayoutManager决定（可纵向、横向、瀑布流或自定义）。</li>
+</ol>
+<h5 id="常用功能与API对比"><a href="#常用功能与API对比" class="headerlink" title="常用功能与API对比"></a>常用功能与API对比</h5><ol>
+<li><p>HeaderView和Foot而View：ListView支持添加HeaderView和FooterView，RecyclerView没有。</p>
+</li>
+<li><p>EmptyView：ListView默认有setEmptyView()，RecyclerView没有。</p>
+</li>
+<li><p>局部刷新：RecyclerView支持局部刷新，ListView需自己实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">        * <span class="doctag">@param</span> data</span></span><br><span class="line"><span class="comment">        * <span class="doctag">@param</span> pos  数据pos</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateItemView</span><span class="params">(String data, <span class="keyword">int</span> pos)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">int</span> firstVisiblePosition = mLv.getFirstVisiblePosition();</span><br><span class="line">           <span class="keyword">int</span> index = pos - firstVisiblePosition;</span><br><span class="line">           <span class="keyword">if</span> (index &gt;= <span class="number">0</span> &amp;&amp; index &lt; mLv.getChildCount()) &#123;</span><br><span class="line">               View child = mLv.getChildAt(index);</span><br><span class="line">               <span class="comment">//更新</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>监听条目点击：ListView支持条目点击事件，RecyclerView需要自己实现，（<a href="https://blog.csdn.net/liaoinstan/article/details/51200600" target="_blank" rel="noopener">RecyclerView无法添加onItemClickListener最佳的高效解决方案</a>）。</p>
+</li>
+<li><p>动画效果：RecyclerView由默认实现效果可扩展性强。</p>
+</li>
+</ol>
+<h5 id="Android-L引入嵌套滚动机制（NestedScrolling）"><a href="#Android-L引入嵌套滚动机制（NestedScrolling）" class="headerlink" title="Android L引入嵌套滚动机制（NestedScrolling）"></a>Android L引入嵌套滚动机制（NestedScrolling）</h5><ol>
+<li>在事件分发机制中，Touch事件在进行分发的时候，由父View向子View传递，一旦子View消费这个事件的话，那么接下来的事件分发的时候，父View将不接受，由子View进行处理；但是与Android的<strong>事件分发机制</strong>不同，<strong>嵌套滚动机制</strong>（Nested Scrolling）可以弥补这个不足，能让子View与父View同时处理这个Touch事件，主要实现在于<strong>NestedScrollingChild</strong>与<strong>NestedScrollingParent</strong>这两个接口；而在RecyclerView中，实现的是NestedScrollingChild，所以能实现嵌套滚动机制；</li>
+<li>ListView就没有实现嵌套滚动机制；</li>
+</ol>
+<h5 id="RecyclerView优缺点"><a href="#RecyclerView优缺点" class="headerlink" title="RecyclerView优缺点"></a>RecyclerView优缺点</h5><h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>RecyclerView本身它是不关心视图相关的问题的 ，由LayoutManager管理。</li>
+<li>只负责回收和重用的工作 。</li>
+<li>可扩展性强。</li>
+</ul>
+<h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>条目监听。</li>
+<li>HeaderView和FooterView。</li>
+<li>EmptyView。</li>
+</ul>
+<h5 id="RecyclerView"><a href="#RecyclerView" class="headerlink" title="RecyclerView"></a>RecyclerView</h5><ul>
+<li>Adapter：包装数据集合并为每个条目创建视图。</li>
+<li>ViewHolder：保存用于显示每个数据条目的 子View。</li>
+<li>LayoutManager：决定每个ItemView的位置。</li>
+<li>ItemDecoration：条目间隔绘制。</li>
+<li>ItemAnimatior：条目添加、移除、重排序动画。</li>
+</ul>
+<h3 id="ListVIew与RecyclerView缓存机制对比"><a href="#ListVIew与RecyclerView缓存机制对比" class="headerlink" title="ListVIew与RecyclerView缓存机制对比"></a>ListVIew与RecyclerView缓存机制对比</h3><blockquote>
+<p><a href="https://segmentfault.com/a/1190000007331249" target="_blank" rel="noopener">https://segmentfault.com/a/1190000007331249</a></p>
+</blockquote>
+<h4 id="缓存原理相似"><a href="#缓存原理相似" class="headerlink" title="缓存原理相似"></a>缓存原理相似</h4><ol>
+<li>回收离屏的ItemView至缓存。</li>
+<li>入屏的ItemView优先从缓存中获取。</li>
+<li>两者实现细节有差异。</li>
+</ol>
+<h4 id="缓存层级不同"><a href="#缓存层级不同" class="headerlink" title="缓存层级不同"></a>缓存层级不同</h4><h5 id="RecyclerView-1"><a href="#RecyclerView-1" class="headerlink" title="RecyclerView"></a>RecyclerView</h5><ol>
+<li>mAttachedScrap<ul>
+<li>快速重用屏幕上可见的列表项ItemView，不需要createView()和bindView()。</li>
+</ul>
+</li>
+<li>mCacheViews（优势）<ul>
+<li>缓存离开屏幕的 ItemView，复用。</li>
+<li>默认上限2，即缓存屏幕外2个ItemView。</li>
+<li>ItemView被复用时，无需bindView快速复用。</li>
+<li>Adapter被更换时被清空，生命周期关联于Adapter。</li>
+</ul>
+</li>
+<li>mViewCacheExtension<ul>
+<li>默认不实现，扩展。</li>
+</ul>
+</li>
+<li>mRecyclerPool<ul>
+<li>缓存离开屏幕的 ItemView，复用。</li>
+<li>默认上限5。</li>
+</ul>
+</li>
+</ol>
+<h5 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h5><ol>
+<li>mActiveViews<ul>
+<li>快速重用屏幕上可见的列表项ItemView，不需要createView()和bindView()。</li>
+</ul>
+</li>
+<li>mScrapViews<ul>
+<li>缓存离开屏幕的ItemView，复用。</li>
+<li>Adapter被更换时，被清空，生命周期关联于Adapter。</li>
+</ul>
+</li>
+</ol>
+<h4 id="缓存不同"><a href="#缓存不同" class="headerlink" title="缓存不同"></a>缓存不同</h4><ol>
+<li><p>RecyclerView缓存RecyclerView.ViewHolder，ItemView + ViewHolder。</p>
+</li>
+<li><p>ListView获取缓存</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-a16a93ebbeed4bee.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</li>
+<li><p>RecyclerView获取缓存</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-9137cae6bbb5658f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</li>
+<li><p>局部刷新</p>
+<ol>
+<li>RecyclerView 提供局部刷新，ListVIew没有。</li>
+<li>RecyclerView局部刷新时，会预先通过对pso和flag的预处理，尽可能的减少bindVIew()。</li>
+</ol>
+</li>
+</ol>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
+<li><p>性能上，RecyclerView并没有显著的提升。</p>
+</li>
+<li><p>有频繁更新、ItemView动画、局部刷新这些需求时，RecyclerView优势大于ListView。</p>
+</li>
+<li>RecyclerView扩展性强（LayoutManager：ItemView布局，ViewCacheExtension：ItemView缓存复用 ）。</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月14日 22:07</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/07/14/RecyclerView与ListView/" title="RecyclerView与ListView">https://batuer.github.io/2018/07/14/RecyclerView与ListView/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/07/14/RecyclerView与ListView/&title=《RecyclerView与ListView》 — YlwBlog&pic=/images/common.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/07/14/RecyclerView与ListView/&title=《RecyclerView与ListView》 — YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/07/14/RecyclerView与ListView/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RecyclerView与ListView》 — YlwBlog&url=https://batuer.github.io/2018/07/14/RecyclerView与ListView/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/07/14/RecyclerView与ListView/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/07/14/RecyclerView与ListView/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/batuer.github.io/tags/RecyclerView/" class="color3">RecyclerView</a>
+      
+    <a href="/batuer.github.io/tags/ListView/" class="color4">ListView</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#区别"><span class="post-toc-text">区别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#布局效果对比"><span class="post-toc-text">布局效果对比</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#常用功能与API对比"><span class="post-toc-text">常用功能与API对比</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Android-L引入嵌套滚动机制（NestedScrolling）"><span class="post-toc-text">Android L引入嵌套滚动机制（NestedScrolling）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RecyclerView优缺点"><span class="post-toc-text">RecyclerView优缺点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点"><span class="post-toc-text">缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RecyclerView"><span class="post-toc-text">RecyclerView</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ListVIew与RecyclerView缓存机制对比"><span class="post-toc-text">ListVIew与RecyclerView缓存机制对比</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缓存原理相似"><span class="post-toc-text">缓存原理相似</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缓存层级不同"><span class="post-toc-text">缓存层级不同</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RecyclerView-1"><span class="post-toc-text">RecyclerView</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#ListView"><span class="post-toc-text">ListView</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缓存不同"><span class="post-toc-text">缓存不同</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#结论"><span class="post-toc-text">结论</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/batuer.github.io/2018/08/08/Android多进程/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Android多进程
+        
+      </span>
+    </a>
+  
+  
+    <a href="/batuer.github.io/2018/06/27/设计模式六大原则/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">设计模式六大原则</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Yuliwen<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://batuer.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/FrameWork/">FrameWork</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/FrameWork/" style="font-size: 10px;">FrameWork</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/batuer.github.io/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/FrameWork/" style="font-size: 10px;">FrameWork</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/batuer.github.io/js/search.js"></script>
+<script src="/batuer.github.io/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/batuer.github.io/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/batuer.github.io/js/animate.js"></script>
+
+
+  <script src="/batuer.github.io/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
