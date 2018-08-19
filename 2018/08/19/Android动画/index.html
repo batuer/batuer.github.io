@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>面试小结 | YlwBlog</title>
+  <title>Android动画 | YlwBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Keep learning!" />
   
-  <meta name="description" content="2018-05-07   陕西西建大聚慧 int、short、long字节 | 类型   | 字节    || —— | ——- || int    | 4个字节 || char   | 2个字节 || byte   | 1个字节 || short  | 2个字节 || long   | 8个字节 || float  | 8个字节 || double | 8个字节 |  树、二叉树  Fragme">
-<meta name="keywords" content="Android面试">
+  <meta name="description" content="View Animation 视图动画也叫Tween(补间)动画，简单的变换(大小、位置、旋转、透明度)。  可通过XML或代码定义。  AnimationSet 动画容器管理类。  视图动画执行之后欧并未改变View的真实布局属性值，改变的是View的绘制效果。  仅支持View，支持种类少。  123456789&amp;gt; View view1 = findViewById(R.id.view1">
+<meta name="keywords" content="Android,动画">
 <meta property="og:type" content="article">
-<meta property="og:title" content="面试小结">
-<meta property="og:url" content="https://batuer.github.io/2018/08/08/面试小结/index.html">
+<meta property="og:title" content="Android动画">
+<meta property="og:url" content="https://batuer.github.io/2018/08/19/Android动画/index.html">
 <meta property="og:site_name" content="YlwBlog">
-<meta property="og:description" content="2018-05-07   陕西西建大聚慧 int、short、long字节 | 类型   | 字节    || —— | ——- || int    | 4个字节 || char   | 2个字节 || byte   | 1个字节 || short  | 2个字节 || long   | 8个字节 || float  | 8个字节 || double | 8个字节 |  树、二叉树  Fragme">
+<meta property="og:description" content="View Animation 视图动画也叫Tween(补间)动画，简单的变换(大小、位置、旋转、透明度)。  可通过XML或代码定义。  AnimationSet 动画容器管理类。  视图动画执行之后欧并未改变View的真实布局属性值，改变的是View的绘制效果。  仅支持View，支持种类少。  123456789&amp;gt; View view1 = findViewById(R.id.view1">
 <meta property="og:locale" content="CN">
-<meta property="og:updated_time" content="2018-08-08T14:17:48.517Z">
+<meta property="og:updated_time" content="2018-08-19T15:38:09.388Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="面试小结">
-<meta name="twitter:description" content="2018-05-07   陕西西建大聚慧 int、short、long字节 | 类型   | 字节    || —— | ——- || int    | 4个字节 || char   | 2个字节 || byte   | 1个字节 || short  | 2个字节 || long   | 8个字节 || float  | 8个字节 || double | 8个字节 |  树、二叉树  Fragme">
+<meta name="twitter:title" content="Android动画">
+<meta name="twitter:description" content="View Animation 视图动画也叫Tween(补间)动画，简单的变换(大小、位置、旋转、透明度)。  可通过XML或代码定义。  AnimationSet 动画容器管理类。  视图动画执行之后欧并未改变View的真实布局属性值，改变的是View的绘制效果。  仅支持View，支持种类少。  123456789&amp;gt; View view1 = findViewById(R.id.view1">
   
   
     <link rel="icon" href="/avatar.jpg">
@@ -104,14 +104,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-面试小结" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-Android动画" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      面试小结
+      Android动画
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -124,7 +124,7 @@
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-08-08
+          <i class="fa fa-calendar"></i>  2018-08-19
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -140,97 +140,73 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h4 id="2018-05-07-陕西西建大聚慧"><a href="#2018-05-07-陕西西建大聚慧" class="headerlink" title="2018-05-07   陕西西建大聚慧"></a>2018-05-07   陕西西建大聚慧</h4><ol>
-<li><p>int、short、long字节</p>
-<p>| 类型   | 字节    |<br>| —— | ——- |<br>| int    | 4个字节 |<br>| char   | 2个字节 |<br>| byte   | 1个字节 |<br>| short  | 2个字节 |<br>| long   | 8个字节 |<br>| float  | 8个字节 |<br>| double | 8个字节 |</p>
+            <h3 id="View-Animation"><a href="#View-Animation" class="headerlink" title="View Animation"></a>View Animation</h3><ul>
+<li><p>视图动画也叫Tween(补间)动画，简单的变换(大小、位置、旋转、透明度)。</p>
 </li>
-<li><p>树、二叉树</p>
+<li><p>可通过XML或代码定义。</p>
 </li>
-<li><p>Fragment初始化数据</p>
+<li><p>AnimationSet 动画容器管理类。</p>
 </li>
-<li><p>service保活</p>
+<li><p>视图动画执行之后欧并未改变View的<strong>真实布局属性值</strong>，改变的是View的绘制效果。</p>
+</li>
+<li><p>仅支持View，支持种类少。</p>
 <blockquote>
-<p><a href="http://gusi123.cn/2018/06/26/Android%E8%BF%9B%E7%A8%8B%E3%80%81Service%E4%BF%9D%E6%B4%BB/" target="_blank" rel="noopener">http://gusi123.cn/2018/06/26/Android%E8%BF%9B%E7%A8%8B%E3%80%81Service%E4%BF%9D%E6%B4%BB/</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; View view1 = findViewById(R.id.view1);</span><br><span class="line">&gt; <span class="keyword">int</span> type1 = Animation.RELATIVE_TO_SELF;</span><br><span class="line">&gt; TranslateAnimation animation1 = <span class="keyword">new</span> TranslateAnimation(type1, <span class="number">0</span>, type1, <span class="number">2f</span>, type1, <span class="number">0</span>, type1, <span class="number">0</span>);</span><br><span class="line">&gt; animation1.setInterpolator(<span class="keyword">new</span> BounceInterpolator());</span><br><span class="line">&gt; animation1.setRepeatCount(-<span class="number">1</span>);</span><br><span class="line">&gt; animation1.setRepeatMode(Animation.REVERSE);</span><br><span class="line">&gt; animation1.setDuration(<span class="number">2000</span>);</span><br><span class="line">&gt; view1.startAnimation(animation1);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
-</li>
-<li><p>锁的使用</p>
-</li>
-<li><p>线程</p>
-</li>
-<li><p>MVP、MVC优缺点</p>
-<ul>
-<li>MVC(Mode-View-Controller)：<ul>
-<li>优点：<ol>
-<li>耦合性不高，View层和Model层分离，减少模块之间的影响。</li>
-<li>理解统一，开发维护成本低。</li>
-</ol>
-</li>
-<li>缺点：<ol>
-<li>View层和Model层相互可知(迪米特法则)。</li>
-<li>​</li>
-</ol>
 </li>
 </ul>
+<h3 id="Property-Animation-3-0"><a href="#Property-Animation-3-0" class="headerlink" title="Property Animation(3.0+)"></a>Property Animation(3.0+)</h3><ul>
+<li>修改控件属性值实现的动画。</li>
+<li>对象的任意属性添加动画。</li>
+<li>动态修改属性值。</li>
+</ul>
+<h5 id="ViewPropertyAnimator"><a href="#ViewPropertyAnimator" class="headerlink" title="ViewPropertyAnimator"></a>ViewPropertyAnimator</h5><p>属性动画扩展。</p>
+<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; View view4 = findViewById(R.id.view4);</span><br><span class="line">&gt; view4.animate()</span><br><span class="line">&gt;         .translationX(<span class="number">200</span>)</span><br><span class="line">&gt;         .setInterpolator(<span class="keyword">new</span> BounceInterpolator())</span><br><span class="line">&gt;         .setDuration(<span class="number">2000</span>)</span><br><span class="line">&gt;         .start();</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="ObjectAnimatior"><a href="#ObjectAnimatior" class="headerlink" title="ObjectAnimatior"></a>ObjectAnimatior</h5><ul>
+<li><p>TypeEvaluator</p>
+<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="comment">//view 属性position</span></span><br><span class="line">&gt; ObjectAnimator animator = ObjectAnimator.ofObject(view, <span class="string">"position"</span>,</span><br><span class="line">&gt;         <span class="keyword">new</span> PointFEvaluator(), <span class="keyword">new</span> PointF(<span class="number">0</span>, <span class="number">0</span>), <span class="keyword">new</span> PointF(<span class="number">1</span>, <span class="number">1</span>));</span><br><span class="line">&gt; animator.setInterpolator(<span class="keyword">new</span> LinearInterpolator());</span><br><span class="line">&gt; animator.setDuration(<span class="number">1000</span>);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
 </li>
-<li>MVP(Model-View-Presenter)：<ul>
-<li>优点：<ol>
-<li>降低耦合度，实现Model和View真正的完全分离，可以修改View而不影响Model。</li>
-<li>职责明显，层次清晰。</li>
-<li>隐藏数据。</li>
-<li>Presenter可以复用。</li>
-<li>View组件化，提供给上层接口，可以复用View组件。</li>
-<li>代码灵活性。</li>
-<li>利于测试驱动开发。</li>
-</ol>
+<li><p>PropertyValuesHolder同一个动画中改变多个属性。</p>
+<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; PropertyValuesHolder holder1 = PropertyValuesHolder.ofFloat(<span class="string">"scaleX"</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">&gt; PropertyValuesHolder holder2 = PropertyValuesHolder.ofFloat(<span class="string">"scaleY"</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">&gt; PropertyValuesHolder holder3 = PropertyValuesHolder.ofFloat(<span class="string">"alpha"</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">&gt; ObjectAnimator.ofPropertyValuesHolder(view, holder1, holder2, holder3).start();</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
 </li>
-<li>缺点<ol>
-<li>Presenter通信协调View、Model，臃肿。</li>
-<li>额外代码。</li>
-</ol>
+<li><p>简单属性动画</p>
+<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; View view3 = findViewById(R.id.view3);</span><br><span class="line">&gt; ValueAnimator animator = ObjectAnimator.ofFloat(view3, <span class="string">"translationX"</span>, <span class="number">0</span>, <span class="number">200</span>);</span><br><span class="line">&gt; animator.setInterpolator(<span class="keyword">new</span> BounceInterpolator());</span><br><span class="line">&gt; animator.setRepeatCount(-<span class="number">1</span>);</span><br><span class="line">&gt; animator.setRepeatMode(ValueAnimator.REVERSE);</span><br><span class="line">&gt; animator.setDuration(<span class="number">2000</span>);</span><br><span class="line">&gt; animator.start();</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>动画集执行顺序</p>
+<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; ObjectAnimator a1 = ObjectAnimator.ofFloat(view, <span class="string">"alpha"</span>, <span class="number">1.0f</span>, <span class="number">0f</span>);  </span><br><span class="line">&gt; ObjectAnimator a2 = ObjectAnimator.ofFloat(view, <span class="string">"translationY"</span>, <span class="number">0f</span>, viewWidth);  </span><br><span class="line">&gt; ......</span><br><span class="line">&gt; AnimatorSet animSet = <span class="keyword">new</span> AnimatorSet();  </span><br><span class="line">&gt; animSet.setDuration(<span class="number">5000</span>);  </span><br><span class="line">&gt; animSet.setInterpolator(<span class="keyword">new</span> LinearInterpolator());   </span><br><span class="line">&gt; <span class="comment">//animSet.playTogether(a1, a2, ...); //两个动画同时执行  </span></span><br><span class="line">&gt; animSet.play(a1).after(a2); <span class="comment">//先后执行</span></span><br><span class="line">&gt; ......<span class="comment">//其他组合方式</span></span><br><span class="line">&gt; animSet.start();  </span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>Keyframe</p>
+<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt; Keyframe keyframe1 = Keyframe.ofFloat(<span class="number">0</span>, <span class="number">0</span>); <span class="comment">// 开始：progress 为 0</span></span><br><span class="line">&gt; Keyframe keyframe2 = Keyframe.ofFloat(<span class="number">0.5f</span>, <span class="number">100</span>); <span class="comment">// 进行到一半是，progres 为 100</span></span><br><span class="line">&gt; Keyframe keyframe3 = Keyframe.ofFloat(<span class="number">1</span>, <span class="number">80</span>); <span class="comment">// 结束时倒回到 80</span></span><br><span class="line">&gt; PropertyValuesHolder holder = PropertyValuesHolder.ofKeyframe(<span class="string">"progress"</span>, keyframe1, keyframe2, keyframe3);</span><br><span class="line">&gt; </span><br><span class="line">&gt; ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(view, holder);</span><br><span class="line">&gt; animator.setDuration(<span class="number">2000</span>);</span><br><span class="line">&gt; animator.setInterpolator(<span class="keyword">new</span> FastOutSlowInInterpolator());</span><br><span class="line">&gt; animator.start();</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
 </li>
 </ul>
+<h6 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h6><ol>
+<li>如果是自定义控件，需要添加setter / getter方法。</li>
+<li>用ObjectAnimator.ofXXX()创建ObjectAnimator对象。</li>
+<li>用start()开始执行动画。</li>
+</ol>
+<h3 id="Drawable-Animaton"><a href="#Drawable-Animaton" class="headerlink" title="Drawable Animaton"></a>Drawable Animaton</h3><ul>
+<li><p>其实就是Frame动画，幻灯片效果。</p>
+<blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="comment">&lt;!-- 注意：rocket.xml文件位于res/drawable/目录下 --&gt;</span></span><br><span class="line">&gt; &lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line">&gt; <span class="tag">&lt;<span class="name">animation-list</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">&gt;</span>     android:oneshot=["true" | "false"] &gt;</span><br><span class="line">&gt;     <span class="tag">&lt;<span class="name">item</span></span></span><br><span class="line"><span class="tag">&gt;</span>         android:drawable="@[package:]drawable/drawable_resource_name"</span><br><span class="line">&gt;         android:duration="integer" /&gt;</span><br><span class="line">&gt; <span class="tag">&lt;/<span class="name">animation-list</span>&gt;</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure></blockquote>
 </li>
 </ul>
-</li>
-<li><p>列表View数据错乱</p>
-<blockquote>
-<p>ItemView缓存复用。</p>
-</blockquote>
-</li>
-<li><p>RecyclerView和ListView缓存</p>
-<blockquote>
-<p><a href="http://gusi123.cn/2018/06/27/RecyclerView%E4%B8%8EListView/#ListVIew%E4%B8%8ERecyclerView%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E5%AF%B9%E6%AF%94" target="_blank" rel="noopener">http://gusi123.cn/2018/06/27/RecyclerView%E4%B8%8EListView/#ListVIew%E4%B8%8ERecyclerView%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E5%AF%B9%E6%AF%94</a></p>
-</blockquote>
-</li>
-</ol>
-<h5 id="2018-04-27-山东新北洋信息"><a href="#2018-04-27-山东新北洋信息" class="headerlink" title="2018-04-27   山东新北洋信息"></a>2018-04-27   山东新北洋信息</h5><ol>
-<li><p>自定义View</p>
-<blockquote>
-<p><a href="http://gusi123.cn/2018/06/08/Android%E8%87%AA%E5%AE%9A%E4%B9%89View/" target="_blank" rel="noopener">http://gusi123.cn/2018/06/08/Android%E8%87%AA%E5%AE%9A%E4%B9%89View/</a></p>
-</blockquote>
-</li>
-<li><p>事件分发</p>
-<blockquote>
-<p><a href="http://gusi123.cn/2018/06/08/Android%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/" target="_blank" rel="noopener">http://gusi123.cn/2018/06/08/Android%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92/</a></p>
-</blockquote>
-</li>
-<li><p>ListView优化</p>
-<ol>
-<li>convertView</li>
-<li>ViewHolder</li>
-<li>分页加载</li>
-</ol>
-</li>
-<li><p>列表View数据错乱</p>
-</li>
-<li><p>多层级控件View</p>
-</li>
-</ol>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年08月08日 22:17</p>
-        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/08/08/面试小结/" title="面试小结">https://batuer.github.io/2018/08/08/面试小结/</a></p>
+        <p>最后更新： 2018年08月19日 23:38</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/08/19/Android动画/" title="Android动画">https://batuer.github.io/2018/08/19/Android动画/</a></p>
         <footer>
             <a href="https://batuer.github.io">
                 <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
@@ -287,7 +263,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/08/08/面试小结/&title=《面试小结》 — YlwBlog&pic=/images/AndroidInterivew.jpg" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/08/19/Android动画/&title=《Android动画》 — YlwBlog&pic=/images/common.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -297,22 +273,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/08/08/面试小结/&title=《面试小结》 — YlwBlog&source=Keep learning!" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/08/19/Android动画/&title=《Android动画》 — YlwBlog&source=Keep learning!" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/08/08/面试小结/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/08/19/Android动画/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《面试小结》 — YlwBlog&url=https://batuer.github.io/2018/08/08/面试小结/&via=https://batuer.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android动画》 — YlwBlog&url=https://batuer.github.io/2018/08/19/Android动画/&via=https://batuer.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/08/08/面试小结/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/08/19/Android动画/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -322,7 +298,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/08/08/面试小结/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/08/19/Android动画/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -334,7 +310,9 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/batuer.github.io/tags/Android面试/" class="color5">Android面试</a>
+    <a href="/batuer.github.io/tags/Android/" class="color3">Android</a>
+      
+    <a href="/batuer.github.io/tags/动画/" class="color3">动画</a>
       
   </li>
 
@@ -347,26 +325,16 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2018-05-07-陕西西建大聚慧"><span class="post-toc-text">2018-05-07   陕西西建大聚慧</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2018-04-27-山东新北洋信息"><span class="post-toc-text">2018-04-27   山东新北洋信息</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#View-Animation"><span class="post-toc-text">View Animation</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Property-Animation-3-0"><span class="post-toc-text">Property Animation(3.0+)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#ViewPropertyAnimator"><span class="post-toc-text">ViewPropertyAnimator</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#ObjectAnimatior"><span class="post-toc-text">ObjectAnimatior</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#使用方式"><span class="post-toc-text">使用方式</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Drawable-Animaton"><span class="post-toc-text">Drawable Animaton</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/batuer.github.io/2018/08/13/sql练习/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          (no title)
-        
-      </span>
-    </a>
   
-  
-    <a href="/batuer.github.io/2018/08/08/Java集合/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Java集合</span>
+    <a href="/batuer.github.io/2018/08/13/sql练习/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title"></span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
