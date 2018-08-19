@@ -3,21 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: Java反射 | YlwBlog</title>
+  <title>YlwBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Keep learning!" />
   
-  <meta name="description" content="Keep learning!">
-<meta property="og:type" content="website">
+  <meta name="description" content="查询Student表中的所有记录的Sname、Ssex和Class列。 SELECT sname,ssex,class From students   查询教师所有的单位即不重复的Depart列。 SELECT DISTINCT depart From teachers  查询Student表的所有记录。 SELECT *  From students  查询Score表中成绩在60到80之间的">
+<meta property="og:type" content="article">
 <meta property="og:title" content="YlwBlog">
-<meta property="og:url" content="https://batuer.github.io/tags/Java反射/index.html">
+<meta property="og:url" content="https://batuer.github.io/2018/08/13/sql练习/index.html">
 <meta property="og:site_name" content="YlwBlog">
-<meta property="og:description" content="Keep learning!">
+<meta property="og:description" content="查询Student表中的所有记录的Sname、Ssex和Class列。 SELECT sname,ssex,class From students   查询教师所有的单位即不重复的Depart列。 SELECT DISTINCT depart From teachers  查询Student表的所有记录。 SELECT *  From students  查询Score表中成绩在60到80之间的">
 <meta property="og:locale" content="CN">
+<meta property="og:updated_time" content="2018-08-19T07:37:17.255Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="YlwBlog">
-<meta name="twitter:description" content="Keep learning!">
+<meta name="twitter:description" content="查询Student表中的所有记录的Sname、Ssex和Class列。 SELECT sname,ssex,class From students   查询教师所有的单位即不重复的Depart列。 SELECT DISTINCT depart From teachers  查询Student表的所有记录。 SELECT *  From students  查询Score表中成绩在60到80之间的">
   
   
     <link rel="icon" href="/avatar.jpg">
@@ -102,55 +103,322 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap">
-  
-  
+        <section id="main" class="body-wrap"><article id="post-sql练习" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry post-content" itemprop="articleBody">
       
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/batuer.github.io/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/batuer.github.io/2018/08/08/Java反射/" class="archive-article-date">
-  <time datetime="2018-08-08T14:11:30.593Z" itemprop="datePublished">08-08</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/batuer.github.io/2018/08/08/Java反射/"  target="_blank"  >Java反射</a>
-    </h1>
-  
-
-    </header>
-      
-        <div class="archive-post-footer">
             
-  <li class="article-footer-tags">
-    <i class="fa fa-tags"></i>
-      
-    <a href="/batuer.github.io/tags/Java基础/" class="color2">Java基础</a>
-      
-    <a href="/batuer.github.io/tags/Java反射/" class="color2">Java反射</a>
-      
-  </li>
+            <ol>
+<li><p>查询Student表中的所有记录的Sname、Ssex和Class列。</p>
+<p>SELECT sname,ssex,class From students </p>
+</li>
+<li><p>查询教师所有的单位即不重复的Depart列。</p>
+<p>SELECT DISTINCT depart From teachers</p>
+</li>
+<li><p>查询Student表的所有记录。</p>
+<p>SELECT *  From students</p>
+</li>
+<li><p>查询Score表中成绩在60到80之间的所有记录。</p>
+<p>SELECT *  From scores WHERE degree BETWEEN 60 And 80 </p>
+</li>
+<li><p>查询Score表中成绩为85，86或88的记录。</p>
+<p>SELECT *  From scores WHERE degree = 85 or degree = 86 or degree =88 </p>
+<p>SELECT *  From scores WHERE degree IN (85,86,88)</p>
+</li>
+<li><p>查询Student表中“95031”班或性别为“女”的同学记录。</p>
+<p>SELECT *  From students WHERE class = ‘95031’ OR ssex = ‘女’</p>
+</li>
+<li><p>以Class降序查询Student表的所有记录。</p>
+<p>SELECT *  From students ORDER BY class DESC</p>
+</li>
+<li><p>以Cno升序、Degree降序查询Score表的所有记录。</p>
+<p>SELECT *  From scores ORDER BY cno ASC,degree DESC</p>
+</li>
+<li><p>查询“95031”班的学生人数。</p>
+<p>SELECT COUNT(*)  From students WHERE class = ‘95031’</p>
+<p>SELECT COUNT(1)  AS StuNum FROM Students WHERE Class =  ‘95031’</p>
+<ul>
+<li>count(1)是聚索引 </li>
+<li><em>count(),自动会优化指定到那一个字段 ，用count(),sql会帮你完成优化的</em>  </li>
+<li>count(*)将返回表格中所有存在的行的总数包括值为null的行，然而count(列名)将返回表格中除去null以外的所有行的总数(有默认值的列也会被计入） </li>
+</ul>
+</li>
+<li><p>查询Score表中的最高分的学生学号和课程号。</p>
+<p>SELECT sno,cno From scores ORDER BY degree DESC LIMIT 1</p>
+<p>SELECT MAX(degree) From scores //查询最大值</p>
+</li>
+<li><p>查询‘3-105’号课程的平均分。</p>
+<p>SELECT AVG(degree) From scores WHERE cno = ‘3-105’</p>
+</li>
+<li><p>查询Score表中至少有5名学生选修的并以3开头的课程的平均分数。</p>
+<p>SELECT cno,AVG(degree) From scores WHERE cno LIKE ‘3%’ GROUP BY  cno HAVING COUNT(sno) &gt; 5</p>
+</li>
+<li><p>查询最低分大于70，最高分小于90的Sno列。</p>
+<p>SELECT sno From scores GROUP BY sno HAVING MIN(degree) &gt; 70 And MAX(degree) &lt; 90 </p>
+</li>
+<li><p>查询所有学生的Sname、Cno和Degree列。</p>
+<p>SELECT st.sname,sc.cno,sc.degree From students st JOIN scores sc On sc.sno = st.sno</p>
+</li>
+<li><p>查询所有学生的Sno、Cname和Degree列。</p>
+<p>SELECT st.sname,sc.cno,sc.degree From students st JOIN scores sc On sc.sno = st.sno</p>
+<p>SELECT st.sname,sc.cno,sc.degree From students st JOIN scores sc On (sc.sno = st.sno)</p>
+</li>
+<li><p>查询所有学生的Sname、Cname和Degree列。</p>
+<p>SELECT st.sname,sc.cno,sc.degree From students st JOIN scores sc On sc.sno = st.sno</p>
+<p>SELECT st.sname,sc.cno,sc.degree From students st JOIN scores sc On (sc.sno = st.sno)</p>
+</li>
+<li><p>查询“95033”班所选课程的平均分。</p>
+<p>SELECT courses.cname,AVG(degree) FROM scores JOIN students ON students.sno = scores.sno JOIN courses ON scores.cno = courses.cno WHERE students.class = ‘95033’ GROUP BY courses.cno;</p>
+</li>
+<li><p>假设使用如下命令建立了一个grade表：</p>
+<p>CREATE TABLE grade(low TINYINT,upp TINYINT,rank CHAR(1));<br>INSERT INTO grade VALUES(90,100,’A’);<br>INSERT INTO grade VALUES(80,89,’B’);<br>INSERT INTO grade VALUES(70,79,’C’);<br>INSERT INTO grade VALUES(60,69,’D’);<br>INSERT INTO grade VALUES(0,59,’E’);</p>
+<p>现查询所有同学的Sno、Cno和rank列。</p>
+<p>SELECT sc.sno,sc.cno,sc.degree,g.rank FROM scores sc JOIN grade g ON (sc.degree &gt;= g.low AND sc.degree &lt;= g.upp) ORDER BY g.rank ASC,sc.sno ASC;</p>
+</li>
+<li><p>查询选修“3-105”课程的成绩高于“109”号同学成绩的所有同学的记录。</p>
+<p>SELECT sc.sno,sc.degree FROM students st JOIN scores sc ON sc.sno = st.sno WHERE sc.cno = ‘3-105’ AND sc.degree &gt; (SELECT sc.degree FROM scores sc WHERE sc.sno = ‘109’ AND sc.cno = ‘3-105’);</p>
+<p>SELECT</p>
+<pre><code>s1.Sno,
+s1.Degree
+</code></pre><p>FROM</p>
+<pre><code>Scores AS s1
+</code></pre><p>INNER JOIN Scores AS s2 ON (</p>
+<pre><code>s1.Cno = s2.Cno
+AND s1.Degree &gt; s2.Degree
+</code></pre><p>)<br>WHERE</p>
+<pre><code>s1.Cno = &apos;3-105&apos;
+</code></pre><p>AND s2.Sno = ‘109’<br>ORDER BY</p>
+<pre><code>s1.Sno;
+</code></pre></li>
+</ol>
+<ol>
+<li><p>查询score中选学一门以上课程的同学中分数为非最高分成绩的记录。</p>
+<p>SELECT * From scores GROUP BY sno HAVING COUNT(sno) &gt; 1 AND degree != MAX(degree);</p>
+</li>
+<li><p>查询成绩高于学号为“109”、课程号为“3-105”的成绩的所有记录。</p>
+<p>SELECT * From scores WHERE cno = ‘3-105’ AND degree &gt; (SELECT degree FROM scores WHERE sno = ‘109’ AND cno = ‘3-105’);</p>
+<p>SELECT</p>
+<pre><code>s1.Sno,
+s1.Degree
+</code></pre><p>FROM</p>
+<pre><code>Scores AS s1
+</code></pre><p>INNER JOIN Scores AS s2 ON (</p>
+<pre><code>s1.Cno = s2.Cno
+AND s1.Degree &gt; s2.Degree
+</code></pre><p>)<br>WHERE</p>
+<pre><code>s1.Cno = &apos;3-105&apos;
+</code></pre><p>AND s2.Sno = ‘109’<br>ORDER BY</p>
+<pre><code>s1.Sno;
+</code></pre></li>
+<li><p>查询和学号为108的同学同年出生的所有学生的Sno、Sname和Sbirthday列。</p>
+<p>SELECT</p>
+<pre><code>st.sno,
+st.sname,
+st.sbirthday
+</code></pre><p>FROM</p>
+<pre><code>students st
+</code></pre><p>WHERE</p>
+<pre><code>YEAR (st.Sbirthday) = (
+    SELECT
+        YEAR (sbirthday)
+    FROM
+        students
+    WHERE
+        sno = &apos;108&apos;
+)
+</code></pre><p>AND st.sno != ‘108’;</p>
+</li>
+</ol>
+<pre><code>SELECT
+    s1.Sno,
+    s1.Sname,
+    s1.Sbirthday
+FROM
+    Students AS s1
+INNER JOIN Students AS s2 ON (
+    YEAR (s1.Sbirthday) = YEAR (s2.Sbirthday)
+)
+WHERE
+    s2.Sno = &apos;108&apos; AND s1.sno != &apos;108&apos;;
+</code></pre><ol>
+<li><p>查询“张旭“教师任课的学生成绩。</p>
+</li>
+<li><p>查询选修某课程的同学人数多于5人的教师姓名。</p>
+</li>
+<li><p>查询95033班和95031班全体学生的记录。</p>
+</li>
+<li><p>查询存在有85分以上成绩的课程Cno.</p>
+</li>
+<li><p>查询出“计算机系“教师所教课程的成绩表。</p>
+</li>
+<li><p>查询“计算机系”与“电子工程系“不同职称的教师的Tname和Prof。</p>
+</li>
+<li><p>查询选修编号为“3-105“课程且成绩至少高于选修编号为“3-245”的同学的Cno、Sno和Degree,并按Degree从高到低次序排序。</p>
+</li>
+<li><p>查询选修编号为“3-105”且成绩高于选修编号为“3-245”课程的同学的Cno、Sno和Degree.</p>
+</li>
+<li><p>查询所有教师和同学的name、sex和birthday.</p>
+</li>
+<li><p>查询所有“女”教师和“女”同学的name、sex和birthday.</p>
+</li>
+<li><p>查询成绩比该课程平均成绩低的同学的成绩表。</p>
+</li>
+<li><p>查询所有任课教师的Tname和Depart.</p>
+</li>
+<li><p>查询所有未讲课的教师的Tname和Depart. </p>
+</li>
+<li><p>查询至少有2名男生的班号。</p>
+</li>
+<li><p><code>查询Student表中不姓“王”的同学记录。</code></p>
+</li>
+<li><p>查询Student表中每个学生的姓名和年龄。</p>
+</li>
+<li><p>查询Student表中最大和最小的Sbirthday日期值。</p>
+</li>
+<li><p>以班号和年龄从大到小的顺序查询Student表中的全部记录。</p>
+</li>
+<li><p>查询“男”教师及其所上的课程。</p>
+</li>
+<li><p>查询最高分同学的Sno、Cno和Degree列。</p>
+</li>
+<li><p>查询和“李军”同性别的所有同学的Sname.</p>
+</li>
+<li><p>查询和“李军”同性别并同班的同学Sname.</p>
+</li>
+<li><p>查询所有选修“计算机导论”课程的“男”同学的成绩表。</p>
+</li>
+</ol>
+<ul>
+<li>WHERE语句在GROUP BY语句之前；SQL会在分组之前计算WHERE语句。 </li>
+<li>HAVING语句在GROUP BY语句之后；SQL会在分组之后计算HAVING语句。 </li>
+</ul>
 
-        </div>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年08月19日 15:37</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/08/13/sql练习/" title="">https://batuer.github.io/2018/08/13/sql练习/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
       
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/08/13/sql练习/&title=YlwBlog&pic=https://batuer.github.ioimages/avatar.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/08/13/sql练习/&title=YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/08/13/sql练习/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=YlwBlog&url=https://batuer.github.io/2018/08/13/sql练习/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/08/13/sql练习/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/08/13/sql练习/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
   </div>
 </article>
 
-  
-  
-    </div></section>
-  
 
+
+<nav id="article-nav">
+  
+  
+    <a href="/batuer.github.io/2018/08/08/面试小结/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">面试小结</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
 </section>
         
       </div>
