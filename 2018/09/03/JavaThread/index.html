@@ -12,11 +12,11 @@
 <meta name="keywords" content="Synchronized,ReentrantLock,Volitale,Semaphore,CountDownLatch,CyclicBarrier">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程">
-<meta property="og:url" content="https://batuer.github.io/2018/08/08/JavaThread/index.html">
+<meta property="og:url" content="https://batuer.github.io/2018/09/03/JavaThread/index.html">
 <meta property="og:site_name" content="YlwBlog">
 <meta property="og:description" content="Synchronized 内置锁，互斥性。 JVM关键字，修饰符。 内置条件队列操作接口Object.waie()、notify()、notifyAll()。  ReentrantLock  默认非公平锁。  内置锁类似功能。  公平锁：等待时间最长的会最先被唤醒获取锁 。  重入锁：线程可以重复获取已经持有的锁。  Synchronized中，所有的线程都在同一个object的条件队列上等待。而">
 <meta property="og:locale" content="CN">
-<meta property="og:updated_time" content="2018-08-08T14:11:30.593Z">
+<meta property="og:updated_time" content="2018-09-03T11:57:51.510Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java多线程">
 <meta name="twitter:description" content="Synchronized 内置锁，互斥性。 JVM关键字，修饰符。 内置条件队列操作接口Object.waie()、notify()、notifyAll()。  ReentrantLock  默认非公平锁。  内置锁类似功能。  公平锁：等待时间最长的会最先被唤醒获取锁 。  重入锁：线程可以重复获取已经持有的锁。  Synchronized中，所有的线程都在同一个object的条件队列上等待。而">
@@ -124,7 +124,7 @@
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-08-08
+          <i class="fa fa-calendar"></i>  2018-09-03
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -190,8 +190,8 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年08月08日 22:11</p>
-        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/08/08/JavaThread/" title="Java多线程">https://batuer.github.io/2018/08/08/JavaThread/</a></p>
+        <p>最后更新： 2018年09月03日 19:57</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/09/03/JavaThread/" title="Java多线程">https://batuer.github.io/2018/09/03/JavaThread/</a></p>
         <footer>
             <a href="https://batuer.github.io">
                 <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
@@ -248,7 +248,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/08/08/JavaThread/&title=《Java多线程》 — YlwBlog&pic=/images/JavaThread.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/09/03/JavaThread/&title=《Java多线程》 — YlwBlog&pic=/images/JavaThread.jpg" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -258,22 +258,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/08/08/JavaThread/&title=《Java多线程》 — YlwBlog&source=Keep learning!" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/09/03/JavaThread/&title=《Java多线程》 — YlwBlog&source=Keep learning!" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/08/08/JavaThread/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/09/03/JavaThread/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java多线程》 — YlwBlog&url=https://batuer.github.io/2018/08/08/JavaThread/&via=https://batuer.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java多线程》 — YlwBlog&url=https://batuer.github.io/2018/09/03/JavaThread/&via=https://batuer.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/08/08/JavaThread/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/09/03/JavaThread/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -283,7 +283,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/08/08/JavaThread/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/09/03/JavaThread/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -325,19 +325,19 @@
 
 <nav id="article-nav">
   
-    <a href="/batuer.github.io/2018/08/08/Java注解/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/batuer.github.io/2018/09/04/sql练习/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          Java注解
+          Sql练习
         
       </span>
     </a>
   
   
-    <a href="/batuer.github.io/2018/08/08/Java反射/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Java反射</span>
+    <a href="/batuer.github.io/2018/09/03/GradleCommand/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title"></span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -399,10 +399,10 @@
 <div class="sidebar-menu-box" id="sidebar-menu-box">
     <div class="sidebar-menu-box-container">
         <div id="sidebar-menu-box-categories">
-            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
+            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/SQL/">SQL</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -435,7 +435,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
         </div>
     </div>
 </div>
