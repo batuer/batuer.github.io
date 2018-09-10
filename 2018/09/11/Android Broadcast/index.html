@@ -3,26 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>RecyclerView与ListView | YlwBlog</title>
+  <title>Android广播 | YlwBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="Keep learning!" />
   
-  <meta name="description" content="区别布局效果对比 ListView布局单一，纵向。 RecyclerView的布局由LayoutManager决定（可纵向、横向、瀑布流或自定义）。  常用功能与API对比 HeaderView和Foot而View：ListView支持添加HeaderView和FooterView，RecyclerView没有。  EmptyView：ListView默认有setEmptyView()，Recyc">
-<meta name="keywords" content="RecyclerView,ListView">
+  <meta name="description" content="概述 四大组件之一。 基于消息的发布/订阅模式（高内聚低耦合）。 订阅者在AMS中注册感兴趣的广播。 发布者发送广播到AMS中查找注册者。 异步处理。  注册过程 分为动态注册和静态注册（常驻型）。 ContextImpl通过Binder机制向AMS完成广播注册。 注册过程的核心就是将广播接收者和IntentFilter保存在AMS中。  发送过程 发送者调用sendBroadcast()发送广播">
+<meta name="keywords" content="Android,Broadcast">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RecyclerView与ListView">
-<meta property="og:url" content="https://batuer.github.io/2018/07/14/RecyclerView与ListView/index.html">
+<meta property="og:title" content="Android广播">
+<meta property="og:url" content="https://batuer.github.io/2018/09/11/Android Broadcast/index.html">
 <meta property="og:site_name" content="YlwBlog">
-<meta property="og:description" content="区别布局效果对比 ListView布局单一，纵向。 RecyclerView的布局由LayoutManager决定（可纵向、横向、瀑布流或自定义）。  常用功能与API对比 HeaderView和Foot而View：ListView支持添加HeaderView和FooterView，RecyclerView没有。  EmptyView：ListView默认有setEmptyView()，Recyc">
+<meta property="og:description" content="概述 四大组件之一。 基于消息的发布/订阅模式（高内聚低耦合）。 订阅者在AMS中注册感兴趣的广播。 发布者发送广播到AMS中查找注册者。 异步处理。  注册过程 分为动态注册和静态注册（常驻型）。 ContextImpl通过Binder机制向AMS完成广播注册。 注册过程的核心就是将广播接收者和IntentFilter保存在AMS中。  发送过程 发送者调用sendBroadcast()发送广播">
 <meta property="og:locale" content="CN">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-a16a93ebbeed4bee.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-9137cae6bbb5658f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-07-14T14:07:48.762Z">
+<meta property="og:updated_time" content="2018-09-10T16:17:54.646Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RecyclerView与ListView">
-<meta name="twitter:description" content="区别布局效果对比 ListView布局单一，纵向。 RecyclerView的布局由LayoutManager决定（可纵向、横向、瀑布流或自定义）。  常用功能与API对比 HeaderView和Foot而View：ListView支持添加HeaderView和FooterView，RecyclerView没有。  EmptyView：ListView默认有setEmptyView()，Recyc">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2088926-a16a93ebbeed4bee.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="Android广播">
+<meta name="twitter:description" content="概述 四大组件之一。 基于消息的发布/订阅模式（高内聚低耦合）。 订阅者在AMS中注册感兴趣的广播。 发布者发送广播到AMS中查找注册者。 异步处理。  注册过程 分为动态注册和静态注册（常驻型）。 ContextImpl通过Binder机制向AMS完成广播注册。 注册过程的核心就是将广播接收者和IntentFilter保存在AMS中。  发送过程 发送者调用sendBroadcast()发送广播">
   
   
     <link rel="icon" href="/avatar.jpg">
@@ -107,14 +104,14 @@
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-RecyclerView与ListView" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-Android Broadcast" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      RecyclerView与ListView
+      Android广播
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -122,12 +119,12 @@
               <li>
                   <i class="fa fa-book"></i>
                   
-                      <a href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a>
+                      <a href="/batuer.github.io/categories/Android/">Android</a>
                   
               </li>
           
         <li>
-          <i class="fa fa-calendar"></i>  2018-07-14
+          <i class="fa fa-calendar"></i>  2018-09-11
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -143,113 +140,95 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><h5 id="布局效果对比"><a href="#布局效果对比" class="headerlink" title="布局效果对比"></a>布局效果对比</h5><ol>
-<li>ListView布局单一，纵向。</li>
-<li>RecyclerView的布局由LayoutManager决定（可纵向、横向、瀑布流或自定义）。</li>
-</ol>
-<h5 id="常用功能与API对比"><a href="#常用功能与API对比" class="headerlink" title="常用功能与API对比"></a>常用功能与API对比</h5><ol>
-<li><p>HeaderView和Foot而View：ListView支持添加HeaderView和FooterView，RecyclerView没有。</p>
-</li>
-<li><p>EmptyView：ListView默认有setEmptyView()，RecyclerView没有。</p>
-</li>
-<li><p>局部刷新：RecyclerView支持局部刷新，ListView需自己实现。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">        * <span class="doctag">@param</span> data</span></span><br><span class="line"><span class="comment">        * <span class="doctag">@param</span> pos  数据pos</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateItemView</span><span class="params">(String data, <span class="keyword">int</span> pos)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">int</span> firstVisiblePosition = mLv.getFirstVisiblePosition();</span><br><span class="line">           <span class="keyword">int</span> index = pos - firstVisiblePosition;</span><br><span class="line">           <span class="keyword">if</span> (index &gt;= <span class="number">0</span> &amp;&amp; index &lt; mLv.getChildCount()) &#123;</span><br><span class="line">               View child = mLv.getChildAt(index);</span><br><span class="line">               <span class="comment">//更新</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>监听条目点击：ListView支持条目点击事件，RecyclerView需要自己实现，（<a href="https://blog.csdn.net/liaoinstan/article/details/51200600" target="_blank" rel="noopener">RecyclerView无法添加onItemClickListener最佳的高效解决方案</a>）。</p>
-</li>
-<li><p>动画效果：RecyclerView由默认实现效果可扩展性强。</p>
-</li>
-</ol>
-<h5 id="Android-L引入嵌套滚动机制（NestedScrolling）"><a href="#Android-L引入嵌套滚动机制（NestedScrolling）" class="headerlink" title="Android L引入嵌套滚动机制（NestedScrolling）"></a>Android L引入嵌套滚动机制（NestedScrolling）</h5><ol>
-<li>在事件分发机制中，Touch事件在进行分发的时候，由父View向子View传递，一旦子View消费这个事件的话，那么接下来的事件分发的时候，父View将不接受，由子View进行处理；但是与Android的<strong>事件分发机制</strong>不同，<strong>嵌套滚动机制</strong>（Nested Scrolling）可以弥补这个不足，能让子View与父View同时处理这个Touch事件，主要实现在于<strong>NestedScrollingChild</strong>与<strong>NestedScrollingParent</strong>这两个接口；而在RecyclerView中，实现的是NestedScrollingChild，所以能实现嵌套滚动机制；</li>
-<li>ListView就没有实现嵌套滚动机制；</li>
-</ol>
-<h5 id="RecyclerView优缺点"><a href="#RecyclerView优缺点" class="headerlink" title="RecyclerView优缺点"></a>RecyclerView优缺点</h5><h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ul>
-<li>RecyclerView本身它是不关心视图相关的问题的 ，由LayoutManager管理。</li>
-<li>只负责回收和重用的工作 。</li>
-<li>可扩展性强。</li>
+            <h5 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h5><ul>
+<li>四大组件之一。</li>
+<li>基于消息的发布/订阅模式（高内聚低耦合）。</li>
+<li>订阅者在AMS中注册感兴趣的广播。</li>
+<li>发布者发送广播到AMS中查找注册者。</li>
+<li>异步处理。</li>
 </ul>
-<h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6><ul>
-<li>条目监听。</li>
-<li>HeaderView和FooterView。</li>
-<li>EmptyView。</li>
+<h5 id="注册过程"><a href="#注册过程" class="headerlink" title="注册过程"></a>注册过程</h5><ul>
+<li>分为动态注册和静态注册（常驻型）。</li>
+<li>ContextImpl通过Binder机制向AMS完成广播注册。</li>
+<li>注册过程的核心就是将广播接收者和IntentFilter保存在AMS中。</li>
 </ul>
-<h5 id="RecyclerView"><a href="#RecyclerView" class="headerlink" title="RecyclerView"></a>RecyclerView</h5><ul>
-<li>Adapter：包装数据集合并为每个条目创建视图。</li>
-<li>ViewHolder：保存用于显示每个数据条目的 子View。</li>
-<li>LayoutManager：决定每个ItemView的位置。</li>
-<li>ItemDecoration：条目间隔绘制。</li>
-<li>ItemAnimatior：条目添加、移除、重排序动画。</li>
+<h5 id="发送过程"><a href="#发送过程" class="headerlink" title="发送过程"></a>发送过程</h5><ul>
+<li>发送者调用sendBroadcast()发送广播，通过Binder机制向AMS发送广播，在AMS中查找注册关系表里查找感兴趣的接收者。</li>
+<li>发送过程是异步的。</li>
 </ul>
-<h3 id="ListVIew与RecyclerView缓存机制对比"><a href="#ListVIew与RecyclerView缓存机制对比" class="headerlink" title="ListVIew与RecyclerView缓存机制对比"></a>ListVIew与RecyclerView缓存机制对比</h3><blockquote>
-<p><a href="https://segmentfault.com/a/1190000007331249" target="_blank" rel="noopener">https://segmentfault.com/a/1190000007331249</a></p>
-</blockquote>
-<h4 id="缓存原理相似"><a href="#缓存原理相似" class="headerlink" title="缓存原理相似"></a>缓存原理相似</h4><ol>
-<li>回收离屏的ItemView至缓存。</li>
-<li>入屏的ItemView优先从缓存中获取。</li>
-<li>两者实现细节有差异。</li>
-</ol>
-<h4 id="缓存层级不同"><a href="#缓存层级不同" class="headerlink" title="缓存层级不同"></a>缓存层级不同</h4><h5 id="RecyclerView-1"><a href="#RecyclerView-1" class="headerlink" title="RecyclerView"></a>RecyclerView</h5><ol>
-<li>mAttachedScrap<ul>
-<li>快速重用屏幕上可见的列表项ItemView，不需要createView()和bindView()。</li>
+<h5 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h5><ul>
+<li>同一App内部不同组件之间的消息通信（多线程）。</li>
+<li>同一App内部不同组件之间的消息通信（单进程）。</li>
+<li>同一App内不同进程间的组件消息通信（多进程）。</li>
+<li>不同App之间组件消息通信。</li>
+<li>Android系统在特定情况下与App间的消息通信（系统广播）。</li>
+<li>广播接收器回调在UI线程，不执行耗时操作。</li>
+</ul>
+<h5 id="注册方式"><a href="#注册方式" class="headerlink" title="注册方式"></a>注册方式</h5><ol>
+<li>动态注册<ul>
+<li>Context调用registerReceiver()注册，退出时及时反注册。</li>
 </ul>
 </li>
-<li>mCacheViews（优势）<ul>
-<li>缓存离开屏幕的 ItemView，复用。</li>
-<li>默认上限2，即缓存屏幕外2个ItemView。</li>
-<li>ItemView被复用时，无需bindView快速复用。</li>
-<li>Adapter被更换时被清空，生命周期关联于Adapter。</li>
-</ul>
-</li>
-<li>mViewCacheExtension<ul>
-<li>默认不实现，扩展。</li>
-</ul>
-</li>
-<li>mRecyclerPool<ul>
-<li>缓存离开屏幕的 ItemView，复用。</li>
-<li>默认上限5。</li>
+<li>静态注册<ul>
+<li>android:exported ：BroadcastReceiver能否接收其他App的发出的广播，这个属性默认值是由receiver中有无intent-filter决定的，如果有intent-filter，默认值为true，否则为false。（同样的，activity/service中的此属性默认值一样遵循此规则）同时，需要注意的是，这个值的设定<strong>是以application或者application user id为界</strong>的，而非进程为界（一个应用中可能含有多个进程）。</li>
+<li>android:name ：BroadcastReceiver类名 。</li>
+<li>android:permission ：具有相应权限的广播发送方发送的广播才能被此BroadcastReceiver所接收。</li>
+<li>android:process ：broadcastReceiver运行所处的进程。默认为app的进程。可以指定独立的进程（Android四大基本组件都可以通过此属性指定自己的独立进程）。</li>
 </ul>
 </li>
 </ol>
-<h5 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h5><ol>
-<li>mActiveViews<ul>
-<li>快速重用屏幕上可见的列表项ItemView，不需要createView()和bindView()。</li>
+<h5 id="广播类型"><a href="#广播类型" class="headerlink" title="广播类型"></a>广播类型</h5><h6 id="Normal-Broadcast"><a href="#Normal-Broadcast" class="headerlink" title="Normal Broadcast"></a>Normal Broadcast</h6><ul>
+<li>开发者自己定义的Intent。</li>
+<li>无序。</li>
+<li>权限对应。</li>
+</ul>
+<h6 id="System-Broadcast"><a href="#System-Broadcast" class="headerlink" title="System Broadcast"></a>System Broadcast</h6><ul>
+<li>系统发送的广播（开机启动、网络状态、蓝牙等等）。</li>
+</ul>
+<h6 id="Ordered-Broadcast"><a href="#Ordered-Broadcast" class="headerlink" title="Ordered Broadcast"></a>Ordered Broadcast</h6><ul>
+<li>针对接收者的顺序。</li>
+<li>动态广播优于静态广播。</li>
+<li>优先接收者可对广播拦截或修改。</li>
+</ul>
+<h6 id="Sticky-Broadcast"><a href="#Sticky-Broadcast" class="headerlink" title="Sticky Broadcast"></a>Sticky Broadcast</h6><ul>
+<li>API 21以后不再推荐使用。</li>
+<li>@Deprecated。</li>
+<li>Sticky Order Broadcast 也同样@Deprecated。</li>
+</ul>
+<h6 id="Local-Broadcast"><a href="#Local-Broadcast" class="headerlink" title="Local Broadcast"></a>Local Broadcast</h6><ul>
+<li>App应用内广播（Application或Application User id为界）。</li>
+<li>不接收其它应用相同IntentFilter的广播。</li>
+<li>不让其它应用接收相同IntentFilter的广播。</li>
+</ul>
+<h5 id="安全方案"><a href="#安全方案" class="headerlink" title="安全方案"></a>安全方案</h5><ul>
+<li>android:exported为false时，不接收其它应用的广播干扰。</li>
+<li>android:permission：发送和接收都添加权限验证。</li>
+<li>发送广播时指定接收者的包名。</li>
+<li>应用内广播（LocalBroadcastManager）。<ul>
+<li>安全性高、更高效。</li>
+<li>LocalBroadcastManager发送的应用内广播，只能是LocalBroadcastManager动态注册的广播才能接收到。</li>
 </ul>
 </li>
-<li>mScrapViews<ul>
-<li>缓存离开屏幕的ItemView，复用。</li>
-<li>Adapter被更换时，被清空，生命周期关联于Adapter。</li>
+</ul>
+<h5 id="广播接收器回调onReceiver-context-intent-中context的具体类型"><a href="#广播接收器回调onReceiver-context-intent-中context的具体类型" class="headerlink" title="广播接收器回调onReceiver(context,intent)中context的具体类型"></a>广播接收器回调onReceiver(context,intent)中context的具体类型</h5><ul>
+<li>对于静态注册的ContextReceiver，回调onReceive(context, intent)中的context具体指的是ReceiverRestrictedContext。</li>
+<li>对于全局广播的动态注册的ContextReceiver，回调onReceive(context, intent)中的context具体指的是Activity Context。</li>
+<li>对于通过LocalBroadcastManager动态注册的ContextReceiver，回调onReceive(context, intent)中的context具体指的是Application Context。</li>
+</ul>
+<h5 id="不同API版本的广播机制重要变迁"><a href="#不同API版本的广播机制重要变迁" class="headerlink" title="不同API版本的广播机制重要变迁"></a>不同API版本的广播机制重要变迁</h5><ul>
+<li>API level 21开始粘滞广播和有序粘滞广播过期，以后不再建议使用。</li>
+<li>静态注册的广播接收器即使app已经退出，只要有相应的广播发出，依然可以接收到，但此种描述自Android 3.1开始有可能不再成立。<ul>
+<li>Android 3.1开始系统在Intent与广播相关的flag增加了参数，分别是FLAG_INCLUDE_STOPPED_PACKAGES（即包所在的进程已经退出）和FLAG_EXCLUDE_STOPPED_PACKAGES（不包含已经停止的包）。</li>
+<li>Android3.1开始，系统本身则增加了对所有app当前是否处于运行状态的跟踪。在发送广播时，不管是什么广播类型，系统默认直接增加了值为FLAG_EXCLUDE_STOPPED_PACKAGES的flag，导致即使是静态注册的广播接收器，对于其所在进程已经退出的app，同样无法接收到广播。由此，对于系统广播，由于是系统内部直接发出，无法更改此intent flag值，因此，3.1开始对于静态注册的接收系统广播的BroadcastReceiver，如果App进程已经退出，将不能接收到广播。</li>
+<li>对于自定义的广播可重写flag值，发送广播。</li>
 </ul>
 </li>
-</ol>
-<h4 id="缓存不同"><a href="#缓存不同" class="headerlink" title="缓存不同"></a>缓存不同</h4><ol>
-<li><p>RecyclerView缓存RecyclerView.ViewHolder，ItemView + ViewHolder。</p>
-</li>
-<li><p>ListView获取缓存</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2088926-a16a93ebbeed4bee.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-</li>
-<li><p>RecyclerView获取缓存</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2088926-9137cae6bbb5658f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-</li>
-<li><p>局部刷新</p>
-<ol>
-<li>RecyclerView 提供局部刷新，ListVIew没有。</li>
-<li>RecyclerView局部刷新时，会预先通过对pso和flag的预处理，尽可能的减少bindVIew()。</li>
-</ol>
-</li>
-</ol>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
-<li><p>性能上，RecyclerView并没有显著的提升。</p>
-</li>
-<li><p>有频繁更新、ItemView动画、局部刷新这些需求时，RecyclerView优势大于ListView。</p>
-</li>
-<li>RecyclerView扩展性强（LayoutManager：ItemView布局，ViewCacheExtension：ItemView缓存复用 ）。</li>
 </ul>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年07月14日 22:07</p>
-        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/07/14/RecyclerView与ListView/" title="RecyclerView与ListView">https://batuer.github.io/2018/07/14/RecyclerView与ListView/</a></p>
+        <p>最后更新： 2018年09月11日 00:17</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/09/11/Android Broadcast/" title="Android广播">https://batuer.github.io/2018/09/11/Android Broadcast/</a></p>
         <footer>
             <a href="https://batuer.github.io">
                 <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
@@ -306,7 +285,7 @@
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/07/14/RecyclerView与ListView/&title=《RecyclerView与ListView》 — YlwBlog&pic=/images/common.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/09/11/Android Broadcast/&title=《Android广播》 — YlwBlog&pic=/images/common.png" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -316,22 +295,22 @@
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/07/14/RecyclerView与ListView/&title=《RecyclerView与ListView》 — YlwBlog&source=Keep learning!" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/09/11/Android Broadcast/&title=《Android广播》 — YlwBlog&source=Keep learning!" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/07/14/RecyclerView与ListView/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/09/11/Android Broadcast/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RecyclerView与ListView》 — YlwBlog&url=https://batuer.github.io/2018/07/14/RecyclerView与ListView/&via=https://batuer.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android广播》 — YlwBlog&url=https://batuer.github.io/2018/09/11/Android Broadcast/&via=https://batuer.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/07/14/RecyclerView与ListView/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/09/11/Android Broadcast/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -341,7 +320,7 @@
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/07/14/RecyclerView与ListView/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/09/11/Android Broadcast/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -353,9 +332,9 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
-    <a href="/batuer.github.io/tags/RecyclerView/" class="color3">RecyclerView</a>
+    <a href="/batuer.github.io/tags/Android/" class="color3">Android</a>
       
-    <a href="/batuer.github.io/tags/ListView/" class="color4">ListView</a>
+    <a href="/batuer.github.io/tags/Broadcast/" class="color5">Broadcast</a>
       
   </li>
 
@@ -368,26 +347,16 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#区别"><span class="post-toc-text">区别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#布局效果对比"><span class="post-toc-text">布局效果对比</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#常用功能与API对比"><span class="post-toc-text">常用功能与API对比</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Android-L引入嵌套滚动机制（NestedScrolling）"><span class="post-toc-text">Android L引入嵌套滚动机制（NestedScrolling）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RecyclerView优缺点"><span class="post-toc-text">RecyclerView优缺点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点"><span class="post-toc-text">缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RecyclerView"><span class="post-toc-text">RecyclerView</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ListVIew与RecyclerView缓存机制对比"><span class="post-toc-text">ListVIew与RecyclerView缓存机制对比</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缓存原理相似"><span class="post-toc-text">缓存原理相似</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缓存层级不同"><span class="post-toc-text">缓存层级不同</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#RecyclerView-1"><span class="post-toc-text">RecyclerView</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#ListView"><span class="post-toc-text">ListView</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缓存不同"><span class="post-toc-text">缓存不同</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#结论"><span class="post-toc-text">结论</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#概述"><span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#注册过程"><span class="post-toc-text">注册过程</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#发送过程"><span class="post-toc-text">发送过程</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#使用场景"><span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#注册方式"><span class="post-toc-text">注册方式</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#广播类型"><span class="post-toc-text">广播类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Normal-Broadcast"><span class="post-toc-text">Normal Broadcast</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#System-Broadcast"><span class="post-toc-text">System Broadcast</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Ordered-Broadcast"><span class="post-toc-text">Ordered Broadcast</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Sticky-Broadcast"><span class="post-toc-text">Sticky Broadcast</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Local-Broadcast"><span class="post-toc-text">Local Broadcast</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#安全方案"><span class="post-toc-text">安全方案</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#广播接收器回调onReceiver-context-intent-中context的具体类型"><span class="post-toc-text">广播接收器回调onReceiver(context,intent)中context的具体类型</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#不同API版本的广播机制重要变迁"><span class="post-toc-text">不同API版本的广播机制重要变迁</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/batuer.github.io/2018/08/08/Android多进程/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          Android多进程
-        
-      </span>
-    </a>
   
-  
-    <a href="/batuer.github.io/2018/06/27/设计模式六大原则/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">设计模式六大原则</span>
+    <a href="/batuer.github.io/2018/09/04/sql练习/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Sql练习</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
