@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java反射 | YlwBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Keep learning!" />
+  
+  <meta name="description" content="一、概述Java反射机制定义 Java反射机制是在运行状态中，对于任意一个类，都能够知道这个类中的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。Java 反射机制的功能 1.在运行时判断任意一个对象所属的类。 2.在运行时构造任意一个类的对象。 3.在运行时判断任意一个类所具有的成员变量和方法。 4.在">
+<meta name="keywords" content="Java基础,Java反射">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java反射">
+<meta property="og:url" content="https://batuer.github.io/2018/09/14/Java Reflect/index.html">
+<meta property="og:site_name" content="YlwBlog">
+<meta property="og:description" content="一、概述Java反射机制定义 Java反射机制是在运行状态中，对于任意一个类，都能够知道这个类中的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。Java 反射机制的功能 1.在运行时判断任意一个对象所属的类。 2.在运行时构造任意一个类的对象。 3.在运行时判断任意一个类所具有的成员变量和方法。 4.在">
+<meta property="og:locale" content="CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3985563-f4d339a69a8b9e92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-09-13T16:01:03.662Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java反射">
+<meta name="twitter:description" content="一、概述Java反射机制定义 Java反射机制是在运行状态中，对于任意一个类，都能够知道这个类中的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。Java 反射机制的功能 1.在运行时判断任意一个对象所属的类。 2.在运行时构造任意一个类的对象。 3.在运行时判断任意一个类所具有的成员变量和方法。 4.在">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3985563-f4d339a69a8b9e92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+  
+    <link rel="icon" href="/avatar.jpg">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/batuer.github.io/css/style.css">
+  <script src="/batuer.github.io/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/batuer.github.io/" class="left">
+                    <span class="site-title">Ylw Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/batuer.github.io/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/batuer.github.io/">
+                    <img src="/batuer.github.io/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Ylw Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        A young idler, an old beggar
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="https://github.com/batuer">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="http://weibo.com/bayi806">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Java Reflect" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Java反射
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/batuer.github.io/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-09-14
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p><strong>Java反射机制定义</strong></p>
+<p>Java反射机制是在<strong>运行</strong>状态中，对于任意一个类，都能够知道这个类中的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。<br><strong>Java 反射机制的功能</strong></p>
+<p>1.在运行时判断任意一个对象所属的类。</p>
+<p>2.在运行时构造任意一个类的对象。</p>
+<p>3.在运行时判断任意一个类所具有的成员变量和方法。</p>
+<p>4.在运行时调用任意一个对象的方法。</p>
+<p>5.生成<strong>动态代理</strong>。</p>
+<p><strong>Java 反射机制的应用场景</strong></p>
+<p>1.逆向代码 ，例如反编译</p>
+<p>2.与注解相结合的框架 例如Retrofit</p>
+<p>3.单纯的反射机制应用框架 例如EventBus</p>
+<p>4.动态生成类框架 例如Gson</p>
+<h3 id="二、代理模式"><a href="#二、代理模式" class="headerlink" title="二、代理模式"></a>二、代理模式</h3><p><strong>定义：</strong>给某个对象提供一个代理对象，并由代理对象控制对于原对象的访问，即客户不直接操控原对象，而是通过代理对象间接地操控原对象。</p>
+<h5 id="1、代理模式的参与者"><a href="#1、代理模式的参与者" class="headerlink" title="1、代理模式的参与者"></a>1、代理模式的参与者</h5><p>代理模式的角色分四种：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3985563-f4d339a69a8b9e92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><strong>主题接口：</strong>Subject 是委托对象和代理对象都共同实现的接口，即代理类的所实现的行为接口。Request() 是委托对象和代理对象共同拥有的方法。<br><strong>目标对象：</strong>ReaSubject 是原对象，也就是被代理的对象。<br><strong>代理对象：</strong>Proxy 是代理对象，用来封装真是主题类的代理类。<br><strong>客户端 ：</strong>使用代理类和主题接口完成一些工作。</p>
+<h5 id="2、代理模式的分类"><a href="#2、代理模式的分类" class="headerlink" title="2、代理模式的分类"></a>2、代理模式的分类</h5><p>代理的实现分为：</p>
+<p><strong>静态代理：</strong>代理类是在<strong><u>编译时</u></strong>就实现好的。也就是说 Java 编译完成后代理类是一个实际的 class 文件。<br><strong>动态代理：</strong>代理类是在<strong><u>运行时</u></strong>生成的。也就是说 Java 编译完之后并没有实际的 class 文件，而是在运行时动态生成的类字节码，并加载到JVM中。</p>
+<h5 id="3、代理模式的实现思路"><a href="#3、代理模式的实现思路" class="headerlink" title="3、代理模式的实现思路"></a>3、代理模式的实现思路</h5><p>1.代理对象和目标对象均实现同一个行为接口。</p>
+<p>2.代理类和目标类分别具体实现接口逻辑。</p>
+<p>3.在代理类的构造函数中实例化一个目标对象。</p>
+<p>4.在代理类中调用目标对象的行为接口。</p>
+<p>5.客户端想要调用目标对象的行为接口，只能通过代理类来操作。</p>
+<h5 id="4、静态代理模式的简单实现"><a href="#4、静态代理模式的简单实现" class="headerlink" title="4、静态代理模式的简单实现"></a>4、静态代理模式的简单实现</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">      ShopCart subject = <span class="keyword">new</span> ShopCart();</span><br><span class="line">      ShopProxy p = <span class="keyword">new</span> ShopProxy(subject);</span><br><span class="line">      p.shop();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">interface</span> <span class="title">Shop</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">shop</span><span class="params">()</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">ShopCart</span> <span class="keyword">implements</span> <span class="title">Shop</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Log.w(<span class="string">"Fire"</span>, <span class="string">"ShopCart:25: Shop"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">ShopProxy</span> <span class="keyword">implements</span> <span class="title">Shop</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> ShopCart mShopCart;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ShopProxy</span><span class="params">(ShopCart shopCart)</span> </span>&#123;</span><br><span class="line">      mShopCart = shopCart;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Log.w(<span class="string">"Fire"</span>, <span class="string">"ShopProxy:38:登录验证"</span>);</span><br><span class="line">      mShopCart.shop();</span><br><span class="line">      Log.w(<span class="string">"Fire"</span>, <span class="string">"ShopProxy:40:日志记录"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>目标对象(RealSubject )以及代理对象（Proxy）都实现了主题接口（Subject）。在代理对象（Proxy）中，通过构造函数传入目标对象(RealSubject )，然后重写主题接口（Subject）的request()方法，在该方法中调用目标对象(RealSubject )的request()方法，并可以添加一些额外的处理工作在目标对象(RealSubject )的request()方法的前后。</p>
+<p><strong>代理模式的好处：</strong></p>
+<p>假如有这样的需求，要在某些模块方法调用前后加上一些统一的前后处理操作，比如在添加购物车、修改订单等操作前后统一加上登陆验证与日志记录处理，该怎样实现？首先想到最简单的就是直接修改源码，在对应模块的对应方法前后添加操作。如果模块很多，你会发现，修改源码不仅非常麻烦、难以维护，而且会使代码显得十分臃肿。</p>
+<p>这时候就轮到代理模式上场了，它可以在被调用方法前后加上自己的操作，而不需要更改被调用类的源码，大大地降低了模块之间的耦合性，体现了极大的优势。</p>
+<h3 id="三、Java反射机制与动态代理"><a href="#三、Java反射机制与动态代理" class="headerlink" title="三、Java反射机制与动态代理"></a>三、Java反射机制与动态代理</h3><h5 id="1、动态代理介绍"><a href="#1、动态代理介绍" class="headerlink" title="1、动态代理介绍"></a>1、动态代理介绍</h5><p>动态代理是指在<strong>运行时动态</strong>生成代理类。即，代理类的字节码将在运行时生成并载入当前代理的 ClassLoader。与静态处理类相比，动态类有诸多好处。</p>
+<p>①不需要为(RealSubject )写一个形式上完全一样的封装类，假如主题接口（Subject）中的方法很多，为每一个接口写一个代理方法也很麻烦。如果接口有变动，则目标对象和代理类都要修改，不利于系统维护；</p>
+<p>②使用一些动态代理的生成方法甚至可以在运行时制定代理类的执行逻辑，从而大大提升系统的灵活性。</p>
+<h5 id="2、动态代理涉及的主要类"><a href="#2、动态代理涉及的主要类" class="headerlink" title="2、动态代理涉及的主要类"></a>2、动态代理涉及的主要类</h5><p><strong>java.lang.reflect.Proxy:</strong>这是生成代理类的主类，通过 Proxy 类生成的代理类都继承了 Proxy 类。<br>Proxy提供了用户创建动态代理类和代理对象的静态方法，它是所有动态代理类的父类。</p>
+<p><strong>java.lang.reflect.InvocationHandler:</strong>这里称他为”调用处理器”，它是一个接口。当调用动态代理类中的方法时，将会直接转接到执行自定义的InvocationHandler中的invoke()方法。即我们动态生成的代理类需要完成的具体内容需要自己定义一个类，而这个类必须实现 InvocationHandler 接口，通过重写invoke()方法来执行具体内容。</p>
+<p>Proxy提供了如下两个方法来创建动态代理类和动态代理实例。</p>
+<blockquote>
+<p>static Class&lt;?&gt; getProxyClass(ClassLoader loader, Class&lt;?&gt;… interfaces) 返回代理类的java.lang.Class对象。第一个参数是类加载器对象（即哪个类加载器来加载这个代理类到 JVM 的方法区），第二个参数是接口（表明你这个代理类需要实现哪些接口），第三个参数是调用处理器类实例（指定代理类中具体要干什么），该代理类将实现interfaces所指定的所有接口，执行代理对象的每个方法时都会被替换执行InvocationHandler对象的invoke方法。</p>
+<p>static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h) 返回代理类实例。参数与上述方法一致。</p>
+</blockquote>
+<p>对应上述两种方法创建动态代理对象的方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个InvocationHandler对象</span></span><br><span class="line">InvocationHandler handler = <span class="keyword">new</span> MyInvocationHandler(.args..);</span><br><span class="line"><span class="comment">//使用Proxy生成一个动态代理类</span></span><br><span class="line">Class proxyClass = 		Proxy.getProxyClass(RealSubject.class.getClassLoader(),RealSubject.class.getInterfaces());</span><br><span class="line"><span class="comment">//获取proxyClass类中一个带InvocationHandler参数的构造器</span></span><br><span class="line">Constructor constructor = proxyClass.getConstructor(InvocationHandler.class);</span><br><span class="line"><span class="comment">//调用constructor的newInstance方法来创建动态实例</span></span><br><span class="line">RealSubject real = (RealSubject)constructor.newInstance(handler);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">//创建一个InvocationHandler对象</span></span><br><span class="line">InvocationHandler handler = <span class="keyword">new</span> MyInvocationHandler();</span><br><span class="line"><span class="comment">//使用Proxy直接生成一个动态代理对象</span></span><br><span class="line">RealSubject real =</span><br><span class="line">    (RealSubject) java.lang.reflect.Proxy.newProxyInstance(RealSubject.class.getClassLoader(),</span><br><span class="line">        RealSubject.class.getInterfaces(), handler);</span><br></pre></td></tr></table></figure>
+<p><strong>newProxyInstance这个方法实际上做了两件事：第一，创建了一个新的类【代理类】，这个类实现了Class[] interfaces中的所有接口，并通过你指定的ClassLoader将生成的类的字节码加载到JVM中，创建Class对象；第二，以你传入的InvocationHandler作为参数创建一个代理类的实例并返回。</strong></p>
+<p>Proxy 类还有一些静态方法，比如：</p>
+<p><code>InvocationHandler getInvocationHandler(Object proxy):</code>获得代理对象对应的调用处理器对象。</p>
+<p><code>Class getProxyClass(ClassLoader loader, Class[] interfaces):</code>根据类加载器和实现的接口获得代理类。</p>
+<p>InvocationHandler 接口中有方法：</p>
+<p><code>invoke(Object proxy, Method method, Object[] args)</code><br>这个函数是在代理对象调用任何一个方法时都会调用的，方法不同会导致第二个参数method不同，第一个参数是代理对象（表示哪个代理对象调用了method方法），第二个参数是 Method 对象（表示哪个方法被调用了），第三个参数是指定调用方法的参数。</p>
+<h5 id="3、动态代理模式的简单实现"><a href="#3、动态代理模式的简单实现" class="headerlink" title="3、动态代理模式的简单实现"></a>3、动态代理模式的简单实现</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by Administrator on 2018/2/17.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicProxyDemo</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//1.创建目标对象</span></span><br><span class="line">    RealSubject realSubject = <span class="keyword">new</span> RealSubject();</span><br><span class="line">    <span class="comment">//2.创建调用处理器对象</span></span><br><span class="line">    ProxyHandler handler = <span class="keyword">new</span> ProxyHandler(realSubject);</span><br><span class="line">    <span class="comment">//3.动态生成代理对象</span></span><br><span class="line">    Subject proxySubject = (Subject) Proxy.newProxyInstance(RealSubject.class.getClassLoader(),</span><br><span class="line">        RealSubject.class.getInterfaces(), handler);</span><br><span class="line">    <span class="comment">//4.通过代理对象调用方法</span></span><br><span class="line">    proxySubject.request();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 主题接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">request</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 目标对象类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">request</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"====RealSubject Request===="</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 代理类的调用处理器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProxyHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Subject subject;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">ProxyHandler</span><span class="params">(Subject subject)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.subject = subject;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">    <span class="comment">//定义预处理的工作，当然你也可以根据 method 的不同进行不同的预处理工作</span></span><br><span class="line">    System.out.println(<span class="string">"====before===="</span>);</span><br><span class="line">    <span class="comment">//调用RealSubject中的方法</span></span><br><span class="line">    Object result = method.invoke(subject, args);</span><br><span class="line">    System.out.println(<span class="string">"====after===="</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，我们通过newProxyInstance就产生了一个Subject 的实例，即代理类的实例，然后就可以通过Subject .request()，就会调用InvocationHandler中的invoke()方法，传入方法Method对象，以及调用方法的参数，通过Method.invoke调用RealSubject中的方法的request()方法。同时可以在InvocationHandler中的invoke()方法加入其他执行逻辑。</p>
+<h3 id="四、泛型和Class类"><a href="#四、泛型和Class类" class="headerlink" title="四、泛型和Class类"></a>四、泛型和Class类</h3><p>从JDK 1.5 后，Java中引入泛型机制，Class类也增加了泛型功能，从而允许使用泛型来限制Class类，例如：String.class的类型实际上是Class&lt;String&gt;。如果Class对应的类暂时未知，则使用Class&lt;?&gt;(?是通配符)。通过反射中使用泛型，可以避免使用反射生成的对象需要强制类型转换。</p>
+<p>泛型的好处众多，最主要的一点就是避免类型转换，防止出现ClassCastException，即类型转换异常。</p>
+<h3 id="五、使用反射来获取泛型信息"><a href="#五、使用反射来获取泛型信息" class="headerlink" title="五、使用反射来获取泛型信息"></a>五、使用反射来获取泛型信息</h3><p>通过指定类对应的 Class 对象，可以获得该类里包含的所有 Field，不管该 Field 是使用 private 修饰，还是使用 public 修饰。获得了 Field 对象后，就可以很容易地获得该 Field 的数据类型，即使用如下代码即可获得指定 Field 的类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取 Field 对象 f 的类型</span></span><br><span class="line">Class&lt;?&gt; a = f.getType();</span><br></pre></td></tr></table></figure>
+<p>但这种方式只对普通类型的 Field 有效。如果该 Field 的类型是有泛型限制的类型，如 Map&lt;String, Integer&gt; 类型，则不能准确地得到该 Field 的泛型参数。</p>
+<p>为了获得指定 Field 的泛型类型，应先使用如下方法来获取指定 Field 的类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获得 Field 实例的泛型类型</span></span><br><span class="line">Type type = f.getGenericType();</span><br></pre></td></tr></table></figure>
+<p>然后将 Type 对象强制类型转换为 ParameterizedType 对象，ParameterizedType 代表被参数化的类型，也就是增加了泛型限制的类型。ParameterizedType 类提供了如下两个方法。</p>
+<p><strong>getRawType()：</strong>返回没有泛型信息的原始类型。</p>
+<p><strong>getActualTypeArguments()：</strong>返回泛型参数的类型。</p>
+<p>下面是一个获取泛型类型的完整程序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericTest</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;String , Integer&gt; score;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Class&lt;GenericTest&gt; clazz = GenericTest.class;</span><br><span class="line">        Field f = clazz.getDeclaredField(<span class="string">"score"</span>);</span><br><span class="line">        <span class="comment">// 直接使用getType()取出Field类型只对普通类型的Field有效</span></span><br><span class="line">        Class&lt;?&gt; a = f.getType();</span><br><span class="line">        <span class="comment">// 下面将看到仅输出java.util.Map</span></span><br><span class="line">        System.out.println(<span class="string">"score的类型是:"</span> + a);</span><br><span class="line">        <span class="comment">// 获得Field实例f的泛型类型</span></span><br><span class="line">        Type gType = f.getGenericType();</span><br><span class="line">        <span class="comment">// 如果gType类型是ParameterizedType对象</span></span><br><span class="line">        <span class="keyword">if</span>(gType <span class="keyword">instanceof</span> ParameterizedType)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 强制类型转换</span></span><br><span class="line">            ParameterizedType pType = (ParameterizedType)gType;</span><br><span class="line">            <span class="comment">// 获取原始类型</span></span><br><span class="line">            Type rType = pType.getRawType();</span><br><span class="line">            System.out.println(<span class="string">"原始类型是："</span> + rType);</span><br><span class="line">            <span class="comment">// 取得泛型类型的泛型参数</span></span><br><span class="line">            Type[] tArgs = pType.getActualTypeArguments();</span><br><span class="line">            System.out.println(<span class="string">"泛型类型是:"</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; tArgs.length; i++) </span><br><span class="line">            &#123;</span><br><span class="line">                System.out.println(<span class="string">"第"</span> + i + <span class="string">"个泛型类型是："</span> + tArgs[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            System.out.println(<span class="string">"获取泛型类型出错！"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<blockquote>
+<p>score 的类型是: interface java.util.Map<br>原始类型是: interface java.util.Map<br>泛型类型是:<br>第 0 个泛型类型是: class java.lang.String<br>第 1 个泛型类型是：class java.lang.Integer</p>
+</blockquote>
+<p>从上面的运行结果可以看出，直接使用 Field 的 getType() 方法只能获取普通类型的 Field 的数据类型：对于增加了泛型参数的类型的 Field，应该使用 getGenericType() 方法来取得其类型。</p>
+<p>Type 也是 java.lang.reflect 包下的一个接口，该接口代表所有类型的公共高级接口，Class 是 Type 接口的实现类。Type 包括原始类型、参数化类型、数组类型、类型变量和基本类型等。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年09月14日 00:01</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/09/14/Java Reflect/" title="Java反射">https://batuer.github.io/2018/09/14/Java Reflect/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/09/14/Java Reflect/&title=《Java反射》 — YlwBlog&pic=/images/JavaReflect.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/09/14/Java Reflect/&title=《Java反射》 — YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/09/14/Java Reflect/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java反射》 — YlwBlog&url=https://batuer.github.io/2018/09/14/Java Reflect/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/09/14/Java Reflect/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/09/14/Java Reflect/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/batuer.github.io/tags/Java基础/" class="color2">Java基础</a>
+      
+    <a href="/batuer.github.io/tags/Java反射/" class="color2">Java反射</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、概述"><span class="post-toc-text">一、概述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、代理模式"><span class="post-toc-text">二、代理模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1、代理模式的参与者"><span class="post-toc-text">1、代理模式的参与者</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2、代理模式的分类"><span class="post-toc-text">2、代理模式的分类</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3、代理模式的实现思路"><span class="post-toc-text">3、代理模式的实现思路</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4、静态代理模式的简单实现"><span class="post-toc-text">4、静态代理模式的简单实现</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三、Java反射机制与动态代理"><span class="post-toc-text">三、Java反射机制与动态代理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1、动态代理介绍"><span class="post-toc-text">1、动态代理介绍</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2、动态代理涉及的主要类"><span class="post-toc-text">2、动态代理涉及的主要类</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3、动态代理模式的简单实现"><span class="post-toc-text">3、动态代理模式的简单实现</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#四、泛型和Class类"><span class="post-toc-text">四、泛型和Class类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五、使用反射来获取泛型信息"><span class="post-toc-text">五、使用反射来获取泛型信息</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/batuer.github.io/2018/09/14/Java Memory/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java内存
+        
+      </span>
+    </a>
+  
+  
+    <a href="/batuer.github.io/2018/09/14/Java Thread/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java多线程</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Yuliwen<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://batuer.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/SQL/">SQL</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/网络/">网络</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/batuer.github.io/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/batuer.github.io/js/search.js"></script>
+<script src="/batuer.github.io/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/batuer.github.io/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/batuer.github.io/js/animate.js"></script>
+
+
+  <script src="/batuer.github.io/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

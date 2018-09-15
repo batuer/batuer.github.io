@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>HTTP、HTTPS、SOCKET、TCP、UDP | YlwBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Keep learning!" />
+  
+  <meta name="description" content="HTTP(Hypertext Transfer  Protocol)特点 基于TCP/IP通信协议传递数据。  简单快速：协议简单，短链接发送请求接收数据。  灵活：传输任意类型数据对象，由Content-Type标记数据类型。  短链接：  HTTP1.0：一次TCP链接，处理完本次请求后，自动释放链接。 HTTP1.1：一次TCP链接处理多个请求，且多个请求可重叠进行，自动释放链接，减少TC">
+<meta name="keywords" content="Http,Socket">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP、HTTPS、SOCKET、TCP、UDP">
+<meta property="og:url" content="https://batuer.github.io/2018/09/15/HTTP、HTTPS、Socket、TCP、UDP/index.html">
+<meta property="og:site_name" content="YlwBlog">
+<meta property="og:description" content="HTTP(Hypertext Transfer  Protocol)特点 基于TCP/IP通信协议传递数据。  简单快速：协议简单，短链接发送请求接收数据。  灵活：传输任意类型数据对象，由Content-Type标记数据类型。  短链接：  HTTP1.0：一次TCP链接，处理完本次请求后，自动释放链接。 HTTP1.1：一次TCP链接处理多个请求，且多个请求可重叠进行，自动释放链接，减少TC">
+<meta property="og:locale" content="CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-9234c2666a6a38af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-4bd1e598b150b219.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-391d8f3c29e19102.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-01798594d6a21259.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-12678e1437d7acf2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-09-15T16:39:31.953Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP、HTTPS、SOCKET、TCP、UDP">
+<meta name="twitter:description" content="HTTP(Hypertext Transfer  Protocol)特点 基于TCP/IP通信协议传递数据。  简单快速：协议简单，短链接发送请求接收数据。  灵活：传输任意类型数据对象，由Content-Type标记数据类型。  短链接：  HTTP1.0：一次TCP链接，处理完本次请求后，自动释放链接。 HTTP1.1：一次TCP链接处理多个请求，且多个请求可重叠进行，自动释放链接，减少TC">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2088926-9234c2666a6a38af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+  
+    <link rel="icon" href="/avatar.jpg">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/batuer.github.io/css/style.css">
+  <script src="/batuer.github.io/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/batuer.github.io/" class="left">
+                    <span class="site-title">Ylw Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/batuer.github.io/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/batuer.github.io/">
+                    <img src="/batuer.github.io/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Ylw Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        A young idler, an old beggar
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="https://github.com/batuer">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="http://weibo.com/bayi806">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-HTTP、HTTPS、Socket、TCP、UDP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      HTTP、HTTPS、SOCKET、TCP、UDP
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/batuer.github.io/categories/网络/">网络</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-09-15
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p><img src="https://upload-images.jianshu.io/upload_images/2088926-9234c2666a6a38af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h5 id="HTTP-Hypertext-Transfer-Protocol"><a href="#HTTP-Hypertext-Transfer-Protocol" class="headerlink" title="HTTP(Hypertext Transfer  Protocol)"></a>HTTP(Hypertext Transfer  Protocol)</h5><h6 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h6><ul>
+<li><p>基于TCP/IP通信协议传递数据。</p>
+</li>
+<li><p>简单快速：协议简单，短链接发送请求接收数据。</p>
+</li>
+<li><p>灵活：传输任意类型数据对象，由Content-Type标记数据类型。</p>
+</li>
+<li><p>短链接：</p>
+<ul>
+<li>HTTP1.0：一次TCP链接，处理完本次请求后，自动释放链接。</li>
+<li>HTTP1.1：一次TCP链接处理多个请求，且多个请求可重叠进行，自动释放链接，减少TCP三次握手开销。</li>
+</ul>
+</li>
+<li><p>无状态协议：对于事物处理没有记忆能力。</p>
+</li>
+<li><p>只能客户端主动请求，服务器不能主动发送。</p>
+</li>
+</ul>
+<p>######组成</p>
+<ul>
+<li>请求行：用来说明请求类型，要访问的资源以及使用的HTTP版本。</li>
+<li>请求头：紧接着请求行之后的部分，用来说明服务器要使用的附近信息。</li>
+<li>空行：请求后面的空行是<strong>必须的</strong>。</li>
+<li>请求体：请求数据，任意数据，可为空。</li>
+</ul>
+<h6 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h6><ul>
+<li><p>1xx（指示消息）：请求已接收，继续处理。</p>
+</li>
+<li><p>2xx（成功）：请求已成功接收。</p>
+</li>
+<li><p>3xx（重定向）：要完成请求必须更进一步的操作。</p>
+</li>
+<li><p>4xx（客户端错误）：请求有语法错误或请求无法实现。</p>
+<ul>
+<li>400（Bad Request）：服务器无法理解的请求。</li>
+<li>401（Unauthorized）：未经授权。</li>
+<li>403（Forbidden）：服务器接收到请求，拒绝提供服务。</li>
+<li>404（Not Found）：请求资源不存在，错误的URL。</li>
+</ul>
+</li>
+<li><p>5xx（服务端错误）：服务器未能实现客户端的请求。</p>
+<ul>
+<li>500（Internal Server Error）：服务器发生不可知的错误。</li>
+<li>503（Server Unavailable）：服务器不能处理请求。</li>
+</ul>
+</li>
+</ul>
+<p><a href="http://www.runoob.com/http/http-status-codes.html" target="_blank" rel="noopener">更多状态码</a></p>
+<h6 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-4bd1e598b150b219.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Http请求流程"></p>
+<ol>
+<li>用域名访问服务器，先向DNS服务器请求解析IP地址。</li>
+<li>用IP地址和端口和服务器建立TCP连接。</li>
+<li>向服务器发送Http请求。</li>
+<li>服务器响应请求。</li>
+<li>释放TCP连接。<ul>
+<li>若connection模式为close，则服务器主动关别TCP连接，客户端被动关闭连接，释放TCP连接。</li>
+<li>若connection模式为keepalive，则连接会继续保持一段时间，在该时间段内可以继续接收请求。</li>
+</ul>
+</li>
+</ol>
+<h6 id="GET和POST区别"><a href="#GET和POST区别" class="headerlink" title="GET和POST区别"></a>GET和POST区别</h6><ul>
+<li>请求数据<ul>
+<li>GET请求的数据附加在URL之后，有长度限制（限制和浏览器有关）。</li>
+<li>POST请求的数据在请求体里。</li>
+</ul>
+</li>
+<li>提交数据安全性<ul>
+<li>POST在请求体里安全高于GET在URL里。</li>
+</ul>
+</li>
+</ul>
+<h5 id="HTTPS（Hypertext-Transfer-Protocol-over-Secure-Socket-Layer）"><a href="#HTTPS（Hypertext-Transfer-Protocol-over-Secure-Socket-Layer）" class="headerlink" title="HTTPS（Hypertext Transfer Protocol over Secure Socket Layer）"></a>HTTPS（Hypertext Transfer Protocol over Secure Socket Layer）</h5><h6 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h6><ul>
+<li>安全版HTTP，即H赛用安全套接字层（SSL/TLS）进行信息交互。</li>
+</ul>
+<h6 id="工作原理-1"><a href="#工作原理-1" class="headerlink" title="工作原理"></a>工作原理</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-391d8f3c29e19102.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Https使用流程"></p>
+<ul>
+<li><p>准备流程，从CA证书机构，获取数字证书</p>
+<ol>
+<li>服务器生成一对公私钥S.pub、S.pri，私钥服务器保留（用于解密和签名），将公钥S.pub，身份信息，传给CA机构。</li>
+<li>CA机构也有公私钥C.pub、C.pri，由S.pub、身份信息、CA签名生成数字证书（签名使用C.prt）。</li>
+<li>将数字证书颁发给服务器。</li>
+<li>客户端（如浏览器）会内置一份CA根证书（包含C.pub），用于对数字证书验证。</li>
+</ol>
+</li>
+<li><p>使用流程</p>
+<ol>
+<li>客户端发起请求（TCP三次握手），建立TCP连接。</li>
+<li>客户端将支持的算法列表和产生密钥的随机数发送给服务器。</li>
+<li>服务器返回支持的算法和CA证书。</li>
+<li>验证证书，生成对称密钥。</li>
+<li><p>通过对称密钥进行HTTP通信。</p>
+<h6 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h6></li>
+</ol>
+<ul>
+<li>优点<ol>
+<li>确保数据发送到正确的客户端和服务器。</li>
+<li>防止数据在传输过程中不被窃取、改变，确保数据的完整性。</li>
+</ol>
+</li>
+<li><p>缺点</p>
+<ol>
+<li>加载时间延长、影响缓存、增加数据开销和功耗。</li>
+<li>无法避免服务器收到攻击。</li>
+<li>CA根证书并不安全。</li>
+<li>服务器CA证书需要购买。</li>
+<li>证书绑定固定IP。</li>
+<li>服务器端资源占用较多。</li>
+</ol>
+<h5 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h5></li>
+<li><p>面向连接。传输数据建立在可靠的连接上。</p>
+</li>
+<li>传输可靠，保证数据正确性和数据有序性。</li>
+<li>速度慢，建立连接需要开销较多（时间、系统资源）。</li>
+<li>适用于传输大量数据（流模式）。</li>
+<li>建立连接三次握手。</li>
+<li>释放连接四次挥手。</li>
+</ul>
+</li>
+</ul>
+<p>   <img src="https://upload-images.jianshu.io/upload_images/2088926-01798594d6a21259.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TCP三次握手"></p>
+<p>   ​            </p>
+<p>   <img src="https://upload-images.jianshu.io/upload_images/2088926-12678e1437d7acf2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TCP四次挥手"></p>
+<h5 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h5><ul>
+<li>面向非连接，传输不需要建立连接。</li>
+<li>传输不可靠，不保证传输的完整性和有序性。</li>
+<li>传输少量数据（数据包模式）。</li>
+<li><p>速度快。</p>
+<h5 id="SOCKET"><a href="#SOCKET" class="headerlink" title="SOCKET"></a>SOCKET</h5><h6 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h6></li>
+<li><p>通信的基石，是支持TCP/IP协议网络通信的基本操作单元。</p>
+</li>
+<li><p>包含通信必须的物种必须信息：</p>
+<ol>
+<li>连接使用的协议。</li>
+<li>本地主机的IP。</li>
+<li>本地进程的协议端口。</li>
+<li>远地主机的IP。</li>
+<li>远地进程的协议端口。</li>
+</ol>
+<h6 id="建立连接"><a href="#建立连接" class="headerlink" title="建立连接"></a>建立连接</h6></li>
+<li><p>至少需要一对套接字，运行与客户端的ClientSocket和运行与服务端的ServerSocker。</p>
+</li>
+<li><p>连接步骤</p>
+<ol>
+<li>服务器监听。</li>
+<li>客户端请求。</li>
+<li>连接确认。</li>
+</ol>
+<h6 id="SOCKET、TCP-IP、HTTP"><a href="#SOCKET、TCP-IP、HTTP" class="headerlink" title="SOCKET、TCP/IP、HTTP"></a>SOCKET、TCP/IP、HTTP</h6></li>
+<li><p>建立Socket连接时，可指定使用的传输层协议（TCP或UDP）。</p>
+</li>
+<li>TCP/IP是传输层协议，解决数据如何在网络中传输。</li>
+<li>HTTP层是应用层协议，解决如何包装数据。</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年09月16日 00:39</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/09/15/HTTP、HTTPS、Socket、TCP、UDP/" title="HTTP、HTTPS、SOCKET、TCP、UDP">https://batuer.github.io/2018/09/15/HTTP、HTTPS、Socket、TCP、UDP/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2018/09/15/HTTP、HTTPS、Socket、TCP、UDP/&title=《HTTP、HTTPS、SOCKET、TCP、UDP》 — YlwBlog&pic=/images/网络传输层.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2018/09/15/HTTP、HTTPS、Socket、TCP、UDP/&title=《HTTP、HTTPS、SOCKET、TCP、UDP》 — YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2018/09/15/HTTP、HTTPS、Socket、TCP、UDP/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HTTP、HTTPS、SOCKET、TCP、UDP》 — YlwBlog&url=https://batuer.github.io/2018/09/15/HTTP、HTTPS、Socket、TCP、UDP/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2018/09/15/HTTP、HTTPS、Socket、TCP、UDP/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2018/09/15/HTTP、HTTPS、Socket、TCP、UDP/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/batuer.github.io/tags/Http/" class="color5">Http</a>
+      
+    <a href="/batuer.github.io/tags/Socket/" class="color2">Socket</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HTTP-Hypertext-Transfer-Protocol"><span class="post-toc-text">HTTP(Hypertext Transfer  Protocol)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#特点"><span class="post-toc-text">特点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#状态码"><span class="post-toc-text">状态码</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#工作原理"><span class="post-toc-text">工作原理</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#GET和POST区别"><span class="post-toc-text">GET和POST区别</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#HTTPS（Hypertext-Transfer-Protocol-over-Secure-Socket-Layer）"><span class="post-toc-text">HTTPS（Hypertext Transfer Protocol over Secure Socket Layer）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#特点-1"><span class="post-toc-text">特点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#工作原理-1"><span class="post-toc-text">工作原理</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优缺点"><span class="post-toc-text">优缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#TCP"><span class="post-toc-text">TCP</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#UDP"><span class="post-toc-text">UDP</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#SOCKET"><span class="post-toc-text">SOCKET</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#概念"><span class="post-toc-text">概念</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#建立连接"><span class="post-toc-text">建立连接</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#SOCKET、TCP-IP、HTTP"><span class="post-toc-text">SOCKET、TCP/IP、HTTP</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/batuer.github.io/2018/09/14/Activity Launch/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Activity启动流程</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Yuliwen<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://batuer.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/SQL/">SQL</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/网络/">网络</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/batuer.github.io/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/batuer.github.io/tags/Activity/" style="font-size: 10px;">Activity</a> <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/batuer.github.io/js/search.js"></script>
+<script src="/batuer.github.io/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/batuer.github.io/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/batuer.github.io/js/animate.js"></script>
+
+
+  <script src="/batuer.github.io/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
