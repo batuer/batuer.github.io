@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="YlwBlog">
 <meta property="og:description" content="2018-05-07   陕西西建大聚慧 int、short、long字节 | 类型   | 字节    || —— | ——- || int    | 4个字节 || char   | 2个字节 || byte   | 1个字节 || short  | 2个字节 || long   | 8个字节 || float  | 8个字节 || double | 8个字节 |  树、二叉树  Fragme">
 <meta property="og:locale" content="CN">
-<meta property="og:updated_time" content="2018-12-18T13:34:39.083Z">
+<meta property="og:updated_time" content="2018-12-22T14:15:42.685Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面试小结">
 <meta name="twitter:description" content="2018-05-07   陕西西建大聚慧 int、short、long字节 | 类型   | 字节    || —— | ——- || int    | 4个字节 || char   | 2个字节 || byte   | 1个字节 || short  | 2个字节 || long   | 8个字节 || float  | 8个字节 || double | 8个字节 |  树、二叉树  Fragme">
@@ -226,24 +226,46 @@
 <li><p>多层级控件View</p>
 </li>
 </ol>
-<h5 id="2018-09-19-西安纽扣软件"><a href="#2018-09-19-西安纽扣软件" class="headerlink" title="2018-09-19  西安纽扣软件"></a>2018-09-19  西安纽扣软件</h5><ol>
-<li>Binder进程通信。</li>
-<li>Android事件分发。</li>
-<li>Android View绘制流程。</li>
-<li>Java封装类<ul>
+<h5 id="2018-09-19-西安纽扣软件Binder进程通信。"><a href="#2018-09-19-西安纽扣软件Binder进程通信。" class="headerlink" title="2018-09-19  西安纽扣软件Binder进程通信。"></a>2018-09-19  西安纽扣软件Binder进程通信。</h5><ol>
+<li><p>Android事件分发。</p>
+</li>
+<li><p>Android View绘制流程。</p>
+</li>
+<li><p>Java封装类</p>
+<ul>
 <li>因为泛型类包括预定义的集合，使用的参数都是对象类型，无法直接使用基本类型的数据，所以提供了基本类型的封装类。</li>
 </ul>
 </li>
-<li>Android中为什么主线程不会因为Looper.loop()里的死循环阻塞？<ul>
+<li><p>Android中为什么主线程不会因为Looper.loop()里的死循环阻塞？</p>
+<ul>
 <li>主线程因为Looper.loop()死循环，每个消息事件时间限制（ANR）。</li>
 <li>Android基于事件驱动。</li>
 </ul>
+</li>
+<li><p><a href="https://blog.csdn.net/VampireKalus/article/details/79798372" target="_blank" rel="noopener">HashMap</a> </p>
+<ol>
+<li>工作原理<ul>
+<li>HashMap是基于hashing的原理。</li>
+<li>使用put(key,value)储存对象Map.Entry到HashMap中。<ol>
+<li>先对键调用hashCode()方法，返回的hashCode用于找到bucket位置来储存Map.Entry对象。</li>
+<li>HashMap是在bucket中储存键对象和值对象，作为Map.Entry。</li>
+</ol>
+</li>
+<li>使用get(key)从HashMap中获取对象。<ol>
+<li>根据key的hashCode获取index。</li>
+<li>遍历链表key.equals()找对应Map.Entry对象。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><a href="https://blog.csdn.net/brycegao321/article/details/52527236" target="_blank" rel="noopener">JDK1.8源码分析</a> </li>
+</ol>
 </li>
 </ol>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年12月18日 21:34</p>
+        <p>最后更新： 2018年12月22日 22:15</p>
         <p>原始链接： <a class="post-url" href="/batuer.github.io/2018/12/18/InterviewSummary/" title="面试小结">https://batuer.github.io/2018/12/18/InterviewSummary/</a></p>
         <footer>
             <a href="https://batuer.github.io">
@@ -361,19 +383,19 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2018-05-07-陕西西建大聚慧"><span class="post-toc-text">2018-05-07   陕西西建大聚慧</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2018-04-27-山东新北洋信息"><span class="post-toc-text">2018-04-27   山东新北洋信息</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2018-09-19-西安纽扣软件"><span class="post-toc-text">2018-09-19  西安纽扣软件</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2018-05-07-陕西西建大聚慧"><span class="post-toc-text">2018-05-07   陕西西建大聚慧</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2018-04-27-山东新北洋信息"><span class="post-toc-text">2018-04-27   山东新北洋信息</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2018-09-19-西安纽扣软件Binder进程通信。"><span class="post-toc-text">2018-09-19  西安纽扣软件Binder进程通信。</span></a></li></ol></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/batuer.github.io/2018/12/18/JavaAnnotation/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/batuer.github.io/2018/12/18/JavaCollection/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          Java注解
+          Java集合
         
       </span>
     </a>
