@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Binder进程通信 | YlwBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Keep learning!" />
+  
+  <meta name="description" content="学习链接 Binder 从机制、模型的角度 定义：Binder是Android中IPC^1的一种方式。 作用：Android中跨进程通信。   模型的结构、组成 定义：Binder是一种虚拟的物理设备驱动（Binder驱动)。 作用：连接Service进程，Client进程和ServiceManager进程。   Android代码的实现 定义：Binder是一个类，实现IBinder接口。 作用">
+<meta name="keywords" content="Android,Binder">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Binder进程通信">
+<meta property="og:url" content="https://batuer.github.io/2019/03/13/Binder/index.html">
+<meta property="og:site_name" content="YlwBlog">
+<meta property="og:description" content="学习链接 Binder 从机制、模型的角度 定义：Binder是Android中IPC^1的一种方式。 作用：Android中跨进程通信。   模型的结构、组成 定义：Binder是一种虚拟的物理设备驱动（Binder驱动)。 作用：连接Service进程，Client进程和ServiceManager进程。   Android代码的实现 定义：Binder是一个类，实现IBinder接口。 作用">
+<meta property="og:locale" content="CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-d7e9a9466dec9452.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-86a9acfe520ed71f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-62925df9974d278b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-017b7a26b17765c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-416ecacccf3623b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-13T13:35:40.709Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Binder进程通信">
+<meta name="twitter:description" content="学习链接 Binder 从机制、模型的角度 定义：Binder是Android中IPC^1的一种方式。 作用：Android中跨进程通信。   模型的结构、组成 定义：Binder是一种虚拟的物理设备驱动（Binder驱动)。 作用：连接Service进程，Client进程和ServiceManager进程。   Android代码的实现 定义：Binder是一个类，实现IBinder接口。 作用">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2088926-d7e9a9466dec9452.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+  
+    <link rel="icon" href="/avatar.jpg">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/batuer.github.io/css/style.css">
+  <script src="/batuer.github.io/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/batuer.github.io/" class="left">
+                    <span class="site-title">Ylw Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/batuer.github.io/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/batuer.github.io/">
+                    <img src="/batuer.github.io/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Ylw Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        A young idler, an old beggar
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="https://github.com/batuer">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="http://weibo.com/bayi806">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Binder" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Binder进程通信
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/batuer.github.io/categories/Android/">Android</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-13
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p><a href="https://www.jianshu.com/p/4ee3fd07da14" target="_blank" rel="noopener">学习链接</a></p>
+<h4 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h4><ul>
+<li>从机制、模型的角度<ul>
+<li>定义：Binder是Android中IPC<a href="通过文件共享、Socket、Messenger（AIDL一种）、ContentProvider、AIDL。">^1</a>的一种方式。</li>
+<li>作用：Android中跨进程通信。</li>
+</ul>
+</li>
+<li>模型的结构、组成<ul>
+<li>定义：Binder是一种虚拟的物理设备驱动（Binder驱动)。</li>
+<li>作用：连接Service进程，Client进程和ServiceManager进程。</li>
+</ul>
+</li>
+<li>Android代码的实现<ul>
+<li>定义：Binder是一个类，实现IBinder接口。</li>
+<li>作用：Binder机制模型，代码的形式具体实现在Android中。</li>
+</ul>
+</li>
+</ul>
+<h4 id="进程空间"><a href="#进程空间" class="headerlink" title="进程空间"></a>进程空间</h4><h5 id="划分"><a href="#划分" class="headerlink" title="划分"></a>划分</h5><ul>
+<li>一个进程空间划分成用户空间与内核空间，进程内用户与内核隔离。</li>
+<li>区别<ul>
+<li>进程间，用户空间数据<strong>不可共享。</strong></li>
+<li>进程间，内核空间数据<strong>可共享。</strong></li>
+</ul>
+</li>
+<li><strong>所有进程共用一个内核空间。</strong></li>
+</ul>
+<h5 id="进程隔离"><a href="#进程隔离" class="headerlink" title="进程隔离"></a>进程隔离</h5><p>Linux机制，为了保证安全性与独立性，一个进程不能直接访问另一个进程。</p>
+<h5 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h5><p>进程间数据交互、通信。</p>
+<h4 id="Binder跨进程通信机制、模型"><a href="#Binder跨进程通信机制、模型" class="headerlink" title="Binder跨进程通信机制、模型"></a>Binder跨进程通信机制、模型</h4><h5 id="模型原理"><a href="#模型原理" class="headerlink" title="模型原理"></a>模型原理</h5><p>Binder跨进程通信机制基于Client -Server 模式</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-d7e9a9466dec9452.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h5 id="模型组成角色"><a href="#模型组成角色" class="headerlink" title="模型组成角色"></a>模型组成角色</h5><ul>
+<li>Client进程（Android客户端）：使用服务的进程。</li>
+<li>Server进程（服务器端）：提供服务的进程。</li>
+<li>ServiceManager进程（类似于路由器）：管理Service注册与查询（将字符形式的Binder名字转化成Client中对该Binder的引用）。</li>
+<li>Binder驱动（持有每个Server进程在内和空间的Binder实体，并提供Client进程Binder实体的引用）：<ul>
+<li>虚拟设备驱动，是连接Servier、Client和ServiceManager的桥梁。</li>
+<li><strong>传递服务进程消息。</strong></li>
+<li><strong>传递进程间需要传递的数据：通过内存映射。</strong></li>
+<li>线程控制：采用Binder线程池，并有Binder驱动自身进行管理。</li>
+</ul>
+</li>
+</ul>
+<h5 id="原理步骤"><a href="#原理步骤" class="headerlink" title="原理步骤"></a>原理步骤</h5><ul>
+<li>注册服务：ServiceManager拥有Server进程的信息。<ol>
+<li>Server进程向Binder驱动发起服务注册请求。</li>
+<li>Binder驱动将注册请求转发给ServiceManager。</li>
+<li>ServiceManager添加该Server进程。</li>
+</ol>
+</li>
+<li>获取服务：（Client进程与Server进程已建立连接）<ol>
+<li>Client向Binder驱动传递要获取服务的名称，获取请求服务。</li>
+<li>Binder驱动将请求转发给ServiceManager进程。</li>
+<li>ServiceManager通过名称查找需要的Server信息。</li>
+<li>通过Binder驱动将上述服务信息返回给Client进程。</li>
+</ol>
+</li>
+<li>使用服务<ol>
+<li>Binder驱动为跨进程通信做准备——实现内存映射。<ol>
+<li>Binder驱动创建一块接收缓存区。</li>
+<li>根据ServiceManager进程里的Server信息找到对应的Server进程，实现<u>内核缓存区和Server进程用户空间地址同时映射到<strong>同一个接收缓存区</strong>中</u>。</li>
+</ol>
+</li>
+<li>Client进程将参数数据发送到Server进程。<ol>
+<li>Client进程通过系统调用copy_from_user()发送数据到内核空间中的缓存区（当前线程被挂起）。</li>
+<li>由于内核缓存与接收进程的用户空间地址存在映射关系（同时映射Binder创建的接收缓存区中）相当于也发送到了Server进程的用户空间地址，即Binder驱动实现了跨进程通信。</li>
+<li>Binder驱动通知Server进程执行解包。</li>
+</ol>
+</li>
+<li>Server进程将参数数据发送到Serve进程。<ol>
+<li>收到BInder驱动通知后，Server进程从线程池中取出线程，进行数据解包与调用目标方法。</li>
+<li>将最终执行结果写入到自己的共享内存中。</li>
+</ol>
+</li>
+<li>Server进程将目标方法的结果返回给Client进程。<ol>
+<li>将最宠执行结果写入映射的用户空间的内存区域中。</li>
+<li>由于内核缓存区与接收进程的用户空间地址存在映射关系(同时映射Binder创建的接收缓存区中)，相当于也发送到了内核缓存区中。</li>
+<li>Binder通知Client进程获得返回结果(此时Client进程之前被挂起的线程被重新唤醒)。</li>
+<li>Client进程通过系统调用copy_to_user()从内核缓存区接收Server 进程返回的结果。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>优点：<ul>
+<li>传输效率高，每次单项通信数据拷贝次数一次，用户空间与内核空间可直接通过共享对象直交互。</li>
+<li>为接收进程分配了不确定大小的接收缓存区。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-86a9acfe520ed71f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Binder模型原理说明图"></p>
+<h5 id="额外说明"><a href="#额外说明" class="headerlink" title="额外说明"></a>额外说明</h5><ol>
+<li>Client、Server、ServiceManager进程之间的交互都必须通过Binder驱动，并非直接交互。<ol>
+<li>Client、Server、ServiceManager进程数据进程空间的用户空间，不可直接交互。</li>
+<li>Binder驱动属于进程空间的内核空间。</li>
+</ol>
+</li>
+<li>Binder驱动与ServiceManager属于Android基础架构( 系统已经实现)，而Client进程和Server进程应用层，需开发者自己实现。</li>
+<li>Binder请求的线程管理<ul>
+<li>Server进程可能会创建多个线程来处理Binder请求。</li>
+<li>Binder模型线程管理采用Binder驱动的线程池，并由Binder驱动自身管理，非Server进程管理。</li>
+<li>一个进程Binder线程数默认为16。</li>
+</ul>
+</li>
+</ol>
+<h4 id="Binder机制在Android具体实现原理"><a href="#Binder机制在Android具体实现原理" class="headerlink" title="Binder机制在Android具体实现原理"></a>Binder机制在Android具体实现原理</h4><ul>
+<li>Binder机制在Android中实现主要靠Binder类，其实现了IBinder接口。</li>
+</ul>
+<h5 id="注册服务"><a href="#注册服务" class="headerlink" title="注册服务"></a>注册服务</h5><ul>
+<li>Server进程通过Binder驱动像ServiceManager进程注册服务。</li>
+<li>Server进程创建一个Binder对象。<ol>
+<li>Binder实体是Server进程在Binder驱动中的存在形式。</li>
+<li>Binder实体保存Server和ServiceManager的信息(保存在内核空间中)。</li>
+<li>Binder驱动通过内核空间的Binder实体找到用户空间的Server对象。</li>
+</ol>
+</li>
+<li>注册服务后，Binder驱动持有Server进程创建的BInder实体。</li>
+</ul>
+<h5 id="获取服务"><a href="#获取服务" class="headerlink" title="获取服务"></a>获取服务</h5><ul>
+<li>Client进程使用某个service前，须通过Binder驱动向ServiceManager进程获取相应的Service信息。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-62925df9974d278b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h5 id="使用服务"><a href="#使用服务" class="headerlink" title="使用服务"></a>使用服务</h5><p>Client 进程获取到的Service信息(Binder代理对象)，通过Binder驱动建立与该Server所在Server进程通信的链路，并开始使用服务。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-017b7a26b17765c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2088926-416ecacccf3623b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><p>Linux上的其他进程通信方式(管道、消息队列、共享内存、信号量、Socker)，Binder机制的优点：</p>
+<ul>
+<li>高效<ul>
+<li>Binder机制拷贝只需一次，而管道、消息队列、Socket都需两次。</li>
+<li>通过驱动在内核空间拷贝数据，不需要额外的同步处理。</li>
+</ul>
+</li>
+<li>安全性高<ul>
+<li>Binder机制为每个进程分配了UUID/PID来作为鉴别身份的表示。</li>
+<li>在Binder通信时会根据UUID/PID进行有效性检测。</li>
+<li>传统的进程通信方式对于通信双方的身份没有做出严格的验证。</li>
+</ul>
+</li>
+<li>使用简单<ul>
+<li>采用Client/Server架构</li>
+<li>实现面向对象的调用方式(即在使用BInder时，就和调用一个本地对象实例一样)</li>
+</ul>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年03月13日 21:35</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2019/03/13/Binder/" title="Binder进程通信">https://batuer.github.io/2019/03/13/Binder/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2019/03/13/Binder/&title=《Binder进程通信》 — YlwBlog&pic=/images/common.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2019/03/13/Binder/&title=《Binder进程通信》 — YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2019/03/13/Binder/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Binder进程通信》 — YlwBlog&url=https://batuer.github.io/2019/03/13/Binder/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2019/03/13/Binder/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2019/03/13/Binder/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/batuer.github.io/tags/Android/" class="color3">Android</a>
+      
+    <a href="/batuer.github.io/tags/Binder/" class="color2">Binder</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder"><span class="post-toc-text">Binder</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#进程空间"><span class="post-toc-text">进程空间</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#划分"><span class="post-toc-text">划分</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#进程隔离"><span class="post-toc-text">进程隔离</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#IPC"><span class="post-toc-text">IPC</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder跨进程通信机制、模型"><span class="post-toc-text">Binder跨进程通信机制、模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#模型原理"><span class="post-toc-text">模型原理</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#模型组成角色"><span class="post-toc-text">模型组成角色</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#原理步骤"><span class="post-toc-text">原理步骤</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#额外说明"><span class="post-toc-text">额外说明</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Binder机制在Android具体实现原理"><span class="post-toc-text">Binder机制在Android具体实现原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#注册服务"><span class="post-toc-text">注册服务</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#获取服务"><span class="post-toc-text">获取服务</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#使用服务"><span class="post-toc-text">使用服务</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优点"><span class="post-toc-text">优点</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/batuer.github.io/2019/03/13/Dart/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Dart
+        
+      </span>
+    </a>
+  
+  
+    <a href="/batuer.github.io/2019/03/13/AsyncTask/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">AsyncTask</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Yuliwen<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://batuer.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/SQL/">SQL</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/网络/">网络</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/batuer.github.io/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/batuer.github.io/js/search.js"></script>
+<script src="/batuer.github.io/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/batuer.github.io/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/batuer.github.io/js/animate.js"></script>
+
+
+  <script src="/batuer.github.io/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

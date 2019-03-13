@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>RxJava2操作符 | YlwBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Keep learning!" />
+  
+  <meta name="description" content="创建基本创建 create() : 完整创建1个被观察者对象（Observable）快速创建 &amp;amp; 发送事件 just() :  快速创建1个被观察者对象（Observable） 发送事件的特点：直接发送 传入的事件 最多只能创建10个   fromArray（）: 快速创建1个被观察者对象（Observable） 发送事件的特点：直接发送 传入的数组数据 10个以上事件   fromIte">
+<meta name="keywords" content="RxJava2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava2操作符">
+<meta property="og:url" content="https://batuer.github.io/2019/03/13/RxJava2/index.html">
+<meta property="og:site_name" content="YlwBlog">
+<meta property="og:description" content="创建基本创建 create() : 完整创建1个被观察者对象（Observable）快速创建 &amp;amp; 发送事件 just() :  快速创建1个被观察者对象（Observable） 发送事件的特点：直接发送 传入的事件 最多只能创建10个   fromArray（）: 快速创建1个被观察者对象（Observable） 发送事件的特点：直接发送 传入的数组数据 10个以上事件   fromIte">
+<meta property="og:locale" content="CN">
+<meta property="og:updated_time" content="2019-03-13T13:35:40.751Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxJava2操作符">
+<meta name="twitter:description" content="创建基本创建 create() : 完整创建1个被观察者对象（Observable）快速创建 &amp;amp; 发送事件 just() :  快速创建1个被观察者对象（Observable） 发送事件的特点：直接发送 传入的事件 最多只能创建10个   fromArray（）: 快速创建1个被观察者对象（Observable） 发送事件的特点：直接发送 传入的数组数据 10个以上事件   fromIte">
+  
+  
+    <link rel="icon" href="/avatar.jpg">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/batuer.github.io/css/style.css">
+  <script src="/batuer.github.io/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/batuer.github.io/" class="left">
+                    <span class="site-title">Ylw Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/batuer.github.io/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/batuer.github.io/">
+                    <img src="/batuer.github.io/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Ylw Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        A young idler, an old beggar
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="https://github.com/batuer">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="http://weibo.com/bayi806">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-RxJava2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      RxJava2操作符
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/batuer.github.io/categories/RxJava2/">RxJava2</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-13
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><h4 id="基本创建"><a href="#基本创建" class="headerlink" title="基本创建"></a>基本创建</h4><ol>
+<li>create() : 完整创建1个被观察者对象（Observable）<h4 id="快速创建-amp-发送事件"><a href="#快速创建-amp-发送事件" class="headerlink" title="快速创建 &amp; 发送事件"></a>快速创建 &amp; 发送事件</h4></li>
+<li>just() : <ul>
+<li>快速创建1个被观察者对象（Observable）</li>
+<li>发送事件的特点：直接发送 传入的事件</li>
+<li>最多只能创建10个</li>
+</ul>
+</li>
+<li>fromArray（）:<ul>
+<li>快速创建1个被观察者对象（Observable）</li>
+<li>发送事件的特点：直接发送 传入的数组数据</li>
+<li>10个以上事件</li>
+</ul>
+</li>
+<li>fromIterable（）:<ul>
+<li>快速创建一个被观察者对象(Observable)</li>
+<li>发送事件的特点，直接发送传入的集合数据</li>
+<li>发送10个以上事件<h4 id="延迟创建"><a href="#延迟创建" class="headerlink" title="延迟创建"></a>延迟创建</h4></li>
+</ul>
+</li>
+<li>defer():<ul>
+<li>直到有观察者（Observer ）订阅时，才动态创建被观察者对象（Observable） &amp; 发送事件</li>
+</ul>
+</li>
+<li>timer():<ul>
+<li>快速创建1个被观察者对象（Observable）</li>
+<li>发送事件的特点：延迟指定时间后，发送1个数值0（Long类型）</li>
+<li>本质:延迟执行onNext(0)</li>
+</ul>
+</li>
+<li>interval():<ul>
+<li>快速创建1个被观察者对象(Observable)</li>
+<li>发送事件的特点:延迟初始化时间开始执行定时间隔发送事件</li>
+<li>从0开始，递增1执行</li>
+</ul>
+</li>
+<li>intervalRange():<ul>
+<li>快速创建1个被观察者对象(Observable)</li>
+<li>发送事件的特点:类似于interval(),区别在于事件 起始值和数量有限制.</li>
+</ul>
+</li>
+<li>range() /rangeLong() :<ul>
+<li>快速创建1个被观察者对象(Observable)</li>
+<li>发送事件的特点: 连续发送事件，参数分别为起始值和事件数量.<h3 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h3><h4 id="变换操作符"><a href="#变换操作符" class="headerlink" title="变换操作符"></a>变换操作符</h4></li>
+</ul>
+</li>
+<li>map():<ul>
+<li>改变发射源的数据类型</li>
+</ul>
+</li>
+<li>flatMap():<ul>
+<li>将被观察者发送的事件序列进行 拆分 &amp; 单独转换，再合并成一个新的事件序列，最后再进行发送(<font color="ff0000" size="4">无序</font> )</li>
+<li>直接改变发射源</li>
+</ul>
+</li>
+<li>contactMap() :<ul>
+<li>类似于flatMap()</li>
+<li>与FlatMap（）的 区别在于：拆分 &amp; 重新合并生成的事件序列 的顺序 = 被观察者旧序列生产的顺序(<font color="ff0000" size="4">有序</font>)</li>
+</ul>
+</li>
+<li>switchMap() :<ul>
+<li>switchMap的作用在flatMap的基础上，对输出结果若同时发生，只会保证最新结果而放弃旧数据。</li>
+</ul>
+</li>
+<li>buffer() :<ul>
+<li>定期从 被观察者（Observable）需要发送的事件中 获取一定数量的事件 &amp; 放到缓存区中，最终发送<h3 id="组合-合并"><a href="#组合-合并" class="headerlink" title="组合/合并"></a>组合/合并</h3><h4 id="组合多个被观察者"><a href="#组合多个被观察者" class="headerlink" title="组合多个被观察者"></a>组合多个被观察者</h4></li>
+</ul>
+</li>
+<li>concat（） / concatArray（）:<ul>
+<li>组合多个被观察者一起发送数据，合并后 按发送顺序<font color="ff0000" size="4">串行执行</font></li>
+<li>二者区别：组合被观察者的数量，即concat（）组合被观察者数量≤4个，而concatArray（）则可＞4个</li>
+</ul>
+</li>
+<li>merge（） / mergeArray（）:<ul>
+<li>组合多个被观察者一起发送数据，合并后 按时间线<font color="ff0000" size="4">并行执行</font></li>
+<li>二者区别：组合被观察者的数量，即merge（）组合被观察者数量≤4个，而mergeArray（）则可＞4个</li>
+<li>区别上述concat（）操作符：同样是组合多个被观察者一起发送数据，但concat（）操作符合并后是按发送顺序<strong>串行</strong>执行</li>
+</ul>
+</li>
+<li>concatDelayError（） / mergeDelayError（）:<ul>
+<li>使用contact或merge时，前面的某一事件发生error时终止其他观察者发送事件</li>
+<li>用DelayError()推迟error事件至其它观察者发送完事件.<h4 id="合并多个事件"><a href="#合并多个事件" class="headerlink" title="合并多个事件"></a>合并多个事件</h4></li>
+</ul>
+</li>
+<li>zip() <ul>
+<li>合并 多个被观察者（Observable）发送的事件，生成一个新的事件序列（即组合过后的事件序列），并最终发送</li>
+<li>事件组合方式 = 严格按照原先事件序列 进行对位合并</li>
+<li>被合并的事件都会执行完毕，最终合并的事件已最少的为基准。</li>
+</ul>
+</li>
+<li>combineLatest（）<ul>
+<li>当两个Observables中的任何一个发送了数据后，将先发送了数据的Observables 的最新（最后）一个数据 与 另外一个Observable发送的每个数据结合，最终基于该函数的结果发送数据</li>
+<li>与Zip（）的区别：Zip（）= 按个数合并，即1对1合并；CombineLatest（） = 按时间合并，即在同一个时间点上合并</li>
+</ul>
+</li>
+<li>combineLatestDelayError()<ul>
+<li>类似于contactDelayError()</li>
+</ul>
+</li>
+<li>reduce() <ul>
+<li>把被观察者需要发送的事件聚合成1个事件 &amp; 发送</li>
+<li>聚合的逻辑根据需求撰写，但本质都是前2个数据聚合，然后与后1个数据继续进行聚合，依次类推</li>
+</ul>
+</li>
+<li>collect()<ul>
+<li>将被观察者Observable发送的数据事件收集到一个数据结构里<h4 id="发送事件前追加发送事件"><a href="#发送事件前追加发送事件" class="headerlink" title="发送事件前追加发送事件"></a>发送事件前追加发送事件</h4></li>
+</ul>
+</li>
+<li>startWitch()/startWithArray()<ul>
+<li>在一个被观察者发送事件前，追加发送一些数据 / 一个新的被观察者<h4 id="统计发送事件的数量"><a href="#统计发送事件的数量" class="headerlink" title="统计发送事件的数量"></a>统计发送事件的数量</h4></li>
+</ul>
+</li>
+<li>count()<ul>
+<li>统计被观察者发送的事件数量<h3 id="应用场景-amp-对应操作符详解"><a href="#应用场景-amp-对应操作符详解" class="headerlink" title="应用场景 &amp; 对应操作符详解"></a>应用场景 &amp; 对应操作符详解</h3><h4 id="连接被观察者-amp-观察者"><a href="#连接被观察者-amp-观察者" class="headerlink" title="连接被观察者 &amp; 观察者"></a>连接被观察者 &amp; 观察者</h4></li>
+</ul>
+</li>
+<li>subscribe（）<ul>
+<li>订阅，即连接观察者 &amp; 被观察者<h4 id="线程调度"><a href="#线程调度" class="headerlink" title="线程调度"></a>线程调度</h4><h4 id="延迟操作"><a href="#延迟操作" class="headerlink" title="延迟操作"></a>延迟操作</h4></li>
+</ul>
+</li>
+<li>delay（）<ul>
+<li>使得被观察者延迟一段时间再发送事件<h4 id="在事件的生命周期中操作"><a href="#在事件的生命周期中操作" class="headerlink" title="在事件的生命周期中操作"></a>在事件的生命周期中操作</h4></li>
+</ul>
+</li>
+<li>do()<ul>
+<li>在某个事件的生命周期中调用</li>
+<li>doOnEach 当Observable每发送1次数据事件就会调用1次.包含onNext、onError、onComplete</li>
+<li>doOnNext 执行Next事件前调用 </li>
+<li>doAfterNext 执行Next事件后调用</li>
+<li>doOnComplete Observable正常发送事件完毕后调用</li>
+<li>doOnError Observable发送错误事件时调用</li>
+<li>doOnSubscribe 观察者订阅时调用</li>
+<li>doAfterTerminate  Observable发送事件完毕后调用，无论正常发送完毕 / 异常终止</li>
+<li>doFinally 最后执行<h4 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h4></li>
+</ul>
+</li>
+<li>onErrorReturn（）<ul>
+<li>遇到错误时，发送1个特殊事件 &amp; 正常终止</li>
+</ul>
+</li>
+<li>onErrorResumeNext（）<ul>
+<li>遇到错误时，发送1个新的Observable</li>
+<li>onErrorResumeNext（）拦截的错误 = Throwable；若需拦截Exception请用onExceptionResumeNext（）</li>
+<li>若onErrorResumeNext（）拦截的错误 = Exception，则会将错误传递给观察者的onError方法</li>
+</ul>
+</li>
+<li>onExceptionResumeNext（）<ul>
+<li>遇到错误时，发送1个新的Observable</li>
+<li>onExceptionResumeNext（）拦截的错误 = Exception；若需拦截Throwable请用onErrorResumeNext（）</li>
+<li>若onExceptionResumeNext（）拦截的错误 = Throwable，则会将错误传递给观察者的onError方法</li>
+</ul>
+</li>
+<li>retry()<ul>
+<li>重试，即当出现错误时，让被观察者（Observable）重新发射数据</li>
+<li>接收到 onError（）时，重新订阅 &amp; 发送事件</li>
+<li>Throwable 和 Exception都可拦截</li>
+</ul>
+</li>
+<li>retryUntil（）<ul>
+<li>出现错误后，判断是否需要重新发送数据</li>
+<li>若需要重新发送 &amp; 持续遇到错误，则持续重试</li>
+<li>作用类似于retry（Predicate predicate）</li>
+<li>返回true则不重新发送数据事件</li>
+</ul>
+</li>
+<li>retryWhen（）<ul>
+<li>遇到错误时，将发生的错误传递给一个新的被观察者（Observable），并决定是否需要重新订阅原始被观察者（Observable）&amp; 发送事件</li>
+<li>若返回的Observable发送的事件 = Next事件，则原始的Observable重新发送事件（若持续遇到错误，则持续重试）</li>
+<li>返回的Observable发送的事件 = Error事件，则原始的Observable不重新发送事件,该异常错误信息可在观察者中的onError（）中获得<h4 id="重复发送"><a href="#重复发送" class="headerlink" title="重复发送"></a>重复发送</h4></li>
+</ul>
+</li>
+<li>repeat()<ul>
+<li>无条件地、重复发送 被观察者事件</li>
+</ul>
+</li>
+<li>repeatWhen（）<ul>
+<li>有条件地、重复发送 被观察者事件</li>
+<li>若新被观察者（Observable）返回1个Complete（） /  Error（）事件，则不重新订阅 &amp; 发送原来的 Observable</li>
+<li>若新被观察者（Observable）返回其余事件，则重新订阅 &amp; 发送原来的 Observable</li>
+</ul>
+</li>
+</ol>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年03月13日 21:35</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2019/03/13/RxJava2/" title="RxJava2操作符">https://batuer.github.io/2019/03/13/RxJava2/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2019/03/13/RxJava2/&title=《RxJava2操作符》 — YlwBlog&pic=/images/RxJava.jpeg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2019/03/13/RxJava2/&title=《RxJava2操作符》 — YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2019/03/13/RxJava2/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RxJava2操作符》 — YlwBlog&url=https://batuer.github.io/2019/03/13/RxJava2/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2019/03/13/RxJava2/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2019/03/13/RxJava2/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/batuer.github.io/tags/RxJava2/" class="color3">RxJava2</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建"><span class="post-toc-text">创建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基本创建"><span class="post-toc-text">基本创建</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#快速创建-amp-发送事件"><span class="post-toc-text">快速创建 &amp; 发送事件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#延迟创建"><span class="post-toc-text">延迟创建</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#变换"><span class="post-toc-text">变换</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#变换操作符"><span class="post-toc-text">变换操作符</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#组合-合并"><span class="post-toc-text">组合/合并</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#组合多个被观察者"><span class="post-toc-text">组合多个被观察者</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#合并多个事件"><span class="post-toc-text">合并多个事件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#发送事件前追加发送事件"><span class="post-toc-text">发送事件前追加发送事件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#统计发送事件的数量"><span class="post-toc-text">统计发送事件的数量</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#应用场景-amp-对应操作符详解"><span class="post-toc-text">应用场景 &amp; 对应操作符详解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#连接被观察者-amp-观察者"><span class="post-toc-text">连接被观察者 &amp; 观察者</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#线程调度"><span class="post-toc-text">线程调度</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#延迟操作"><span class="post-toc-text">延迟操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#在事件的生命周期中操作"><span class="post-toc-text">在事件的生命周期中操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#错误处理"><span class="post-toc-text">错误处理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#重复发送"><span class="post-toc-text">重复发送</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/batuer.github.io/2019/03/13/Sql/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Sql练习
+        
+      </span>
+    </a>
+  
+  
+    <a href="/batuer.github.io/2019/03/13/RecyclerView&ListView/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">RecyclerView与ListView</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Yuliwen<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://batuer.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/SQL/">SQL</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/网络/">网络</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/batuer.github.io/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/batuer.github.io/js/search.js"></script>
+<script src="/batuer.github.io/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/batuer.github.io/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/batuer.github.io/js/animate.js"></script>
+
+
+  <script src="/batuer.github.io/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

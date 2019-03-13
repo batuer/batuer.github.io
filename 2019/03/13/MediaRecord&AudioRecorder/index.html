@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>YlwBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Keep learning!" />
+  
+  <meta name="description" content="AudioRecord（基于字节流录音） 录制最原始的PCM流数据（PCM编码压缩后可为AMR、MP3、AAC），需要用AudioTrack播放。 可以实现语音的实时处理，进行边录边播，对音频的实时处理。  代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YlwBlog">
+<meta property="og:url" content="https://batuer.github.io/2019/03/13/MediaRecord&AudioRecorder/index.html">
+<meta property="og:site_name" content="YlwBlog">
+<meta property="og:description" content="AudioRecord（基于字节流录音） 录制最原始的PCM流数据（PCM编码压缩后可为AMR、MP3、AAC），需要用AudioTrack播放。 可以实现语音的实时处理，进行边录边播，对音频的实时处理。  代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
+<meta property="og:locale" content="CN">
+<meta property="og:updated_time" content="2019-03-13T14:25:24.647Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="YlwBlog">
+<meta name="twitter:description" content="AudioRecord（基于字节流录音） 录制最原始的PCM流数据（PCM编码压缩后可为AMR、MP3、AAC），需要用AudioTrack播放。 可以实现语音的实时处理，进行边录边播，对音频的实时处理。  代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
+  
+  
+    <link rel="icon" href="/avatar.jpg">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/batuer.github.io/css/style.css">
+  <script src="/batuer.github.io/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/batuer.github.io/" class="left">
+                    <span class="site-title">Ylw Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/batuer.github.io/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/batuer.github.io/">
+                    <img src="/batuer.github.io/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Ylw Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        A young idler, an old beggar
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="https://github.com/batuer">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="http://weibo.com/bayi806">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MediaRecord&amp;AudioRecorder" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h5 id="AudioRecord（基于字节流录音）"><a href="#AudioRecord（基于字节流录音）" class="headerlink" title="AudioRecord（基于字节流录音）"></a>AudioRecord（基于字节流录音）</h5><ul>
+<li>录制最原始的PCM流数据（PCM编码压缩后可为AMR、MP3、AAC），需要用AudioTrack播放。</li>
+<li>可以实现语音的实时处理，进行边录边播，对音频的实时处理。</li>
+</ul>
+<h6 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.gusi.study.media;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.media.AudioFormat;</span><br><span class="line"><span class="keyword">import</span> android.media.AudioManager;</span><br><span class="line"><span class="keyword">import</span> android.media.AudioRecord;</span><br><span class="line"><span class="keyword">import</span> android.media.AudioTrack;</span><br><span class="line"><span class="keyword">import</span> android.media.MediaRecorder;</span><br><span class="line"><span class="keyword">import</span> android.os.Environment;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.blankj.utilcode.util.CloseUtils;</span><br><span class="line"><span class="keyword">import</span> com.blankj.utilcode.util.ToastUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> ylw  2019/2/18 20:27</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Audio</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BUFFER_SIZE = <span class="number">2048</span>;<span class="comment">//buffer值不能太大，避免OOM</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> mIsRecording;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ExecutorService mService;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> mBeginTime;</span><br><span class="line">    <span class="keyword">private</span> File mAudioRecordFile;</span><br><span class="line">    <span class="keyword">private</span> FileOutputStream mAudioRecordFos;</span><br><span class="line">    <span class="keyword">private</span> AudioRecord mAudioRecord;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] mBuffer;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Audio</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mService = Executors.newSingleThreadExecutor();</span><br><span class="line">        mBuffer = <span class="keyword">new</span> <span class="keyword">byte</span>[BUFFER_SIZE];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mIsRecording) &#123;</span><br><span class="line">            ToastUtils.showShort(<span class="string">"Audio正在录音: "</span> + (System.currentTimeMillis() - mBeginTime));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mService.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//记录开始录音时间</span></span><br><span class="line">                    mBeginTime = System.currentTimeMillis();</span><br><span class="line">                    <span class="comment">//创建录音文件</span></span><br><span class="line">                    mAudioRecordFile = <span class="keyword">new</span> File(Environment.getExternalStorageDirectory()</span><br><span class="line">                            .getAbsolutePath() +</span><br><span class="line">                            <span class="string">"/recorderDemo/"</span> + System.currentTimeMillis() + <span class="string">".pcm"</span>);</span><br><span class="line">                    File recordFileParentFile = mAudioRecordFile.getParentFile();</span><br><span class="line">                    <span class="keyword">if</span> (!recordFileParentFile.exists()) recordFileParentFile.mkdirs();</span><br><span class="line">                    mAudioRecordFile.createNewFile();</span><br><span class="line">                    Log.w(<span class="string">"Fire"</span>, <span class="string">"MediaActivity:170行:"</span> + mAudioRecordFile.getPath());</span><br><span class="line">                    <span class="comment">//创建文件输出流</span></span><br><span class="line">                    mAudioRecordFos = <span class="keyword">new</span> FileOutputStream(mAudioRecordFile);</span><br><span class="line">                    <span class="comment">//配置AudioRecord</span></span><br><span class="line">                    <span class="keyword">int</span> audioSource = MediaRecorder.AudioSource.MIC;</span><br><span class="line">                    <span class="comment">//所有android系统都支持</span></span><br><span class="line">                    <span class="keyword">int</span> sampleRate = <span class="number">44100</span>;</span><br><span class="line">                    <span class="comment">//单声道输入</span></span><br><span class="line">                    <span class="keyword">int</span> channelConfig = AudioFormat.CHANNEL_IN_MONO;</span><br><span class="line">                    <span class="comment">//PCM_16是所有android系统都支持的</span></span><br><span class="line">                    <span class="keyword">int</span> audioFormat = AudioFormat.ENCODING_PCM_16BIT;</span><br><span class="line">                    <span class="comment">//计算AudioRecord内部buffer最小</span></span><br><span class="line">                    <span class="keyword">int</span> minBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);</span><br><span class="line">                    <span class="comment">//buffer不能小于最低要求，也不能小于我们每次我们读取的大小。</span></span><br><span class="line">                    mAudioRecord = <span class="keyword">new</span> AudioRecord(audioSource, sampleRate, channelConfig, audioFormat, Math.max(minBufferSize, BUFFER_SIZE));</span><br><span class="line"></span><br><span class="line">                    mIsRecording = <span class="keyword">true</span>;</span><br><span class="line">                    <span class="comment">//开始录音</span></span><br><span class="line">                    mAudioRecord.startRecording();</span><br><span class="line">                    <span class="comment">//循环读取数据，写入输出流中</span></span><br><span class="line">                    <span class="keyword">while</span> (mIsRecording) &#123;</span><br><span class="line">                        <span class="comment">//只要还在录音就一直读取</span></span><br><span class="line">                        <span class="keyword">int</span> read = mAudioRecord.read(mBuffer, <span class="number">0</span>, BUFFER_SIZE);</span><br><span class="line">                        <span class="keyword">if</span> (read &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                            mAudioRecordFos.write(mBuffer, <span class="number">0</span>, read);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//退出循环，停止录音，释放资源</span></span><br><span class="line">                    <span class="keyword">if</span> (mAudioRecord != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        mAudioRecord.stop();</span><br><span class="line">                        mAudioRecord.release();</span><br><span class="line">                        mAudioRecord = <span class="keyword">null</span>;</span><br><span class="line">                        Log.w(<span class="string">"Fire"</span>, <span class="string">"MediaActivity:213行:Audio 录音"</span> + (System.currentTimeMillis() - mBeginTime));</span><br><span class="line">                    &#125;</span><br><span class="line">                    CloseUtils.closeIO(mAudioRecordFos);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    Log.e(<span class="string">"Fire"</span>, <span class="string">"MediaActivity:163行:"</span> + e.toString());</span><br><span class="line">                    mAudioRecord = <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!mIsRecording) &#123;</span><br><span class="line">            ToastUtils.showShort(<span class="string">"Audio 没有在录音!"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mIsRecording = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mIsRecording) &#123;</span><br><span class="line">            ToastUtils.showShort(<span class="string">"Audio 正在录音!"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mService.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                Log.w(<span class="string">"Fire"</span>, <span class="string">"MediaActivity:167行:"</span> + mAudioRecordFile);</span><br><span class="line">                <span class="keyword">if</span> (mAudioRecordFile != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="comment">//配置播放器</span></span><br><span class="line">                    <span class="comment">//音乐类型，扬声器播放</span></span><br><span class="line">                    <span class="keyword">int</span> streamType = AudioManager.STREAM_MUSIC;</span><br><span class="line">                    <span class="comment">//录音时采用的采样频率，所以播放时同样的采样频率</span></span><br><span class="line">                    <span class="keyword">int</span> sampleRate = <span class="number">44100</span>;</span><br><span class="line">                    <span class="comment">//单声道，和录音时设置的一样</span></span><br><span class="line">                    <span class="keyword">int</span> channelConfig = AudioFormat.CHANNEL_OUT_MONO;</span><br><span class="line">                    <span class="comment">//录音时使用16bit，所以播放时同样采用该方式</span></span><br><span class="line">                    <span class="keyword">int</span> audioFormat = AudioFormat.ENCODING_PCM_16BIT;</span><br><span class="line">                    <span class="comment">//流模式</span></span><br><span class="line">                    <span class="keyword">int</span> mode = AudioTrack.MODE_STREAM;</span><br><span class="line">                    <span class="comment">//计算最小buffer大小</span></span><br><span class="line">                    <span class="keyword">int</span> minBufferSize = AudioTrack.getMinBufferSize(sampleRate, channelConfig, audioFormat);</span><br><span class="line">                    <span class="comment">//构造AudioTrack  不能小于AudioTrack的最低要求，也不能小于我们每次读的大小</span></span><br><span class="line">                    AudioTrack audioTrack = <span class="keyword">new</span> AudioTrack(streamType, sampleRate, channelConfig, audioFormat, Math.max(minBufferSize, BUFFER_SIZE), mode);</span><br><span class="line">                    audioTrack.play();</span><br><span class="line">                    <span class="comment">//从文件流读数据</span></span><br><span class="line">                    FileInputStream is = <span class="keyword">null</span>;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="comment">//循环读数据，写到播放器去播放</span></span><br><span class="line">                        is = <span class="keyword">new</span> FileInputStream(mAudioRecordFile);</span><br><span class="line">                        <span class="comment">//循环读数据，写到播放器去播放</span></span><br><span class="line">                        <span class="keyword">int</span> read;</span><br><span class="line">                        <span class="comment">//只要没读完，循环播放</span></span><br><span class="line">                        <span class="keyword">while</span> ((read = is.read(mBuffer)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                            <span class="keyword">int</span> ret = audioTrack.write(mBuffer, <span class="number">0</span>, read);</span><br><span class="line">                            <span class="comment">//检查write的返回值，处理错误</span></span><br><span class="line">                            <span class="keyword">switch</span> (ret) &#123;</span><br><span class="line">                                <span class="keyword">case</span> AudioTrack.ERROR_INVALID_OPERATION:</span><br><span class="line">                                <span class="keyword">case</span> AudioTrack.ERROR_BAD_VALUE:</span><br><span class="line">                                <span class="keyword">case</span> AudioManager.ERROR_DEAD_OBJECT:</span><br><span class="line">                                    ToastUtils.showShort(<span class="string">"播放失败!"</span>);</span><br><span class="line">                                    <span class="keyword">return</span>;</span><br><span class="line">                                <span class="keyword">default</span>:</span><br><span class="line">                                    <span class="keyword">break</span>;</span><br><span class="line">                            &#125;</span><br><span class="line"><span class="comment">//                            audioTrack.play();</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                        Log.e(<span class="string">"Fire"</span>, <span class="string">"MediaActivity:208行:"</span> + e.toString());</span><br><span class="line">                        <span class="comment">//读取失败</span></span><br><span class="line">                        ToastUtils.showShort(<span class="string">"播放失败!"</span>);</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"><span class="comment">//                        mIsPlaying = false;</span></span><br><span class="line">                        <span class="comment">//关闭文件输入流</span></span><br><span class="line">                        CloseUtils.closeIO(is);</span><br><span class="line">                        <span class="comment">//播放器释放</span></span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            audioTrack.stop();</span><br><span class="line">                            audioTrack.release();</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                            e.printStackTrace();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//循环读数据，写到播放器去播放</span></span><br><span class="line">                    <span class="comment">//错误处理，防止闪退</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="MediaRecorder（基于文件录音）"><a href="#MediaRecorder（基于文件录音）" class="headerlink" title="MediaRecorder（基于文件录音）"></a>MediaRecorder（基于文件录音）</h5><ul>
+<li>已集成录音、编码、压缩等，支持少量的音频格式文件。</li>
+<li>录制的音频是经过编码压缩后的（AMR、MP3、AAC），并存储为文件。</li>
+<li>优点：封装度高，操作简单。</li>
+<li>缺点：不能实时处理音频，输出音频格式少。</li>
+</ul>
+<h6 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> ylw  2019/2/18 20:41</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Media</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ExecutorService mService;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> MediaRecorder mMediaRecorder;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> mBeginTime;</span><br><span class="line">    <span class="keyword">private</span> File mFile;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Media</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mService = Executors.newSingleThreadExecutor();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 录音</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">record</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mService.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (mMediaRecorder != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    ToastUtils.showShort(<span class="string">"Media 正在录音"</span>);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//实例化MediaRecorder对象</span></span><br><span class="line">                mMediaRecorder = <span class="keyword">new</span> MediaRecorder();</span><br><span class="line">                <span class="comment">//从麦克风采集声音数据</span></span><br><span class="line">                mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);</span><br><span class="line">                <span class="comment">//设置输出格式为MP4</span></span><br><span class="line">                mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);</span><br><span class="line">                <span class="comment">//设置采样频率44100 频率越高,音质越好,文件越大</span></span><br><span class="line">                mMediaRecorder.setAudioSamplingRate(<span class="number">44100</span>);</span><br><span class="line">                <span class="comment">//设置声音数据编码格式,音频通用格式是AAC</span></span><br><span class="line">                mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);</span><br><span class="line">                <span class="comment">//设置编码频率</span></span><br><span class="line">                mMediaRecorder.setAudioEncodingBitRate(<span class="number">96000</span>);</span><br><span class="line">                <span class="comment">//设置输出文件</span></span><br><span class="line">                <span class="comment">//创建录音文件</span></span><br><span class="line">                mFile = <span class="keyword">new</span> File(Environment.getExternalStorageDirectory()</span><br><span class="line">                        .getAbsolutePath()</span><br><span class="line">                        + <span class="string">"/recorderDemo/"</span> + System.currentTimeMillis() + <span class="string">".m4a"</span>);</span><br><span class="line">                File parentFile = mFile.getParentFile();</span><br><span class="line">                <span class="keyword">if</span> (!parentFile.exists()) parentFile.mkdirs();</span><br><span class="line">                <span class="comment">//开始录音</span></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    mFile.createNewFile();</span><br><span class="line">                    String path = mFile.getPath();</span><br><span class="line">                    Log.w(<span class="string">"Fire"</span>, <span class="string">"MediaActivity:50行:"</span> + path);</span><br><span class="line">                    mMediaRecorder.setOutputFile(path);</span><br><span class="line">                    mMediaRecorder.prepare();</span><br><span class="line">                    mMediaRecorder.start();</span><br><span class="line">                    mBeginTime = System.currentTimeMillis();</span><br><span class="line">                    ToastUtils.showShort(<span class="string">"Media正在录音: "</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                    Log.e(<span class="string">"Fire"</span>, <span class="string">"MediaActivity:109行:"</span> + e.toString());</span><br><span class="line">                    mMediaRecorder = <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 停止</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mService.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (mMediaRecorder == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    ToastUtils.showShort(<span class="string">"Media 没有在录音!"</span>);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                mMediaRecorder.stop();</span><br><span class="line">                mMediaRecorder.release();</span><br><span class="line">                mMediaRecorder = <span class="keyword">null</span>;</span><br><span class="line">                ToastUtils.showShort(<span class="string">"录音时间:"</span> + (System.currentTimeMillis() - mBeginTime));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 播放</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mFile == <span class="keyword">null</span>) &#123;</span><br><span class="line">            ToastUtils.showShort(<span class="string">"Media没有播放资源!"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> MediaPlayer mediaPlayer = <span class="keyword">new</span> MediaPlayer();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            mediaPlayer.setDataSource(mFile.getPath());</span><br><span class="line">            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 通过异步的方式装载媒体资源</span></span><br><span class="line">            mediaPlayer.prepareAsync();</span><br><span class="line">            mediaPlayer.setOnPreparedListener(<span class="keyword">new</span> MediaPlayer.OnPreparedListener() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPrepared</span><span class="params">(MediaPlayer mp)</span> </span>&#123;</span><br><span class="line">                    <span class="comment">// 装载完毕回调</span></span><br><span class="line">                    mediaPlayer.start();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        mediaPlayer.setOnCompletionListener(<span class="keyword">new</span> MediaPlayer.OnCompletionListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompletion</span><span class="params">(MediaPlayer mp)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (mediaPlayer != <span class="keyword">null</span> &amp;&amp; mediaPlayer.isPlaying()) &#123;</span><br><span class="line">                    mediaPlayer.stop();</span><br><span class="line">                    mediaPlayer.release();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="MediaPlayer和AudioTrack"><a href="#MediaPlayer和AudioTrack" class="headerlink" title="MediaPlayer和AudioTrack"></a>MediaPlayer和AudioTrack</h5><h6 id="MediaPlayer"><a href="#MediaPlayer" class="headerlink" title="MediaPlayer"></a>MediaPlayer</h6><ul>
+<li>可播放多种格式的声音文件（MP3、AAC、WAV、OGG、MIDI等等）。</li>
+<li>会在framework创建对应的<strong>音频解码器</strong>。</li>
+<li>会在framework创建AudioTrack，把解码后的PCM流数据传递给AudioTrack，AudioTrack再传递给AudioFlinger进行混音，然后传给硬件播放。</li>
+</ul>
+<h6 id="AudioTrack"><a href="#AudioTrack" class="headerlink" title="AudioTrack"></a>AudioTrack</h6><ul>
+<li>只能播放已经解码的PCM流，文件只支持不需要解码的wav。</li>
+</ul>
+<h5 id="PCM"><a href="#PCM" class="headerlink" title="PCM"></a>PCM</h5><p>PCM录音就是将声音等模拟信号变成符号化的脉冲列，再予以记录。PCM信号是由[1]、[0]等符号构成的数字信号，而未经过任何编码和压缩处理。与模拟信号比，它不易受传送系统的杂波及失真的影响。动态范围宽，可得到音质相当好的影响效果。也就是说，PCM就是没有压缩的编码方式，PCM文件就是采用PCM这种没有压缩的编码方式编码的音频数据文件。</p>
+<h5 id="音频混合"><a href="#音频混合" class="headerlink" title="音频混合"></a>音频混合</h5><ul>
+<li><strong>音频混合原理</strong>：量化的语音信号的叠加等价于空气中声波的叠加。</li>
+<li>一段音频和另一端音频合在一起，能够同时播放（人声和背景音乐的合成）。</li>
+<li>音频采样点数值的大小是（-32768,32767），对应short的最小值和最大值，音频采样点数据就是由一个个数值组成的的。如果单纯叠加，可能会造成相加后的值会大于32767，超出short的表示范围，也就是<strong>溢出</strong>，所以在音频混合上回采用一些算法进行处理。下面列举下简单的混合方式。</li>
+</ul>
+<h6 id="直接叠加（可能溢出）"><a href="#直接叠加（可能溢出）" class="headerlink" title="直接叠加（可能溢出）"></a>直接叠加（可能溢出）</h6><p>A（A1,A2,A3,A4）和B（B1,B2,B3,B4）叠加后得到C（（A1+B1）,（A2+B2）,（A3+B3）,（A4+B4））</p>
+<h6 id="叠加后求平均值（避免溢出，两者声音比之前单独的都小一半）"><a href="#叠加后求平均值（避免溢出，两者声音比之前单独的都小一半）" class="headerlink" title="叠加后求平均值（避免溢出，两者声音比之前单独的都小一半）"></a>叠加后求平均值（避免溢出，两者声音比之前单独的都小一半）</h6><p>A（A1,A2,A3,A4）和B（B1,B2,B3,B4）叠加后求平均值，得到C（（A1+B1）/2,（A2+B2）/2,（A3+B3）/2,（A4+B4）/2）</p>
+<h6 id="权值叠加（依赖各自的权值）"><a href="#权值叠加（依赖各自的权值）" class="headerlink" title="权值叠加（依赖各自的权值）"></a>权值叠加（依赖各自的权值）</h6><p>A（A1,A2,A3,A4）和B（B1,B2,B3,B4）权值叠加，A权值为x，B权值为y，得到C（（A1 <em> x+B1 </em> y）,（A2 <em> x+B2 </em> y）,（A3 <em> x+B3 </em> y）,（A4 <em> x+B4 </em> y））</p>
+<h6 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h6><ol>
+<li>确保A音频和B音频的采样位数一致。</li>
+<li>确保A音频和B音频的采样率一致。</li>
+<li>确保A音频和B音频的声道数一致。</li>
+</ol>
+<h6 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 权值叠加</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bMulRoadAudioes 声源</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> weights         权值（直接叠加为1、平均叠加为0.5）weights.length = bMulRoadAudioes.length</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] mixRawAudioBytes(<span class="keyword">byte</span>[][] bMulRoadAudioes, <span class="keyword">int</span>[] weights) &#123;</span><br><span class="line">        <span class="keyword">if</span> (bMulRoadAudioes == <span class="keyword">null</span> || bMulRoadAudioes.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">byte</span>[] realMixAudio = bMulRoadAudioes[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">if</span> (bMulRoadAudioes.length == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> realMixAudio;</span><br><span class="line">        <span class="comment">// <span class="doctag">FIXME:</span> 2019/2/18 数组等长</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bMulRoadAudioes.length; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (bMulRoadAudioes[i].length != realMixAudio.length) &#123;</span><br><span class="line">                Log.e(<span class="string">"Fire"</span>, <span class="string">"PCM:141行:column of the road of audio + "</span> + i + <span class="string">" is diffrent."</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//row 代表参与合成的音频数量</span></span><br><span class="line">        <span class="comment">//column 代表一段音频的采样点数，这里所有参与合成的音频的采样点数都是相同的</span></span><br><span class="line">        <span class="keyword">int</span> row = bMulRoadAudioes.length;</span><br><span class="line">        <span class="keyword">int</span> column = realMixAudio.length / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">short</span>[][] sMulRoadAudioes = <span class="keyword">new</span> <span class="keyword">short</span>[row][column];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//PCM音频16位的存储是大端存储方式，即低位在前，高位在后，例如(X1Y1, X2Y2, X3Y3)数据，</span></span><br><span class="line">        <span class="comment">// 它代表的采样点数值就是(（Y1 * 256 + X1）, （Y2 * 256 + X2）, （Y3 * 256 + X3）)</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> r = <span class="number">0</span>; r &lt; row; ++r) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> c = <span class="number">0</span>; c &lt; column; ++c) &#123;</span><br><span class="line">                sMulRoadAudioes[r][c] = (<span class="keyword">short</span>) ((bMulRoadAudioes[r][c * <span class="number">2</span>] &amp; <span class="number">0xff</span>) | (bMulRoadAudioes[r][c * <span class="number">2</span> + <span class="number">1</span>] &amp; <span class="number">0xff</span>) &lt;&lt; <span class="number">8</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">short</span>[] sMixAudio = <span class="keyword">new</span> <span class="keyword">short</span>[column];</span><br><span class="line">        <span class="keyword">int</span> mixVal;</span><br><span class="line">        <span class="keyword">int</span> sr = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> sc = <span class="number">0</span>; sc &lt; column; ++sc) &#123;</span><br><span class="line">            mixVal = <span class="number">0</span>;</span><br><span class="line">            sr = <span class="number">0</span>;</span><br><span class="line">            <span class="comment">//这里采取累加法</span></span><br><span class="line">            <span class="keyword">for</span> (; sr &lt; row; ++sr) &#123;</span><br><span class="line"><span class="comment">//                mixVal += sMulRoadAudioes[sr][sc];</span></span><br><span class="line">                <span class="keyword">int</span> weight = weights[sr];<span class="comment">//权值</span></span><br><span class="line">                Log.w(<span class="string">"Fire"</span>, <span class="string">"PCM:173行:"</span> + weight);</span><br><span class="line">                mixVal += sMulRoadAudioes[sr][sc] * weight;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//最终值不能大于short最大值，因此可能出现溢出</span></span><br><span class="line">            sMixAudio[sc] = (<span class="keyword">short</span>) (mixVal);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//short值转为大端存储的双字节序列</span></span><br><span class="line">        <span class="keyword">for</span> (sr = <span class="number">0</span>; sr &lt; column; ++sr) &#123;</span><br><span class="line">            realMixAudio[sr * <span class="number">2</span>] = (<span class="keyword">byte</span>) (sMixAudio[sr] &amp; <span class="number">0x00FF</span>);</span><br><span class="line">            realMixAudio[sr * <span class="number">2</span> + <span class="number">1</span>] = (<span class="keyword">byte</span>) ((sMixAudio[sr] &amp; <span class="number">0xFF00</span>) &gt;&gt; <span class="number">8</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> realMixAudio;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 合成PCM 文件</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> rawAudioFiles</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> destFile</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mixAudios</span><span class="params">(File[] rawAudioFiles, File destFile)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> fileSize = rawAudioFiles.length;</span><br><span class="line">        FileInputStream[] audioFileStreams = <span class="keyword">new</span> FileInputStream[fileSize];</span><br><span class="line">        File audioFile = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        FileInputStream inputStream = <span class="keyword">null</span>;</span><br><span class="line">        OutputStream output = <span class="keyword">null</span>;</span><br><span class="line">        BufferedOutputStream bufferedOutput = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">byte</span>[][] allAudioBytes = <span class="keyword">new</span> <span class="keyword">byte</span>[fileSize][];</span><br><span class="line">        <span class="keyword">boolean</span>[] streamDoneArray = <span class="keyword">new</span> <span class="keyword">boolean</span>[fileSize];</span><br><span class="line">        <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">512</span>];</span><br><span class="line">        <span class="keyword">int</span> offset;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            output = <span class="keyword">new</span> FileOutputStream(destFile);</span><br><span class="line">            bufferedOutput = <span class="keyword">new</span> BufferedOutputStream(output);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> fileIndex = <span class="number">0</span>; fileIndex &lt; fileSize; ++fileIndex) &#123;</span><br><span class="line">                audioFile = rawAudioFiles[fileIndex];</span><br><span class="line">                audioFileStreams[fileIndex] = <span class="keyword">new</span> FileInputStream(audioFile);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> streamIndex = <span class="number">0</span>; streamIndex &lt; fileSize; ++streamIndex) &#123;</span><br><span class="line">                    inputStream = audioFileStreams[streamIndex];</span><br><span class="line">                    <span class="keyword">if</span> (!streamDoneArray[streamIndex] &amp;&amp; (offset = inputStream.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                        allAudioBytes[streamIndex] = Arrays.copyOf(buffer, buffer.length);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        streamDoneArray[streamIndex] = <span class="keyword">true</span>;</span><br><span class="line">                        allAudioBytes[streamIndex] = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">512</span>];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">int</span>[] weights = <span class="keyword">new</span> <span class="keyword">int</span>[allAudioBytes.length];</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; allAudioBytes.length; i++) &#123;</span><br><span class="line">                    weights[i] = <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                <span class="keyword">byte</span>[] mixBytes = mixRawAudioBytes(allAudioBytes, weights);</span><br><span class="line">                bufferedOutput.write(mixBytes);</span><br><span class="line">                <span class="comment">//mixBytes 就是混合后的数据</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">boolean</span> done = <span class="keyword">true</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">boolean</span> streamEnd : streamDoneArray) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (!streamEnd) &#123;</span><br><span class="line">                        done = <span class="keyword">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (done) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            Log.e(<span class="string">"Fire"</span>, <span class="string">"PCM:235行:"</span> + e.toString());</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            CloseUtils.closeIOQuietly(audioFileStreams);</span><br><span class="line">            CloseUtils.closeIOQuietly(output, bufferedOutput);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年03月13日 22:25</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2019/03/13/MediaRecord&AudioRecorder/" title="">https://batuer.github.io/2019/03/13/MediaRecord&amp;AudioRecorder/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2019/03/13/MediaRecord&AudioRecorder/&title=YlwBlog&pic=https://batuer.github.ioimages/avatar.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2019/03/13/MediaRecord&AudioRecorder/&title=YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2019/03/13/MediaRecord&AudioRecorder/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=YlwBlog&url=https://batuer.github.io/2019/03/13/MediaRecord&AudioRecorder/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2019/03/13/MediaRecord&AudioRecorder/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2019/03/13/MediaRecord&AudioRecorder/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#AudioRecord（基于字节流录音）"><span class="post-toc-text">AudioRecord（基于字节流录音）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#MediaRecorder（基于文件录音）"><span class="post-toc-text">MediaRecorder（基于文件录音）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-1"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#MediaPlayer和AudioTrack"><span class="post-toc-text">MediaPlayer和AudioTrack</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#MediaPlayer"><span class="post-toc-text">MediaPlayer</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#AudioTrack"><span class="post-toc-text">AudioTrack</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#PCM"><span class="post-toc-text">PCM</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#音频混合"><span class="post-toc-text">音频混合</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#直接叠加（可能溢出）"><span class="post-toc-text">直接叠加（可能溢出）</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#叠加后求平均值（避免溢出，两者声音比之前单独的都小一半）"><span class="post-toc-text">叠加后求平均值（避免溢出，两者声音比之前单独的都小一半）</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#权值叠加（依赖各自的权值）"><span class="post-toc-text">权值叠加（依赖各自的权值）</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#注意事项"><span class="post-toc-text">注意事项</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-2"><span class="post-toc-text">代码</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/batuer.github.io/2019/03/13/RegExp/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          (no title)
+        
+      </span>
+    </a>
+  
+  
+    <a href="/batuer.github.io/2019/03/13/GradleCommand/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title"></span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Yuliwen<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://batuer.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/SQL/">SQL</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/网络/">网络</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/batuer.github.io/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/batuer.github.io/js/search.js"></script>
+<script src="/batuer.github.io/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/batuer.github.io/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/batuer.github.io/js/animate.js"></script>
+
+
+  <script src="/batuer.github.io/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android广播 | YlwBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Keep learning!" />
+  
+  <meta name="description" content="概述 四大组件之一。 基于消息的发布/订阅模式（高内聚低耦合）。 订阅者在AMS中注册感兴趣的广播。 发布者发送广播到AMS中查找注册者。 异步处理。  注册过程 分为动态注册和静态注册（常驻型）。 ContextImpl通过Binder机制向AMS完成广播注册。 注册过程的核心就是将广播接收者和IntentFilter保存在AMS中。  发送过程 发送者调用sendBroadcast()发送广播">
+<meta name="keywords" content="Android,Broadcast">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android广播">
+<meta property="og:url" content="https://batuer.github.io/2019/03/13/AndroidBroadcast/index.html">
+<meta property="og:site_name" content="YlwBlog">
+<meta property="og:description" content="概述 四大组件之一。 基于消息的发布/订阅模式（高内聚低耦合）。 订阅者在AMS中注册感兴趣的广播。 发布者发送广播到AMS中查找注册者。 异步处理。  注册过程 分为动态注册和静态注册（常驻型）。 ContextImpl通过Binder机制向AMS完成广播注册。 注册过程的核心就是将广播接收者和IntentFilter保存在AMS中。  发送过程 发送者调用sendBroadcast()发送广播">
+<meta property="og:locale" content="CN">
+<meta property="og:updated_time" content="2019-03-13T13:35:40.687Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android广播">
+<meta name="twitter:description" content="概述 四大组件之一。 基于消息的发布/订阅模式（高内聚低耦合）。 订阅者在AMS中注册感兴趣的广播。 发布者发送广播到AMS中查找注册者。 异步处理。  注册过程 分为动态注册和静态注册（常驻型）。 ContextImpl通过Binder机制向AMS完成广播注册。 注册过程的核心就是将广播接收者和IntentFilter保存在AMS中。  发送过程 发送者调用sendBroadcast()发送广播">
+  
+  
+    <link rel="icon" href="/avatar.jpg">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/batuer.github.io/css/style.css">
+  <script src="/batuer.github.io/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/batuer.github.io/" class="left">
+                    <span class="site-title">Ylw Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/batuer.github.io/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/batuer.github.io/">
+                    <img src="/batuer.github.io/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Ylw Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        A young idler, an old beggar
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="https://github.com/batuer">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="http://weibo.com/bayi806">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-AndroidBroadcast" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Android广播
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/batuer.github.io/categories/Android/">Android</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-03-13
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h5 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h5><ul>
+<li>四大组件之一。</li>
+<li>基于消息的发布/订阅模式（高内聚低耦合）。</li>
+<li>订阅者在AMS中注册感兴趣的广播。</li>
+<li>发布者发送广播到AMS中查找注册者。</li>
+<li>异步处理。</li>
+</ul>
+<h5 id="注册过程"><a href="#注册过程" class="headerlink" title="注册过程"></a>注册过程</h5><ul>
+<li>分为动态注册和静态注册（常驻型）。</li>
+<li>ContextImpl通过Binder机制向AMS完成广播注册。</li>
+<li>注册过程的核心就是将广播接收者和IntentFilter保存在AMS中。</li>
+</ul>
+<h5 id="发送过程"><a href="#发送过程" class="headerlink" title="发送过程"></a>发送过程</h5><ul>
+<li>发送者调用sendBroadcast()发送广播，通过Binder机制向AMS发送广播，在AMS中查找注册关系表里查找感兴趣的接收者。</li>
+<li>发送过程是异步的。</li>
+</ul>
+<h5 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h5><ul>
+<li>同一App内部不同组件之间的消息通信（多线程）。</li>
+<li>同一App内部不同组件之间的消息通信（单进程）。</li>
+<li>同一App内不同进程间的组件消息通信（多进程）。</li>
+<li>不同App之间组件消息通信。</li>
+<li>Android系统在特定情况下与App间的消息通信（系统广播）。</li>
+<li>广播接收器回调在UI线程，不执行耗时操作。</li>
+</ul>
+<h5 id="注册方式"><a href="#注册方式" class="headerlink" title="注册方式"></a>注册方式</h5><ol>
+<li>动态注册<ul>
+<li>Context调用registerReceiver()注册，退出时及时反注册。</li>
+</ul>
+</li>
+<li>静态注册<ul>
+<li>android:exported ：BroadcastReceiver能否接收其他App的发出的广播，这个属性默认值是由receiver中有无intent-filter决定的，如果有intent-filter，默认值为true，否则为false。（同样的，activity/service中的此属性默认值一样遵循此规则）同时，需要注意的是，这个值的设定<strong>是以application或者application user id为界</strong>的，而非进程为界（一个应用中可能含有多个进程）。</li>
+<li>android:name ：BroadcastReceiver类名 。</li>
+<li>android:permission ：具有相应权限的广播发送方发送的广播才能被此BroadcastReceiver所接收。</li>
+<li>android:process ：broadcastReceiver运行所处的进程。默认为app的进程。可以指定独立的进程（Android四大基本组件都可以通过此属性指定自己的独立进程）。</li>
+</ul>
+</li>
+</ol>
+<h5 id="广播类型"><a href="#广播类型" class="headerlink" title="广播类型"></a>广播类型</h5><h6 id="Normal-Broadcast"><a href="#Normal-Broadcast" class="headerlink" title="Normal Broadcast"></a>Normal Broadcast</h6><ul>
+<li>开发者自己定义的Intent。</li>
+<li>无序。</li>
+<li>权限对应。</li>
+</ul>
+<h6 id="System-Broadcast"><a href="#System-Broadcast" class="headerlink" title="System Broadcast"></a>System Broadcast</h6><ul>
+<li>系统发送的广播（开机启动、网络状态、蓝牙等等）。</li>
+</ul>
+<h6 id="Ordered-Broadcast"><a href="#Ordered-Broadcast" class="headerlink" title="Ordered Broadcast"></a>Ordered Broadcast</h6><ul>
+<li>针对接收者的顺序。</li>
+<li>动态广播优于静态广播。</li>
+<li>优先接收者可对广播拦截或修改。</li>
+</ul>
+<h6 id="Sticky-Broadcast"><a href="#Sticky-Broadcast" class="headerlink" title="Sticky Broadcast"></a>Sticky Broadcast</h6><ul>
+<li>API 21以后不再推荐使用。</li>
+<li>@Deprecated。</li>
+<li>Sticky Order Broadcast 也同样@Deprecated。</li>
+</ul>
+<h6 id="Local-Broadcast"><a href="#Local-Broadcast" class="headerlink" title="Local Broadcast"></a>Local Broadcast</h6><ul>
+<li>App应用内广播（Application或Application User id为界）。</li>
+<li>不接收其它应用相同IntentFilter的广播。</li>
+<li>不让其它应用接收相同IntentFilter的广播。</li>
+</ul>
+<h5 id="安全方案"><a href="#安全方案" class="headerlink" title="安全方案"></a>安全方案</h5><ul>
+<li>android:exported为false时，不接收其它应用的广播干扰。</li>
+<li>android:permission：发送和接收都添加权限验证。</li>
+<li>发送广播时指定接收者的包名。</li>
+<li>应用内广播（LocalBroadcastManager）。<ul>
+<li>安全性高、更高效。</li>
+<li>LocalBroadcastManager发送的应用内广播，只能是LocalBroadcastManager动态注册的广播才能接收到。</li>
+</ul>
+</li>
+</ul>
+<h5 id="广播接收器回调onReceiver-context-intent-中context的具体类型"><a href="#广播接收器回调onReceiver-context-intent-中context的具体类型" class="headerlink" title="广播接收器回调onReceiver(context,intent)中context的具体类型"></a>广播接收器回调onReceiver(context,intent)中context的具体类型</h5><ul>
+<li>对于静态注册的ContextReceiver，回调onReceive(context, intent)中的context具体指的是ReceiverRestrictedContext。</li>
+<li>对于全局广播的动态注册的ContextReceiver，回调onReceive(context, intent)中的context具体指的是Activity Context。</li>
+<li>对于通过LocalBroadcastManager动态注册的ContextReceiver，回调onReceive(context, intent)中的context具体指的是Application Context。</li>
+</ul>
+<h5 id="不同API版本的广播机制重要变迁"><a href="#不同API版本的广播机制重要变迁" class="headerlink" title="不同API版本的广播机制重要变迁"></a>不同API版本的广播机制重要变迁</h5><ul>
+<li>API level 21开始粘滞广播和有序粘滞广播过期，以后不再建议使用。</li>
+<li>静态注册的广播接收器即使app已经退出，只要有相应的广播发出，依然可以接收到，但此种描述自Android 3.1开始有可能不再成立。<ul>
+<li>Android 3.1开始系统在Intent与广播相关的flag增加了参数，分别是FLAG_INCLUDE_STOPPED_PACKAGES（即包所在的进程已经退出）和FLAG_EXCLUDE_STOPPED_PACKAGES（不包含已经停止的包）。</li>
+<li>Android3.1开始，系统本身则增加了对所有app当前是否处于运行状态的跟踪。在发送广播时，不管是什么广播类型，系统默认直接增加了值为FLAG_EXCLUDE_STOPPED_PACKAGES的flag，导致即使是静态注册的广播接收器，对于其所在进程已经退出的app，同样无法接收到广播。由此，对于系统广播，由于是系统内部直接发出，无法更改此intent flag值，因此，3.1开始对于静态注册的接收系统广播的BroadcastReceiver，如果App进程已经退出，将不能接收到广播。</li>
+<li>对于自定义的广播可重写flag值，发送广播。</li>
+</ul>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年03月13日 21:35</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2019/03/13/AndroidBroadcast/" title="Android广播">https://batuer.github.io/2019/03/13/AndroidBroadcast/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2019/03/13/AndroidBroadcast/&title=《Android广播》 — YlwBlog&pic=/images/common.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2019/03/13/AndroidBroadcast/&title=《Android广播》 — YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2019/03/13/AndroidBroadcast/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android广播》 — YlwBlog&url=https://batuer.github.io/2019/03/13/AndroidBroadcast/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2019/03/13/AndroidBroadcast/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2019/03/13/AndroidBroadcast/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/batuer.github.io/tags/Android/" class="color3">Android</a>
+      
+    <a href="/batuer.github.io/tags/Broadcast/" class="color5">Broadcast</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#概述"><span class="post-toc-text">概述</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#注册过程"><span class="post-toc-text">注册过程</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#发送过程"><span class="post-toc-text">发送过程</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#使用场景"><span class="post-toc-text">使用场景</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#注册方式"><span class="post-toc-text">注册方式</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#广播类型"><span class="post-toc-text">广播类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Normal-Broadcast"><span class="post-toc-text">Normal Broadcast</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#System-Broadcast"><span class="post-toc-text">System Broadcast</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Ordered-Broadcast"><span class="post-toc-text">Ordered Broadcast</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Sticky-Broadcast"><span class="post-toc-text">Sticky Broadcast</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Local-Broadcast"><span class="post-toc-text">Local Broadcast</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#安全方案"><span class="post-toc-text">安全方案</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#广播接收器回调onReceiver-context-intent-中context的具体类型"><span class="post-toc-text">广播接收器回调onReceiver(context,intent)中context的具体类型</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#不同API版本的广播机制重要变迁"><span class="post-toc-text">不同API版本的广播机制重要变迁</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/batuer.github.io/2019/03/13/AndroidEvent/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Android事件
+        
+      </span>
+    </a>
+  
+  
+    <a href="/batuer.github.io/2019/03/13/AndroidAnimation/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Android动画</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Yuliwen<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://batuer.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/SQL/">SQL</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/网络/">网络</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/batuer.github.io/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 13.33px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 16.67px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/batuer.github.io/js/search.js"></script>
+<script src="/batuer.github.io/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/batuer.github.io/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/batuer.github.io/js/animate.js"></script>
+
+
+  <script src="/batuer.github.io/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
