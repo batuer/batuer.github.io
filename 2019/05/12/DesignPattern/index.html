@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>DesignPattern | YlwBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="Keep learning!" />
+  
+  <meta name="description" content="策略模式定义 分离、封装算法，相互替换。 OCP原则，单一原则。 算法独立于客户端独立变化。 策略由客户端决定。  场景 一类型问题，多种处理方式。  优点 结构清晰，简单直观。 耦合度低，可扩展性好。  缺点 策略增加，子类相应增多。  UML 代码12345678910111213141516171819202122//Contextpublic class Context &amp;#123;">
+<meta name="keywords" content="未标记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DesignPattern">
+<meta property="og:url" content="https://batuer.github.io/2019/05/12/DesignPattern/index.html">
+<meta property="og:site_name" content="YlwBlog">
+<meta property="og:description" content="策略模式定义 分离、封装算法，相互替换。 OCP原则，单一原则。 算法独立于客户端独立变化。 策略由客户端决定。  场景 一类型问题，多种处理方式。  优点 结构清晰，简单直观。 耦合度低，可扩展性好。  缺点 策略增加，子类相应增多。  UML 代码12345678910111213141516171819202122//Contextpublic class Context &amp;#123;">
+<meta property="og:locale" content="CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-0265e6be332b6305.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-508f9cd9d5c47eb4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-f0904b58ed87d8dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-f61be7c9c87a720c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-a5adf8172956079b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-584799dd2d9e0c85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-cbe18d7b56a2df3b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-261503ef95c23c14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-7748148a93b5938f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2088926-a474874bc0adb3f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-05-12T00:38:34.042Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DesignPattern">
+<meta name="twitter:description" content="策略模式定义 分离、封装算法，相互替换。 OCP原则，单一原则。 算法独立于客户端独立变化。 策略由客户端决定。  场景 一类型问题，多种处理方式。  优点 结构清晰，简单直观。 耦合度低，可扩展性好。  缺点 策略增加，子类相应增多。  UML 代码12345678910111213141516171819202122//Contextpublic class Context &amp;#123;">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2088926-0265e6be332b6305.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+  
+    <link rel="icon" href="/avatar.jpg">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/batuer.github.io/css/style.css">
+  <script src="/batuer.github.io/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/batuer.github.io/" class="left">
+                    <span class="site-title">Ylw Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/batuer.github.io/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/batuer.github.io/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/batuer.github.io/">
+                    <img src="/batuer.github.io/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Ylw Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        A young idler, an old beggar
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Github" target="_blank" href="https://github.com/batuer">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="http://weibo.com/bayi806">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-DesignPattern" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      DesignPattern
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/batuer.github.io/categories/未标记/">未标记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-05-12
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h5 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h5><h6 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>分离、封装算法，相互替换。</li>
+<li>OCP原则，单一原则。</li>
+<li>算法独立于客户端独立变化。</li>
+<li>策略由客户端决定。</li>
+</ul>
+<h6 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h6><ul>
+<li>一类型问题，多种处理方式。</li>
+</ul>
+<h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>结构清晰，简单直观。</li>
+<li>耦合度低，可扩展性好。</li>
+</ul>
+<h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>策略增加，子类相应增多。</li>
+</ul>
+<h6 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-0265e6be332b6305.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h6 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Context</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Context</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> IStragety mIStragety;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIStragety</span><span class="params">(IStragety IStragety)</span> </span>&#123;</span><br><span class="line">        mIStragety = IStragety;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Stragety</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IStragety</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doSth</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Stragety impl</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AStragety</span> <span class="keyword">implements</span> <span class="title">IStragety</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"A doSth"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="策略模式与工厂模式的区别"><a href="#策略模式与工厂模式的区别" class="headerlink" title="策略模式与工厂模式的区别"></a>策略模式与工厂模式的区别</h6><table>
+<thead>
+<tr>
+<th style="text-align:center">工厂模式</th>
+<th style="text-align:center">策略模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">创建型设计模式</td>
+<td style="text-align:center">行为型设计模式</td>
+</tr>
+<tr>
+<td style="text-align:center">关注对象创建</td>
+<td style="text-align:center">关注行为选择</td>
+</tr>
+<tr>
+<td style="text-align:center">黑盒子（不知道具体的实现过程）</td>
+<td style="text-align:center">白盒子（知道具体实现过程）</td>
+</tr>
+</tbody>
+</table>
+<h5 id="状态模式"><a href="#状态模式" class="headerlink" title="状态模式"></a>状态模式</h5><h6 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>对象的内在状态改变时允许改变其行为。</li>
+</ul>
+<h6 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h6><ul>
+<li>对象的行为取决于<strong>对象的状态</strong>。</li>
+<li>不同状态对同一行为不同的响应。</li>
+</ul>
+<h6 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>特定状态相关的行为放入同一个状态对象中。</li>
+<li>结构清晰，可扩展性、可维护性高。</li>
+</ul>
+<h6 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>增加系统类和对象的个数。</li>
+</ul>
+<h6 id="UML-1"><a href="#UML-1" class="headerlink" title="UML"></a>UML</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-508f9cd9d5c47eb4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h6 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserState</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 转发</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">forward</span><span class="params">(Context context)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 评论</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">comment</span><span class="params">(Context context)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginState</span> <span class="keyword">implements</span> <span class="title">UserState</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">forward</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        Toast.makeText(context, <span class="string">"转发微博"</span>, Toast.LENGTH_SHORT)</span><br><span class="line">                .show();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">comment</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        Toast.makeText(context, <span class="string">"评论微博"</span>, Toast.LENGTH_SHORT)</span><br><span class="line">                .show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogoutState</span> <span class="keyword">implements</span> <span class="title">UserState</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">forward</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        gotoLogin(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">comment</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        gotoLogin(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">gotoLogin</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        context.startActivity(<span class="keyword">new</span> Intent(context, LoginActivity.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginContext</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LoginContext <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> LoginContextHolder.loginContext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginContextHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> LoginContext loginContext = <span class="keyword">new</span> LoginContext();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">LoginContext</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    UserState mState = <span class="keyword">new</span> LogoutState();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(UserState state)</span> </span>&#123;</span><br><span class="line">        mState = state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">forward</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        mState.forward(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">comment</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        mState.comment(context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="策略模式、状态模式、模板模式对比"><a href="#策略模式、状态模式、模板模式对比" class="headerlink" title="策略模式、状态模式、模板模式对比"></a>策略模式、状态模式、模板模式对比</h6><table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">策略模式</th>
+<th style="text-align:center">状态模式</th>
+<th style="text-align:center">模板模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">定义</td>
+<td style="text-align:center">定义封装算法，可以相互替换，算法独立于客户端独立变化。</td>
+<td style="text-align:center">对象的内在状态改变时允许改变其行为，这个对象看起来像是改变了其类 。</td>
+<td style="text-align:center">定义算法框架，一些步骤延迟到子类中，使得算法结构不变化可以重定义算法。</td>
+</tr>
+<tr>
+<td style="text-align:center">场景</td>
+<td style="text-align:center">一类型问题，多种处理方式</td>
+<td style="text-align:center">不同的状态对不同的行为有不同的响应。</td>
+<td style="text-align:center">一次性实现算法框架不变的部分，子类可改变行为。</td>
+</tr>
+<tr>
+<td style="text-align:center">动机</td>
+<td style="text-align:center">算法分离</td>
+<td style="text-align:center">状态改变行为</td>
+<td style="text-align:center">多种输出模板</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>驱动行为的改变<ul>
+<li>状态模式：状态的变化是由Context或State自己管理。</li>
+<li>策略模式：由客户端提供策略。</li>
+<li>模板模式：具体子类自己决定是否变化。</li>
+</ul>
+</li>
+</ul>
+<h5 id="模板方法模式"><a href="#模板方法模式" class="headerlink" title="模板方法模式"></a>模板方法模式</h5><h6 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>一个算法框架，一些步骤延迟到子类中，使得子类可以不改变算法的结构重实现特定步骤。</li>
+<li>关键步骤、执行顺序、具体步骤实现会随环境变化。</li>
+</ul>
+<h6 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h6><ul>
+<li>多个子类有公有的方法并且逻辑基本相同，有一定的执行顺序，具体步骤实现会随环境变化。</li>
+</ul>
+<h6 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>封装不变部分，扩展可变部分。</li>
+<li>提取公共部分，便于维护。</li>
+</ul>
+<h6 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>阅读理解难度</li>
+</ul>
+<h6 id="UML-2"><a href="#UML-2" class="headerlink" title="UML"></a>UML</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-f0904b58ed87d8dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h6 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbsComputer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">powerOn</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"开机"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">checkHardWare</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"检查硬件"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">loadOs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"载入系统"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"登录"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">startUp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"开机 Start"</span>);</span><br><span class="line">        powerOn();</span><br><span class="line">        checkHardWare();</span><br><span class="line">        loadOs();</span><br><span class="line">        login();</span><br><span class="line">        System.out.println(<span class="string">"开机 End"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NormalComputer</span> <span class="keyword">extends</span> <span class="title">AbsComputer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.login();</span><br><span class="line">        System.out.println(<span class="string">"普通电脑账户密码校验"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MilitaryComputer</span> <span class="keyword">extends</span> <span class="title">AbsComputer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">checkHardWare</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.checkHardWare();</span><br><span class="line">        System.out.println(<span class="string">"特殊检查防火墙"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.login();</span><br><span class="line">        System.out.println(<span class="string">"指纹人脸特殊验证"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h5><h6 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>一个类只有一个实例（多线程下、反序列化不重建）。</li>
+<li>构造函数private。</li>
+</ul>
+<h6 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h6><ul>
+<li>new对象消耗过多的资源。</li>
+</ul>
+<h6 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>只有一个实例，减少内存开支。</li>
+<li>频繁创建销毁时，减少性能开销。</li>
+<li>优化共享资源的访问。</li>
+</ul>
+<h6 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>没有接口，扩展困难。</li>
+<li>内存泄漏隐患。</li>
+</ul>
+<h6 id="UML-3"><a href="#UML-3" class="headerlink" title="UML"></a>UML</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-f61be7c9c87a720c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h6 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton1</span> </span>&#123;</span><br><span class="line">    <span class="comment">//volatile 顺序</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton1 sSingleton1;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//no instance</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton1 <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sSingleton1 == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton1.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (sSingleton1 == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    sSingleton1 = <span class="keyword">new</span> Singleton1();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sSingleton1;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//推荐 第一次调用加载</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//no instance</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton2 <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Holder.single;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Holder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton2 single = <span class="keyword">new</span> Singleton2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Singleton3 &#123;</span><br><span class="line">    <span class="comment">//线程安全</span></span><br><span class="line">    SINGLETON_3;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="comment">//反序列化</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Object <span class="title">readResolve</span><span class="params">()</span> <span class="keyword">throws</span> ObjectStreamException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Holder.single;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Builder模式"><a href="#Builder模式" class="headerlink" title="Builder模式"></a>Builder模式</h5><h6 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>复杂对象的构建与它的表示分离。</li>
+</ul>
+<h6 id="场景-4"><a href="#场景-4" class="headerlink" title="场景"></a>场景</h6><ul>
+<li>相同的方法，不同的执行顺序，产生不同的事件结果。</li>
+<li>复杂对象的构建，参数多，且参数可以有默认值。</li>
+</ul>
+<h6 id="优点-4"><a href="#优点-4" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>良好的封装性，客户端不必知道内部组成的细节。</li>
+<li>建造者独立，扩展性强。</li>
+</ul>
+<h6 id="缺点-4"><a href="#缺点-4" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>多余的Builder对象以及Director对象，消耗内存。</li>
+</ul>
+<h6 id="UML-4"><a href="#UML-4" class="headerlink" title="UML"></a>UML</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-a5adf8172956079b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h6 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Computer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String mBoard;</span><br><span class="line">    <span class="keyword">private</span> String mDisplay;</span><br><span class="line">    <span class="keyword">private</span> String mOS;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Computer</span><span class="params">(Builder builder)</span> </span>&#123;</span><br><span class="line">        mBoard = builder.mBoard;</span><br><span class="line">        mDisplay = builder.mDisplay;</span><br><span class="line">        mOS = builder.mOS;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String mBoard;</span><br><span class="line">        <span class="keyword">private</span> String mDisplay;</span><br><span class="line">        <span class="keyword">private</span> String mOS;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">mBoard</span><span class="params">(String val)</span> </span>&#123;</span><br><span class="line">            mBoard = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">mDisplay</span><span class="params">(String val)</span> </span>&#123;</span><br><span class="line">            mDisplay = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">mOS</span><span class="params">(String val)</span> </span>&#123;</span><br><span class="line">            mOS = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Computer <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Computer(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h5><h6 id="定义-5"><a href="#定义-5" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>Clone创建新的对象。</li>
+</ul>
+<h6 id="场景-5"><a href="#场景-5" class="headerlink" title="场景"></a>场景</h6><ul>
+<li>new对象消耗资源。</li>
+<li>new对象需要繁琐的准备或访问权限。</li>
+</ul>
+<h6 id="优点-5"><a href="#优点-5" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>内存中二进制流的拷贝，比new对象性能好。</li>
+</ul>
+<h6 id="缺点-5"><a href="#缺点-5" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>内存中拷贝，<strong>不执行构造函数</strong>。</li>
+</ul>
+<h6 id="UML-5"><a href="#UML-5" class="headerlink" title="UML"></a>UML</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-584799dd2d9e0c85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h6 id="代码-5"><a href="#代码-5" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> String phoneNum;</span><br><span class="line">    <span class="keyword">public</span> Address address;<span class="comment">//深拷贝（浅拷贝数据修改对应同一堆内存地址）</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> User <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        User clone = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            clone = (User) <span class="keyword">super</span>.clone();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> clone;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Address</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String city;</span><br><span class="line">    <span class="keyword">public</span> String district;</span><br><span class="line">    <span class="keyword">public</span> String street;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Address <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Address clone = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            clone = (Address) <span class="keyword">super</span>.clone();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> clone;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h5><h6 id="定义-6"><a href="#定义-6" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>定义一个用于创建对象的接口，子类决定实例化那个类。</li>
+</ul>
+<h6 id="场景-6"><a href="#场景-6" class="headerlink" title="场景"></a>场景</h6><ul>
+<li>任何需要生成复杂对象的地方。</li>
+<li>new就可以创建的对象无需使用工厂模式。</li>
+</ul>
+<h6 id="优点-6"><a href="#优点-6" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>生成复杂对象方便快捷。</li>
+</ul>
+<h6 id="缺点-6"><a href="#缺点-6" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>添加新产品时繁琐，复杂化。</li>
+</ul>
+<h6 id="UML-6"><a href="#UML-6" class="headerlink" title="UML"></a>UML</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-cbe18d7b56a2df3b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h6 id="代码-6"><a href="#代码-6" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//产品类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">IOHandler</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * add</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String id, String name)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * remove</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(String id, String name)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * update</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(String id, String name)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * query</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">query</span><span class="params">(String id, String name)</span></span>;</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IOFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T extends IOHandler&gt; <span class="function">T <span class="title">getIOHandler</span><span class="params">(Class&lt;T&gt; clz)</span> </span>&#123;</span><br><span class="line">        IOHandler handler = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            handler = (IOHandler) Class.forName(clz.getName())</span><br><span class="line">                    .newInstance();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (T) handler;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DBHandler</span> <span class="keyword">extends</span> <span class="title">IOHandler</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String id, String name)</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(String id, String name)</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(String id, String name)</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">query</span><span class="params">(String id, String name)</span> </span>&#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h5><h6 id="定义-7"><a href="#定义-7" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>创建一组相关或是相互依赖的对象提供一个接口，不需要指定具体的类。（产品是抽象的）</li>
+</ul>
+<h6 id="场景-7"><a href="#场景-7" class="headerlink" title="场景"></a>场景</h6><ul>
+<li>不同抽象产品在不同环境下同一表现行为。</li>
+</ul>
+<h6 id="优点-7"><a href="#优点-7" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>分离接口与实现。</li>
+<li>客户端不关系具体产品的实现（面向接口）。</li>
+</ul>
+<h6 id="缺点-7"><a href="#缺点-7" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>类文件增加。</li>
+<li>难以扩展新产品。</li>
+</ul>
+<h6 id="UML-7"><a href="#UML-7" class="headerlink" title="UML"></a>UML</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-261503ef95c23c14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h6 id="代码-7"><a href="#代码-7" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 抽象工厂</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CarFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> ITire <span class="title">createTire</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 具体工厂</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Q3Car</span> <span class="keyword">extends</span> <span class="title">CarFactory</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ITire <span class="title">createTire</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> NormalTire();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 抽象产品</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ITire</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">tire</span><span class="params">()</span></span>;</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 具体产品</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NormalTire</span> <span class="keyword">implements</span> <span class="title">ITire</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">tire</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"normal createTire"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h5><h6 id="定义-8"><a href="#定义-8" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>多个节点（对象）首尾相连为链，每个节点都有自己的处理逻辑。</li>
+<li>多个对象都有机会处理请求（避免请求接收者和发送者之间的耦合关系），将这些对象连城一条链，并沿着这条链传递请求，直到有对象处理该请求。</li>
+</ul>
+<h6 id="场景-8"><a href="#场景-8" class="headerlink" title="场景"></a>场景</h6><ul>
+<li><strong>多个</strong>对象处理同一请求，具体哪个对象处理则在运行时<strong>动态</strong>决定。</li>
+</ul>
+<h6 id="优点-8"><a href="#优点-8" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>请求者和处理者解耦，提高代码灵活性。</li>
+</ul>
+<h6 id="缺点-8"><a href="#缺点-8" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>处理者太多，遍历影响性能。</li>
+</ul>
+<h6 id="UML-8"><a href="#UML-8" class="headerlink" title="UML"></a>UML</h6><h6 id="代码-8"><a href="#代码-8" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 抽象处理者</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbsHandler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> AbsHandler nextHandler;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(AbsReq req)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">getHandleLevel</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">handleReq</span><span class="params">(AbsReq req)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (getHandleLevel() == req.getLevel()) &#123;</span><br><span class="line">            handle(req);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (nextHandler != <span class="keyword">null</span>) &#123;</span><br><span class="line">                nextHandler.handleReq(req);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"no next handler"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 具体处理者</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Handler1</span> <span class="keyword">extends</span> <span class="title">AbsHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(AbsReq req)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"handler1 "</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getHandleLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 抽象请求</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbsReq</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> Object obj;<span class="comment">//处理请求</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">getLevel</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AbsReq</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.obj = obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getObj</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 具体请求</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Req</span> <span class="keyword">extends</span> <span class="title">AbsReq</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Req</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="解释器模式-涉及编程理论较多"><a href="#解释器模式-涉及编程理论较多" class="headerlink" title="解释器模式(涉及编程理论较多)"></a>解释器模式(涉及编程理论较多)</h5><h6 id="定义-9"><a href="#定义-9" class="headerlink" title="定义"></a>定义</h6><h6 id="场景-9"><a href="#场景-9" class="headerlink" title="场景"></a>场景</h6><h6 id="优点-9"><a href="#优点-9" class="headerlink" title="优点"></a>优点</h6><h6 id="缺点-9"><a href="#缺点-9" class="headerlink" title="缺点"></a>缺点</h6><h6 id="UML-9"><a href="#UML-9" class="headerlink" title="UML"></a>UML</h6><h6 id="代码-9"><a href="#代码-9" class="headerlink" title="代码"></a>代码</h6><h5 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h5><h6 id="定义-10"><a href="#定义-10" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>一系列方法调用封装。</li>
+<li>将一个请求封装成对象，使用不同的请求把客户端参数化。</li>
+<li>解决命令请求者与实现者之间的耦合关系。</li>
+<li>更方便对命令扩展。</li>
+<li><p>对多个命令的统一控制。</p>
+<h6 id="场景-10"><a href="#场景-10" class="headerlink" title="场景"></a>场景</h6></li>
+<li><p>抽象出待执行的动作，然后以参数的形式提供出来。</p>
+</li>
+</ul>
+<h6 id="优点-10"><a href="#优点-10" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>OCP原则。</li>
+<li>命令记录。</li>
+<li>更弱的耦合，更灵活的控制性，更好的扩展性。</li>
+</ul>
+<h6 id="缺点-10"><a href="#缺点-10" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>类的膨胀，大量衍生类。</li>
+</ul>
+<h6 id="UML-10"><a href="#UML-10" class="headerlink" title="UML"></a>UML</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-7748148a93b5938f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h6 id="代码-10"><a href="#代码-10" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//Receiver</span></span><br><span class="line">    TetrisMachine machine = <span class="keyword">new</span> TetrisMachine();</span><br><span class="line">    <span class="comment">//ConcreteCommand</span></span><br><span class="line">    LeftCommand leftCommand = <span class="keyword">new</span> LeftCommand(machine);</span><br><span class="line">    RightCommand rightCommand = <span class="keyword">new</span> RightCommand(machine);</span><br><span class="line">    FallCommand fallCommand = <span class="keyword">new</span> FallCommand(machine);</span><br><span class="line">    TransformCommand transformCommand = <span class="keyword">new</span> TransformCommand(machine);</span><br><span class="line">    <span class="comment">//Invoker</span></span><br><span class="line">    Buttons buttons = <span class="keyword">new</span> Buttons(leftCommand, rightCommand, fallCommand, transformCommand);</span><br><span class="line">    <span class="comment">//具体操作</span></span><br><span class="line">    buttons.toLeft();</span><br><span class="line">    buttons.toRight();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by 111 on 2017/3/12.</span></span><br><span class="line"><span class="comment"> * Invoker：发送请求</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Buttons</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> LeftCommand mLeftCommand;</span><br><span class="line">  <span class="keyword">private</span> RightCommand mRightCommand;</span><br><span class="line">  <span class="keyword">private</span> FallCommand mFallCommand;</span><br><span class="line">  <span class="keyword">private</span> TransformCommand mTransformCommand;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Buttons</span><span class="params">(LeftCommand leftCommand, RightCommand rightCommand, FallCommand fallCommand,</span></span></span><br><span class="line"><span class="function"><span class="params">      TransformCommand transformCommand)</span> </span>&#123;</span><br><span class="line">    mLeftCommand = leftCommand;</span><br><span class="line">    mRightCommand = rightCommand;</span><br><span class="line">    mFallCommand = fallCommand;</span><br><span class="line">    mTransformCommand = transformCommand;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLeftCommand</span><span class="params">(LeftCommand leftCommand)</span> </span>&#123;</span><br><span class="line">    mLeftCommand = leftCommand;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRightCommand</span><span class="params">(RightCommand rightCommand)</span> </span>&#123;</span><br><span class="line">    mRightCommand = rightCommand;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFallCommand</span><span class="params">(FallCommand fallCommand)</span> </span>&#123;</span><br><span class="line">    mFallCommand = fallCommand;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTransformCommand</span><span class="params">(TransformCommand transformCommand)</span> </span>&#123; mTransformCommand = transformCommand; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">toLeft</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mLeftCommand.execute();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">toRight</span><span class="params">()</span> </span>&#123; mRightCommand.execute(); &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fall</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mFallCommand.execute();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transform</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mTransformCommand.execute();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by 111 on 2017/3/12.</span></span><br><span class="line"><span class="comment"> * ConcreteCommand：执行请求</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LeftCommand</span> <span class="keyword">implements</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> TetrisMachine mMachine;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">LeftCommand</span><span class="params">(TetrisMachine machine)</span> </span>&#123; mMachine = machine; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span> </span>&#123; mMachine.toLeft(); &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by 111 on 2017/3/12.</span></span><br><span class="line"><span class="comment"> * Receiver：执行请求下命令的具体逻辑</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TetrisMachine</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">toLeft</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"to left"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">toRight</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"to right"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fastToBottom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"fast to bottom"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transform</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"transform"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="观察者模式（订阅——发布系统）"><a href="#观察者模式（订阅——发布系统）" class="headerlink" title="观察者模式（订阅——发布系统）"></a>观察者模式（订阅——发布系统）</h5><h6 id="定义-11"><a href="#定义-11" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>对象间一对一对多的依赖关系，当发布者发生变化时，通知依赖与它的订阅者。</li>
+</ul>
+<h6 id="场景-11"><a href="#场景-11" class="headerlink" title="场景"></a>场景</h6><ul>
+<li>关联行为场景，可拆分，非<strong>组合</strong>关系。</li>
+<li>事件多级触发场景。</li>
+<li>eg：事件总线处理机制。</li>
+</ul>
+<h6 id="优点-11"><a href="#优点-11" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>解耦，保证订阅系统的灵活性、扩展性。</li>
+</ul>
+<h6 id="缺点-11"><a href="#缺点-11" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>开发效率和运行效率。</li>
+</ul>
+<h6 id="UML-11"><a href="#UML-11" class="headerlink" title="UML"></a>UML</h6><p><img src="https://upload-images.jianshu.io/upload_images/2088926-a474874bc0adb3f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h6 id="代码-11"><a href="#代码-11" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 作者：$&#123;ylw&#125; on 2017/3/16 23:05</span></span><br><span class="line"><span class="comment"> * Subject</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">addObserver</span><span class="params">(Observer observer)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">removeObserver</span><span class="params">(Observer observer)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 作者：$&#123;ylw&#125; on 2017/3/16 23:07</span></span><br><span class="line"><span class="comment"> * ConcreteSubject</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DevTechFrontier</span> <span class="keyword">implements</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Observer&gt; mObservableList = Collections.synchronizedList(<span class="keyword">new</span> ArrayList&lt;Observer&gt;());</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addObserver</span><span class="params">(Observer observer)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!mObservableList.contains(observer)) &#123;</span><br><span class="line">            mObservableList.add(observer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeObserver</span><span class="params">(Observer observer)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mObservableList.contains(observer)) &#123;</span><br><span class="line">            mObservableList.remove(observer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通知所有观察者</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">notifyObservers</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (Observer observer : mObservableList) &#123;</span><br><span class="line">            observer.update(content);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 标识状态或者内容发生改变</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setChanged</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postNewpublication</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">        setChanged();</span><br><span class="line">        notifyObservers(content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 作者：$&#123;ylw&#125; on 2017/3/16 23:02</span></span><br><span class="line"><span class="comment"> * Observer</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(Object arg)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 作者：$&#123;ylw&#125; on 2017/3/16 23:04</span></span><br><span class="line"><span class="comment"> * ConcreteObserver</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Coder</span> <span class="keyword">implements</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Object arg)</span> </span>&#123;</span><br><span class="line">        System.out.println(name + <span class="string">" update"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="备忘录模式"><a href="#备忘录模式" class="headerlink" title="备忘录模式"></a>备忘录模式</h5><h6 id="定义-12"><a href="#定义-12" class="headerlink" title="定义"></a>定义</h6><ul>
+<li>保存对象当前状态，之后可以再次恢复到此状态。</li>
+<li>被保存的对象状态不能被对象从外部访问。</li>
+<li>不破坏封闭的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。</li>
+</ul>
+<h6 id="场景-12"><a href="#场景-12" class="headerlink" title="场景"></a>场景</h6><ul>
+<li>需要保存一个对象在某一个时刻的状态或部分状态。</li>
+<li>通过中间对象访问其内部状态。</li>
+</ul>
+<h6 id="优点-12"><a href="#优点-12" class="headerlink" title="优点"></a>优点</h6><ul>
+<li>提供一种可恢复状态的机制，用户方便快速返回某个状态。</li>
+<li>实现信息的封装，用户不关心状态的保存。</li>
+</ul>
+<h6 id="缺点-12"><a href="#缺点-12" class="headerlink" title="缺点"></a>缺点</h6><ul>
+<li>消耗资源，类成员增多。</li>
+</ul>
+<h6 id="UML-12"><a href="#UML-12" class="headerlink" title="UML"></a>UML</h6><h6 id="代码-12"><a href="#代码-12" class="headerlink" title="代码"></a>代码</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> ylw  19-2-6 21:37</span></span><br><span class="line"><span class="comment"> * Originator:创建备忘录、恢复状态</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Games</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mCheckpoint = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mLifeValue = <span class="number">100</span>;</span><br><span class="line">    <span class="keyword">private</span> String mWeapon = <span class="string">"沙漠之鹰"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//打游戏</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"玩游戏 : "</span> + String.format(<span class="string">"第%d关"</span>, mCheckpoint));</span><br><span class="line">        mLifeValue -= <span class="number">10</span>;</span><br><span class="line">        mCheckpoint++;</span><br><span class="line">        System.out.println(<span class="string">"到达 : "</span> + String.format(<span class="string">"第%d关"</span>, mCheckpoint));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//退出游戏</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">quit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"退出时的游戏属性:"</span> + toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建备忘录</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Memento <span class="title">createMemento</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Memento memento = <span class="keyword">new</span> Memento();</span><br><span class="line">        memento.mCheckpoint = <span class="keyword">this</span>.mCheckpoint;</span><br><span class="line">        memento.mLifeValue = <span class="keyword">this</span>.mLifeValue;</span><br><span class="line">        memento.mWeapon = <span class="keyword">this</span>.mWeapon;</span><br><span class="line">        <span class="keyword">return</span> memento;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//恢复备忘录</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">restoreMemento</span><span class="params">(Memento memento)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mCheckpoint = memento.mCheckpoint;</span><br><span class="line">        <span class="keyword">this</span>.mLifeValue = memento.mLifeValue;</span><br><span class="line">        <span class="keyword">this</span>.mWeapon = memento.mWeapon;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Games&#123;"</span> +</span><br><span class="line">                <span class="string">"mCheckpoint="</span> + mCheckpoint +</span><br><span class="line">                <span class="string">", mLifeValue="</span> + mLifeValue +</span><br><span class="line">                <span class="string">", mWeapon='"</span> + mWeapon + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> ylw  19-2-6 22:16</span></span><br><span class="line"><span class="comment"> * 备忘录角色,保存Originator对象状态</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Memento</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> mCheckpoint;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> mLifeValue;</span><br><span class="line">    <span class="keyword">public</span> String mWeapon;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Memento&#123;"</span> +</span><br><span class="line">                <span class="string">"mCheckpoint="</span> + mCheckpoint +</span><br><span class="line">                <span class="string">", mLifeValue="</span> + mLifeValue +</span><br><span class="line">                <span class="string">", mWeapon='"</span> + mWeapon + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> ylw  19-2-6 22:28</span></span><br><span class="line"><span class="comment"> * 存储备忘录，不支持操作备忘录</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Caretaker</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Memento mMemento;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//存档</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">archive</span><span class="params">(Memento memento)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mMemento = memento;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取存档</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Memento <span class="title">getMemento</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mMemento;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> ylw  19-2-6 22:32</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Games games = <span class="keyword">new</span> Games();</span><br><span class="line">        games.play();</span><br><span class="line">        Caretaker caretaker = <span class="keyword">new</span> Caretaker();</span><br><span class="line">        caretaker.archive(games.createMemento());</span><br><span class="line">        games.quit();</span><br><span class="line">        <span class="comment">//恢复</span></span><br><span class="line">        games.restoreMemento(caretaker.getMemento());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="责任链模式-1"><a href="#责任链模式-1" class="headerlink" title="责任链模式"></a>责任链模式</h5><h6 id="定义-13"><a href="#定义-13" class="headerlink" title="定义"></a>定义</h6><h6 id="场景-13"><a href="#场景-13" class="headerlink" title="场景"></a>场景</h6><h6 id="优点-13"><a href="#优点-13" class="headerlink" title="优点"></a>优点</h6><h6 id="缺点-13"><a href="#缺点-13" class="headerlink" title="缺点"></a>缺点</h6><h6 id="UML-13"><a href="#UML-13" class="headerlink" title="UML"></a>UML</h6><h6 id="代码-13"><a href="#代码-13" class="headerlink" title="代码"></a>代码</h6>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年05月12日 08:38</p>
+        <p>原始链接： <a class="post-url" href="/batuer.github.io/2019/05/12/DesignPattern/" title="DesignPattern">https://batuer.github.io/2019/05/12/DesignPattern/</a></p>
+        <footer>
+            <a href="https://batuer.github.io">
+                <img src="/batuer.github.io/images/avatar.jpg" alt="Yuliwen">
+                Yuliwen
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        听说赞赏的那家伙买彩票中了！
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/batuer.github.io/images/wechat_code.png" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/batuer.github.io/images/wechat_code.png">
+                <img class="reward-select-item-wechat" src="/batuer.github.io/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/batuer.github.io/images/alipay_code.png">
+                <img class="reward-select-item-alipay" src="/batuer.github.io/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://batuer.github.io/2019/05/12/DesignPattern/&title=《DesignPattern》 — YlwBlog&pic=/images/DesignPattern.jpeg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://batuer.github.io/2019/05/12/DesignPattern/&title=《DesignPattern》 — YlwBlog&source=Keep learning!" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://batuer.github.io/2019/05/12/DesignPattern/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《DesignPattern》 — YlwBlog&url=https://batuer.github.io/2019/05/12/DesignPattern/&via=https://batuer.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://batuer.github.io/2019/05/12/DesignPattern/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://batuer.github.io/2019/05/12/DesignPattern/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/batuer.github.io/tags/未标记/" class="color4">未标记</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#策略模式"><span class="post-toc-text">策略模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码"><span class="post-toc-text">代码</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#策略模式与工厂模式的区别"><span class="post-toc-text">策略模式与工厂模式的区别</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#状态模式"><span class="post-toc-text">状态模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-1"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-1"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-1"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-1"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-1"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-1"><span class="post-toc-text">代码</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#策略模式、状态模式、模板模式对比"><span class="post-toc-text">策略模式、状态模式、模板模式对比</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#模板方法模式"><span class="post-toc-text">模板方法模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-2"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-2"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-2"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-2"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-2"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-2"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#单例模式"><span class="post-toc-text">单例模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-3"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-3"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-3"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-3"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-3"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-3"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Builder模式"><span class="post-toc-text">Builder模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-4"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-4"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-4"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-4"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-4"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-4"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#原型模式"><span class="post-toc-text">原型模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-5"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-5"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-5"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-5"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-5"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-5"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#工厂方法模式"><span class="post-toc-text">工厂方法模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-6"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-6"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-6"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-6"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-6"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-6"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#抽象工厂模式"><span class="post-toc-text">抽象工厂模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-7"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-7"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-7"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-7"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-7"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-7"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#责任链模式"><span class="post-toc-text">责任链模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-8"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-8"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-8"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-8"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-8"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-8"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#解释器模式-涉及编程理论较多"><span class="post-toc-text">解释器模式(涉及编程理论较多)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-9"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-9"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-9"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-9"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-9"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-9"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#命令模式"><span class="post-toc-text">命令模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-10"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-10"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-10"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-10"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-10"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-10"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#观察者模式（订阅——发布系统）"><span class="post-toc-text">观察者模式（订阅——发布系统）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-11"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-11"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-11"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-11"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-11"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-11"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#备忘录模式"><span class="post-toc-text">备忘录模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-12"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-12"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-12"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-12"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-12"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-12"><span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#责任链模式-1"><span class="post-toc-text">责任链模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#定义-13"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#场景-13"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#优点-13"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#缺点-13"><span class="post-toc-text">缺点</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#UML-13"><span class="post-toc-text">UML</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#代码-13"><span class="post-toc-text">代码</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/batuer.github.io/2019/05/02/House/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">House</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Yuliwen<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://batuer.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/batuer.github.io/categories/Activity/">Activity</a><a class="category-link" href="/batuer.github.io/categories/Android/">Android</a><a class="category-link" href="/batuer.github.io/categories/AsyncTask/">AsyncTask</a><a class="category-link" href="/batuer.github.io/categories/Dart/">Dart</a><a class="category-link" href="/batuer.github.io/categories/Executors/">Executors</a><a class="category-link" href="/batuer.github.io/categories/Git/">Git</a><a class="category-link" href="/batuer.github.io/categories/Java/">Java</a><a class="category-link" href="/batuer.github.io/categories/RecyclerView、ListView/">RecyclerView、ListView</a><a class="category-link" href="/batuer.github.io/categories/RxJava2/">RxJava2</a><a class="category-link" href="/batuer.github.io/categories/SQL/">SQL</a><a class="category-link" href="/batuer.github.io/categories/多线程/">多线程</a><a class="category-link" href="/batuer.github.io/categories/多进程/">多进程</a><a class="category-link" href="/batuer.github.io/categories/未标记/">未标记</a><a class="category-link" href="/batuer.github.io/categories/网络/">网络</a><a class="category-link" href="/batuer.github.io/categories/设计原则/">设计原则</a><a class="category-link" href="/batuer.github.io/categories/进程、Service保活/">进程、Service保活</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 12.5px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 15px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/未标记/" style="font-size: 17.5px;">未标记</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/batuer.github.io/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/batuer.github.io/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/batuer.github.io/tags/Android/" style="font-size: 20px;">Android</a> <a href="/batuer.github.io/tags/Android面试/" style="font-size: 12.5px;">Android面试</a> <a href="/batuer.github.io/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/batuer.github.io/tags/Binder/" style="font-size: 10px;">Binder</a> <a href="/batuer.github.io/tags/Broadcast/" style="font-size: 10px;">Broadcast</a> <a href="/batuer.github.io/tags/CountDownLatch/" style="font-size: 10px;">CountDownLatch</a> <a href="/batuer.github.io/tags/CyclicBarrier/" style="font-size: 10px;">CyclicBarrier</a> <a href="/batuer.github.io/tags/Dart/" style="font-size: 10px;">Dart</a> <a href="/batuer.github.io/tags/Executors/" style="font-size: 10px;">Executors</a> <a href="/batuer.github.io/tags/Git/" style="font-size: 10px;">Git</a> <a href="/batuer.github.io/tags/Http/" style="font-size: 10px;">Http</a> <a href="/batuer.github.io/tags/Java/" style="font-size: 10px;">Java</a> <a href="/batuer.github.io/tags/Java反射/" style="font-size: 10px;">Java反射</a> <a href="/batuer.github.io/tags/Java基础/" style="font-size: 15px;">Java基础</a> <a href="/batuer.github.io/tags/Java泛型/" style="font-size: 10px;">Java泛型</a> <a href="/batuer.github.io/tags/Java注解/" style="font-size: 10px;">Java注解</a> <a href="/batuer.github.io/tags/Java集合/" style="font-size: 10px;">Java集合</a> <a href="/batuer.github.io/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/batuer.github.io/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/batuer.github.io/tags/ReentrantLock/" style="font-size: 10px;">ReentrantLock</a> <a href="/batuer.github.io/tags/RxJava2/" style="font-size: 10px;">RxJava2</a> <a href="/batuer.github.io/tags/Semaphore/" style="font-size: 10px;">Semaphore</a> <a href="/batuer.github.io/tags/Service保活/" style="font-size: 10px;">Service保活</a> <a href="/batuer.github.io/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/batuer.github.io/tags/Sql/" style="font-size: 10px;">Sql</a> <a href="/batuer.github.io/tags/Synchronized/" style="font-size: 10px;">Synchronized</a> <a href="/batuer.github.io/tags/View-Draw/" style="font-size: 10px;">View Draw</a> <a href="/batuer.github.io/tags/View-Layout/" style="font-size: 10px;">View Layout</a> <a href="/batuer.github.io/tags/View-Measure/" style="font-size: 10px;">View Measure</a> <a href="/batuer.github.io/tags/View基础/" style="font-size: 10px;">View基础</a> <a href="/batuer.github.io/tags/Volitale/" style="font-size: 10px;">Volitale</a> <a href="/batuer.github.io/tags/事件/" style="font-size: 10px;">事件</a> <a href="/batuer.github.io/tags/动画/" style="font-size: 10px;">动画</a> <a href="/batuer.github.io/tags/多进程/" style="font-size: 10px;">多进程</a> <a href="/batuer.github.io/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/batuer.github.io/tags/未标记/" style="font-size: 17.5px;">未标记</a> <a href="/batuer.github.io/tags/线程/" style="font-size: 10px;">线程</a> <a href="/batuer.github.io/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/batuer.github.io/tags/进程保活/" style="font-size: 10px;">进程保活</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/batuer.github.io/js/search.js"></script>
+<script src="/batuer.github.io/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/batuer.github.io/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/batuer.github.io/js/animate.js"></script>
+
+
+  <script src="/batuer.github.io/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
